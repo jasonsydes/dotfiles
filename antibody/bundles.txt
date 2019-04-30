@@ -1,0 +1,29 @@
+# Jason, some notes first:
+
+# Dynamic loading of plugins:
+# 	source <(antibody init)
+#	antibody bundle < ~/.zsh_plugins.txt
+#	antibody bundle < $DOTFILES/antibody/bundles.txt
+# Static loading of plugins
+#       antibody bundle < "$DOTFILES/antibody/bundles.txt" > ~/.zsh_plugins.sh
+# 	source ~/.zsh_plugins.sh
+
+# Now the bundles list:
+
+### this block is in alphabetic order
+# Easily see what's happening on your computer's ports
+#caarlos0/ports kind:path
+#caarlos0/zsh-git-fetch-merge kind:path
+#caarlos0/zsh-git-sync kind:path
+#caarlos0/zsh-mkc
+#caarlos0/zsh-open-pr kind:path
+mafredri/zsh-async
+rupa/z
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+### these should be at last!
+#denysdovhan/spaceship-prompt
+jasonsydes/pure
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search

@@ -1,0 +1,78 @@
+#--------------------------------------------
+# PROMPT!
+#--------------------------------------------
+
+# Import colors.
+source ~/.dotfiles/bash/colors
+
+# Load up the git prompt
+if [[ -e /usr/lib/git-core/git-sh-prompt ]]; then source /usr/lib/git-core/git-sh-prompt; fi 							# rayfin
+if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]] ; then source /usr/share/git-core/contrib/completion/git-prompt.sh ; fi 	# talapas
+
+# Not sure what this does.
+case $TERM in
+        xterm*|vt*|ansi|rxvt)
+        TITLEBAR='\[\033]0;\H\007\]'
+        ;;
+        *)
+        TITLEBAR=''
+        ;;
+esac
+
+# Color of path is constant (yellow!)
+export PATH_COLOR=$EYELLOW
+
+# Git color is constant
+export GIT_COLOR=$ERED
+
+# Color of host signifies local or not:
+# 	Talapas gets special color.
+if [ "$HOSTNAME" == 'talapas-ln1' ] || [ "$HOSTNAME" == 'talapas-ln2' ] ; then
+	export HOST_COLOR=$MAGENTA		# talapas
+elif [[ -n $SSH_CONNECTION || -n $REMOTE_MACHINE ]]; then
+	export HOST_COLOR=$EWHITE		# remote
+	# export REMOTE_MACHINE=true
+	alias sudo="REMOTE_MACHINE=true sudo "
+else
+	export HOST_COLOR=$EGREEN		# local
+fi	
+
+# Color of time signifies sudo or not
+if [[ -n $SUDO_USER ]]; then
+	export TIME_COLOR=$ECYAN		# sudo'ed user
+else
+	export TIME_COLOR=$EMAGENTA		# normal user
+fi
+
+# Dollar color is constant (but see above)
+### NOTE: It appears that trying to set *any* color on the 2nd line totally freaks out history up-arrow-ing.
+###			Basically, you can't do this.  It will randomly collect some characters and then not get rid of them.  Bleh.
+export DOLLAR_COLOR=$WHITE
+
+# Previous working version
+# export PS1="${TITLEBAR}\
+# [\[$PATH_COLOR\]\w$NORM] [\[$HOST_COLOR\]\u@\h$NORM] [\[$TIME_COLOR\]\@$NORM]$DOLLAR_COLOR\n\\$ "
+
+# Git prompt specific stuff
+#     see http://git.kernel.org/?p=git/git.git;a=blob_plain;f=contrib/completion/git-completion.bash;hb=HEAD
+export GIT_PS1_SHOWDIRTYSTATE=1             # unstaged (*) and staged (+) changes will be shown next to the branch name.
+export GIT_PS1_SHOWSTASHSTATE=1             # If something is stashed, then a '$' will be shown next to the branch name.
+export GIT_PS1_SHOWUNTRACKEDFILES=1         # If there are untracked files, then a '%' will be shown next to the branch name.
+# export GIT_PS1_SHOWUPSTREAM="git"  # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
+# export GIT_PS1_SHOWUPSTREAM="auto verbose"  # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
+                                            #           verbose       show number of commits ahead/behind (+/-) upstream
+                                            #           legacy        don't use the '--count' option available in recent
+                                            #                         versions of git-rev-list
+                                            #           git           always compare HEAD to @{upstream}
+                                            #           svn           always compare HEAD to your SVN upstream
+
+#################################################
+############# Better Git Prompt #################
+# see http://volnitsky.com/project/git-prompt/
+# when you've got some spare time...
+#################################################
+#################################################
+
+# Prompt, with Git
+export PS1="${TITLEBAR}\
+[ \[$PATH_COLOR\]\w\[$GIT_COLOR\]"'$(__git_ps1 " (%s)")'"\[$NORM\] ] [\[$HOST_COLOR\]\u@\h\[$NORM\]] [\[$TIME_COLOR\]\@\[$NORM\]]$DOLLAR_COLOR\n∴\[$NORM\] "

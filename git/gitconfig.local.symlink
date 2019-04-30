@@ -1,0 +1,90 @@
+[core]
+	excludesfile = /Users/jason/.gitignore_global
+	editor = vim -f
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[user]
+	name = Jason Sydes
+[alias]
+  # These six lines from http://betterexplained.com/articles/aha-moments-when-learning-git/
+  ci = commit
+  st = status --ignore-submodules=dirty
+  co = checkout
+  sa = submodule add
+  oneline = log --pretty=oneline
+  br = branch
+  # log
+  l = log --graph --abbrev-commit --decorate --pretty=oneline
+  lv = log --graph --abbrev-commit --decorate
+  # log with patch
+  p = log -p
+  lp = log -p --graph --abbrev-commit --decorate --pretty=oneline
+  lvp = log -p --graph --abbrev-commit --decorate
+  # log with walk-reflog
+  lg = log -g --decorate
+  # The four log levels that I think I need:
+  l1 = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ar%d %x09%C(blue)%s'
+  l1a = log --graph --abbrev-commit --decorate --pretty=oneline
+  l1b = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ai%d %x09%C(blue)%s'
+  l2 = log --graph --abbrev-commit --decorate
+  l3 = log --graph --abbrev-commit --decorate --stat
+  l4 = log --graph --abbrev-commit --decorate -p
+  #l1 = log --graph --abbrev-commit --decorate=full --pretty=oneline
+  #l2 = log --graph --abbrev-commit --decorate=full
+  #l3 = log --graph --abbrev-commit --decorate=full --stat
+  #l4 = log --graph --abbrev-commit --decorate=full -p
+
+  # Publish a local branch!
+  #     http://bit.ly/cstIvd shows one way to publish:
+  #     publish = !sh -c 'git push origin \"$0\" && git config \"branch.$0.remote\" origin && git config \"branch.$0.merge\" \"refs/heads/$0\"'
+  # See also: http://bit.ly/afgpOK
+  # My way, better.
+  publish = !sh -c 'CURRENT=$(git symbolic-ref HEAD | sed -e s@.*/@@) && git push --set-upstream origin $CURRENT:$CURRENT'
+  unpublish = !sh -c 'CURRENT=$(git symbolic-ref HEAD | sed -e s@.*/@@) && git push origin :$CURRENT'    
+
+  # deep cloning for modules with submodules... for now, mostly just for nemo.git
+  deepclone = !sh -c 'git clone $0 && cd nemo && git submodule init && git submodule update'
+  clonedeep = !sh -c 'git clone $0 && cd nemo && git submodule init && git submodule update'
+
+  # easy submodule add/rm
+  smadd = !sh -c '~/bin/git/git_submodule_add $0 $1'
+  smrm  = !sh -c '~/bin/git/git_submodule_rm $0'
+
+[color]
+	ui = true
+[core]
+	# autocrlf = input
+
+# [branch "master"]
+# see http://stackoverflow.com/questions/2850369/why-uses-git-fast-forward-merging-per-default
+# mergeoptions = --no-commit --no-ff
+# mergeoptions = --no-ff
+# [branch "develop"]
+# see http://stackoverflow.com/questions/2850369/why-uses-git-fast-forward-merging-per-default
+# mergeoptions = --no-commit --no-ff
+# mergeoptions = --no-ff
+
+
+[log]
+	date = local
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[credential]
+	helper = osxkeychain
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
