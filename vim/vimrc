@@ -110,7 +110,7 @@ nnoremap gV `[v`]
 " }}}
 " Misc {{{
 " Remove trailing whitespace on save
-autocmd BufWritePre * :%s/\s+$//e
+""""""autocmd BufWritePre * :%s/\s+$//e    --- OOPS - for some reason, this is removing trailing + too!
 " }}}
 
 " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
