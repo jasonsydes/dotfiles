@@ -9,10 +9,11 @@ source ~/.dotfiles/bash/colors
 if [[ -e /usr/lib/git-core/git-sh-prompt ]]; then source /usr/lib/git-core/git-sh-prompt; fi 							# rayfin
 if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]] ; then source /usr/share/git-core/contrib/completion/git-prompt.sh ; fi 	# talapas
 
-# Not sure what this does.
+# Update the title bar (i.e. at the top of your terminal) to contain <hostname>:<working directory>.
+# See https://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/xterm-title-bar-manipulations.html
 case $TERM in
         xterm*|vt*|ansi|rxvt)
-        TITLEBAR='\[\033]0;\H\007\]'
+        TITLEBAR='\[\033]0;\h:\w\007\]'
         ;;
         *)
         TITLEBAR=''
@@ -55,23 +56,16 @@ export DOLLAR_COLOR=$WHITE
 
 # Git prompt specific stuff
 #     see http://git.kernel.org/?p=git/git.git;a=blob_plain;f=contrib/completion/git-completion.bash;hb=HEAD
-export GIT_PS1_SHOWDIRTYSTATE=1             # unstaged (*) and staged (+) changes will be shown next to the branch name.
-export GIT_PS1_SHOWSTASHSTATE=1             # If something is stashed, then a '$' will be shown next to the branch name.
-export GIT_PS1_SHOWUNTRACKEDFILES=1         # If there are untracked files, then a '%' will be shown next to the branch name.
-# export GIT_PS1_SHOWUPSTREAM="git"  # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
-# export GIT_PS1_SHOWUPSTREAM="auto verbose"  # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
-                                            #           verbose       show number of commits ahead/behind (+/-) upstream
-                                            #           legacy        don't use the '--count' option available in recent
-                                            #                         versions of git-rev-list
-                                            #           git           always compare HEAD to @{upstream}
-                                            #           svn           always compare HEAD to your SVN upstream
+export GIT_PS1_SHOWDIRTYSTATE=1               # unstaged (*) and staged (+) changes will be shown next to the branch name.
+export GIT_PS1_SHOWSTASHSTATE=1               # If something is stashed, then a '$' will be shown next to the branch name.
+export GIT_PS1_SHOWUNTRACKEDFILES=1           # If there are untracked files, then a '%' will be shown next to the branch name.
+export GIT_PS1_SHOWUPSTREAM="auto verbose"    # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
+                                              #           verbose       show number of commits ahead/behind (+/-) upstream
+                                              #           legacy        don't use the '--count' option available in recent
+                                              #                         versions of git-rev-list
+                                              #           git           always compare HEAD to @{upstream}
+                                              #           svn           always compare HEAD to your SVN upstream
 
-#################################################
-############# Better Git Prompt #################
-# see http://volnitsky.com/project/git-prompt/
-# when you've got some spare time...
-#################################################
-#################################################
 
 # Prompt, with Git
 export PS1="${TITLEBAR}\
