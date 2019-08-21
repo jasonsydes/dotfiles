@@ -21,7 +21,8 @@ call plug#end()
 " }}}
 " Colors {{{
 syntax enable           " enable syntax processing
-colorscheme badwolf
+"colorscheme evening    " This colorscheme included with Vim.
+colorscheme badwolf     " This colorscheme available via plugin.
 set termguicolors
 " }}}
 " Text Rendering {{{
@@ -51,6 +52,11 @@ set ruler               " Always show cursor position (in status bar)
 set mouse=a             " Enable mouse for scrolling and resizing.
 set title               " Set the window’s title, reflecting the file currently being edited.
 " }}}
+" Problematic Characters {{{
+set fileformats=unix                    " We want to display MS Windows carriage returns as ^M if they are present, as they are problematic. Needs to go before 'set list'.
+set list                                " See (some) hidden characters (see next line).
+set listchars=tab:›\ ,extends:#,nbsp:.  " Highlight problematic whitespace characters.
+" }}}
 " Performance {{{
 set complete-=i         " Limit the files searched for auto-completes.
 set lazyredraw          " Don’t update screen during macro and script execution.
@@ -69,9 +75,13 @@ set nofoldenable        " don't fold files by default on open
 "set foldlevelstart=10   " start with fold level of 1
 " }}}
 " Line Shortcuts {{{
-"nnoremap j gj           " in wrap mode, don't skip over wrapped lines while navigating
-"nnoremap k gk           " in wrap mode, don't skip over wrapped lines while navigating
+"nnoremap j gj           " in wrap mode, don't skip over wrapped portion of lines while navigating
+"nnoremap k gk           " in wrap mode, don't skip over wrapped portion of lines while navigating
 "nnoremap gV `[v`]       " highlight last inserted text
+" }}}
+" Misc {{{
+" Remove trailing whitespace on save
+autocmd BufWritePre * :%s/\s+$//e
 " }}}
 
 " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
