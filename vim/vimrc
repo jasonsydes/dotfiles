@@ -17,13 +17,17 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'     " Toggle comments with commands like gc gcc gcgc
 Plug 'kien/ctrlp.vim'           " Fuzzy finder
 Plug 'flazz/vim-colorschemes'   " Tons of colorschemes
+Plug 'dhruvasagar/vim-zoom'     " tmux-style 'zooming' - hit <C-W>m to toggle zoom into / out of a window (split).
+Plug 'christoomey/vim-tmux-navigator'       " Seamless navigation between tmux panes and vim splits
+" git
+Plug 'mhinz/vim-signify'        " Puts symbols in the sign_column (gutter?) to indicate git status of given lines. 
 " Experimenting with these
 " Plug 'dense-analysis/ale'       " Asynchronous linting... Nice, but loud, disabling for now.
 call plug#end()
 " }}}
 " Colors {{{
 syntax enable           " enable syntax processing
-set background=dark
+"set background=dark     " not really needed...
 "colorscheme evening    " This colorscheme included with Vim.
 colorscheme badwolf     " This colorscheme available via plugin.
 set termguicolors
@@ -111,6 +115,7 @@ nnoremap gV `[v`]
 " Misc {{{
 " Remove trailing whitespace on save
 """"""autocmd BufWritePre * :%s/\s+$//e    --- OOPS - for some reason, this is removing trailing + too!
+""""""autocmd BufWritePre * :%s/\s\+$//e    --- Should probably be this instead.
 " }}}
 
 " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
