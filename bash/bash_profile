@@ -36,7 +36,8 @@ for f in $DOTFILES/*/aliases ; do
     source "$f"
 done
 
-
+# Load prompt
+source $DOTFILES/bash/prompt
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.

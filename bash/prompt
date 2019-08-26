@@ -54,6 +54,11 @@ export DOLLAR_COLOR=$WHITE
 # export PS1="${TITLEBAR}\
 # [\[$PATH_COLOR\]\w$NORM] [\[$HOST_COLOR\]\u@\h$NORM] [\[$TIME_COLOR\]\@$NORM]$DOLLAR_COLOR\n\\$ "
 
+# Xcode's git prompt stuff:
+if [ $OS = 'darwin' ] ; then
+    source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
+    source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.sh
+fi
 # Git prompt specific stuff
 #     see http://git.kernel.org/?p=git/git.git;a=blob_plain;f=contrib/completion/git-completion.bash;hb=HEAD
 export GIT_PS1_SHOWDIRTYSTATE=1               # unstaged (*) and staged (+) changes will be shown next to the branch name.
