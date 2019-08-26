@@ -36,7 +36,7 @@ elif [[ -n $SSH_CONNECTION || -n $REMOTE_MACHINE ]]; then
 	alias sudo="REMOTE_MACHINE=true sudo "
 else
 	export HOST_COLOR=$EGREEN		# local
-fi	
+fi
 
 # Color of time signifies sudo or not
 if [[ -n $SUDO_USER ]]; then
@@ -55,7 +55,7 @@ export DOLLAR_COLOR=$WHITE
 # [\[$PATH_COLOR\]\w$NORM] [\[$HOST_COLOR\]\u@\h$NORM] [\[$TIME_COLOR\]\@$NORM]$DOLLAR_COLOR\n\\$ "
 
 # Xcode's git prompt stuff:
-if [ $OS = 'darwin' ] ; then
+if [[ $OS = 'darwin' ]] ; then
     source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
     source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.sh
 fi

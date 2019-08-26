@@ -1,6 +1,6 @@
 # Enable homebrew's shell completeion (bash or zsh)
 # Adapted from: https://docs.brew.sh/Shell-Completion
-if [ $OS = 'darwin' ] ; then
+if [[ $OS = 'darwin' ]] ; then
     if [ -n "$BASH_VERSION" ]; then
         # Bash
         HOMEBREW_PREFIX=$(brew --prefix)
