@@ -13,6 +13,6 @@
     # umask 0002
 
 # Load up easybuild
-ml easybuild
+module load easybuild 2> /dev/null
 # And it turns out that Java is pretty useful.  Let's always load it.
-module load Java/1.8.0_162
+module load Java/1.8.0_162 2> /dev/null
