@@ -48,6 +48,8 @@ HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 
 #       In other words, just what do you spend so much time typing? Here’s the money:
 #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
 #       needs to be aliased to a one or two letter shorthand.
+# Append to history after every command (instead of waiting until logout).
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # }}}
 
 # " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
