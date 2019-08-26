@@ -12,7 +12,7 @@
 
 
 # Looks like we maybe need to source /etc/environment first (which is apparently how rayfin sets up PATH??)
-PATH=""
+PATH="/bin:/usr/bin"
 if [ -f /etc/environment ]; then
     source /etc/environment
 fi
