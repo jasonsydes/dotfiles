@@ -1,0 +1,22 @@
+# No matter what system we're on, /etc/profile gets read when starting a login
+# shell. Unfotunately, login shells are started for Tmux. This has the unfortunate
+# consequence of moving the miniconda path from the front of PATH (where it
+# belongs) to the rear of PATH.  Then the wrong vim gets read, and I can no
+# longer use my conda vim under Tmux.
+
+# Since we alter /etc/profile on some systems, we "fix" this problem with a hack:
+# Simply reset the PATH to nothing, then manually source /etc/profile. 
+
+# Background:
+#       https://superuser.com/a/970847 - Tmux *should* start a login shell, even though it causes the problem described above.
+
+if [ -f /etc/profile ]; then
+    PATH=""
+    source /etc/profile
+fi
+
+# Finally, this fixes conda in tmux:
+
+if [[ `type conda 2>/dev/null` ]] ; then 
+    [[ -z $TMUX ]] || conda deactivate; conda activate base
+fi   

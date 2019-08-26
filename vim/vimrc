@@ -27,10 +27,9 @@ call plug#end()
 " }}}
 " Colors {{{
 syntax enable           " enable syntax processing
-"set background=dark     " not really needed...
 "colorscheme evening    " This colorscheme included with Vim.
 colorscheme badwolf     " This colorscheme available via plugin.
-set termguicolors
+"set termguicolors      " Do NOT enable, breaks colors in vim under tmux: https://github.com/vim/vim/issues/3608
 " }}}
 " Text Rendering {{{
 set wrap                " Enable line wrapping.

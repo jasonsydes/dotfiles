@@ -1,0 +1,48 @@
+# /etc/profile workaround - MUST BE THE FIRST LINE IN THIS FILE!
+if [ -f $HOME/.dotfiles/etc_profile_workaround ]; then
+    source $HOME/.dotfiles/etc_profile_workaround
+fi
+
+# Get the bashrc
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+
+# shortcut to this dotfiles path is $DOTFILES
+export DOTFILES="$HOME/.dotfiles"
+
+# your default editor
+export EDITOR='vim'
+
+## Load path files.
+#if [[ -z $TMUX ]]; then
+#    for file in */path ; do
+#        source "$file"
+#    done
+#    export $PATH
+#fi
+
+# Load path files.
+for f in $DOTFILES/*/path ; do
+    source "$f"
+done
+export PATH
+
+# Load settings.
+source $DOTFILES/bash/settings
+
+# Load alias files.
+for f in $DOTFILES/*/aliases ; do
+    source "$f"
+done
+
+
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+[ -f ~/.localrc ] && . ~/.localrc
+
+# THE LAST ITEM BELOW.
+#
+# Miniconda 3 - This should be the LAST item in your bash_proile.
+source $DOTFILES/conda/setup

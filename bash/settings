@@ -1,0 +1,53 @@
+
+# OS Specific Stuff {{{ --------------------------------------------
+
+## Taken from http://harts.net/reece/setup/bashrc, Thanks!
+# This is my attempt to create order from chaos in platform naming
+# All info is derived from uname and lowercased.  OS patchlevel is truncated.
+export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
+export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export PLATFORM="$MACHINE-$OS-$OSVERSION"
+
+case $OS in
+linux)
+
+;;
+darwin)
+    # BUGFIXES! {{{ --------------------------------------------
+
+    ## from http://forums.macosxhints.com/showthread.php?t=82501
+    # Bash's operate-and-get-next is bound to C-o.
+    # Unfortunately, C-o is evidently mapped to the discard character on most ttys.
+    # (So this is a problem with readline I guess.)
+    # Anyway, the following fixes it, and you can use awesome C-o.
+    # Not sure if this problem exists on other platforms.
+    stty discard '^-'
+
+    ## from http://stackoverflow.com/questions/68372/what-are-some-of-your-favorite-command-line-tricks-using-bash
+    # "Finally, on Mac OS X (if you're not using vi mode), you'll want to
+    # reset <CTRL>-S from being scroll stop. This prevents bash from being
+    # able to interpret it as forward search."
+    stty stop ""
+    # }}}
+;;
+sunos)
+
+;;
+*)
+	OS=unknown
+;;
+esac
+# }}}
+# Infinite history {{{  ---------------------------------------------------
+## History
+HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
+HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
+# HISTCONTROL=ignoreboth            # ignores lines with repeated entries, but then you can't do this:
+#       cut -f1 -d" " .bash_history | sort | uniq -c | sort -nr | head -n 30
+#       In other words, just what do you spend so much time typing? Here’s the money:
+#       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
+#       needs to be aliased to a one or two letter shorthand.
+# }}}
+
+# " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
