@@ -1,0 +1,44 @@
+# From http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# Type partial command, then hit arrow-UP or arrow-DOWN multiple times.
+# It's a way of limiting the searching of your history to just history items
+# prefixed with your partial command.
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Ignore case during tab completion.
+# If you're trying to tab complete on, say, DOWNLOADS, then you can
+# type 'dow' and then TAB, and it will tab complete to DOWNLOADS.
+set completion-ignore-case on
+
+# Example:
+#   Say you type the following:
+#       ls -al some_file
+#       cp !$ !$.bak
+#   That is equivalent to:
+#       ls -al some_file
+#       cp !$ !$.bak
+#   Sometimes though, it is scary to hit ENTER with those strange characters...
+#   So use Magic Space!
+#   After you type in '!$' (but before hitting ENTER) hit the SPACE button and
+#   the '!$' will be replaced with its value.
+# From many places, here's one: 
+#   http://www.ukuug.org/events/linux2003/papers/bash_tips/
+$if Bash
+  Space: magic-space
+$endif
+
+## Meta+O can be made to load the previous command and position the cursor for typing an option
+# from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+"\M-o": "\C-p\C-a\M-f "
+
+## #27 from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+set match-hidden-files off
+set visible-stats on
+
+## Cycling through bash completion possibilities
+## more again from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# Cycling through potential completions is configured in .inputrc
+# List the possible completions when Tab is pressed:
+set show-all-if-ambiguous on
+# Make Meta+S cycle through the list:
+"\M-s": menu-complete
