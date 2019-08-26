@@ -5,18 +5,22 @@
 # longer use my conda vim under Tmux.
 
 # Since we alter /etc/profile on some systems, we "fix" this problem with a hack:
-# Simply reset the PATH to nothing, then manually source /etc/profile. 
+# Simply reset the PATH to nothing, then manually source /etc/profile.
 
 # Background:
 #       https://superuser.com/a/970847 - Tmux *should* start a login shell, even though it causes the problem described above.
 
+
+# Looks like we maybe need to source /etc/environment first (which is apparently how rayfin sets up PATH??)
+PATH=""
+if [ -f /etc/environment ]; then
+    source /etc/environment
+fi
 if [ -f /etc/profile ]; then
-    PATH=""
     source /etc/profile
 fi
 
 # Finally, this fixes conda in tmux:
-
-if [[ `type conda 2>/dev/null` ]] ; then 
+if [[ `type conda 2>/dev/null` ]] ; then
     [[ -z $TMUX ]] || conda deactivate; conda activate base
-fi   
+fi
