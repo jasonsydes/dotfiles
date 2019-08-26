@@ -1,0 +1,2 @@
+# Local bin directory.
+PATH=~/bin:$PATH

@@ -2,6 +2,9 @@
 
 cd $HOME
 
+# bash
+ln -s .dotfiles/vim/bash_profile ~/.base_profile
+ln -s .dotfiles/vim/bashrc ~/.bashrc
 # vim
 ln -s .dotfiles/vim/vimrc ~/.vimrc
 # tmux + tmux plugin manager
