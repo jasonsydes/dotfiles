@@ -8,6 +8,10 @@
 "       :options
 "   Show startup error messages
 "       :messages
+"   Reload config:
+"       :source ~/.vimrc
+"       or
+"       :so ~/.vimrc
 "
 " Adapted from: https://dougblack.io/words/a-good-vimrc.html
 
