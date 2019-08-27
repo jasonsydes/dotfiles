@@ -22,7 +22,7 @@
 " Vim, not Vi {{{
 " Don't try to be vi compatible
 set nocompatible
-" }}}
+" }}} ------------------------------------------------------------------------
 " Vim Plug {{{
 " Note: To install, do this:
 "       curl -fLo ~/.vim/autoload/plug.vim --create-dir https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -39,17 +39,17 @@ Plug 'mhinz/vim-signify'        " Puts symbols in the sign_column (gutter?) to i
 " Experimenting with these
 " Plug 'dense-analysis/ale'       " Asynchronous linting... Nice, but loud, disabling for now.
 call plug#end()
-" }}}
+" }}} ------------------------------------------------------------------------
 " Colors {{{
 syntax enable           " enable syntax processing
 "colorscheme evening    " This colorscheme included with Vim.
 colorscheme badwolf     " This colorscheme available via plugin.
 "set termguicolors      " Do NOT enable, breaks colors in vim under tmux: https://github.com/vim/vim/issues/3608
-" }}}
+" }}} ------------------------------------------------------------------------
 " Text Rendering {{{
 set wrap                " Enable line wrapping.
 set linebreak           " Avoid wrapping a line in the middle of a word.
-" }}}
+" }}} ------------------------------------------------------------------------
 " Spaces & Tabs & Indent {{{
 set tabstop=4           " 4 space tab
 set expandtab           " use spaces for tabs
@@ -68,7 +68,7 @@ set autoindent          " Turn on auto indentation.
 " Credit: https://www.reddit.com/r/vim/comments/6btmtg/how_to_indent_multiple_lines_multiple_times/dhpk1pw/
 xnoremap < <gv
 xnoremap > >gv
-" }}}
+" }}} ------------------------------------------------------------------------
 " UI Layout {{{
 set number              " show line numbers
 set showcmd             " show command in bottom bar (right side) - basically just shows what you're typing...
@@ -79,7 +79,7 @@ set laststatus=2        " Always display the status bar (2nd to last line)
 set ruler               " Always show cursor position (in status bar)
 set title               " Set the window’s title, reflecting the file currently being edited.
 set visualbell          " blink cursor on error, instead of beeping
-" }}}
+" }}} ------------------------------------------------------------------------
 " Copy/Paste {{{
 " Note:
 "     Enabling these options will change how copy/paste works in your
@@ -94,29 +94,29 @@ set visualbell          " blink cursor on error, instead of beeping
 "       Click box for: iTerm > Preferences > General > Applications in terminal may access clipboard
 set clipboard=unnamed   " Copying with vim (e.g. 'y', 'd', 'dd', etc) puts yanked text into your clipboard.
 set mouse=a             " Enable mouse for scrolling, resizing, clicking to move cursor, etc.
-" }}}
+" }}} ------------------------------------------------------------------------
 " Problematic Characters {{{
 set fileformats=unix                    " We want to display MS Windows carriage returns as ^M if they are present, as they are problematic. Needs to go before 'set list'.
 set list                                " See (some) hidden characters (see next line).
 set listchars=tab:›\ ,extends:#,nbsp:.  " Highlight problematic whitespace characters.
-" }}}
+" }}} ------------------------------------------------------------------------
 " Performance {{{
 set complete-=i         " Limit the files searched for auto-completes.
 set lazyredraw          " Don’t update screen during macro and script execution.
-" }}}
+" }}} ------------------------------------------------------------------------
 " Searching {{{
 set incsearch           " search as characters are entered
 set hlsearch            " highlight all matches
 set ignorecase          " ignore case when searching
 set smartcase           " Automatically switch search to case-sensitive when search query contains an uppercase letter.
-" }}}
+" }}} ------------------------------------------------------------------------
 " Folding {{{
 set foldmethod=indent   " fold based on indent level
 set foldnestmax=10      " max 10 depth
 set nofoldenable        " don't fold files by default on open
 "nnoremap <space> za
 "set foldlevelstart=10   " start with fold level of 1
-" }}}
+" }}} ------------------------------------------------------------------------
 " Line Shortcuts {{{
 " in wrap mode, don't skip over wrapped portion of lines while navigating
 " NOTE: Weird - These two lines are broken somehow.  They cause my cursor to
@@ -125,12 +125,12 @@ set nofoldenable        " don't fold files by default on open
 "nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
-" }}}
+" }}} ------------------------------------------------------------------------
 " Misc {{{
 " Remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
 " Make backspace sane / fixed - see https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
-" }}}
+" }}} ------------------------------------------------------------------------
 
 " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
