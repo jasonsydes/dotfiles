@@ -1,4 +1,15 @@
-" Originally from: https://dougblack.io/words/a-good-vimrc.html
+" Debugging:
+"   List keybindings
+"       :map
+"       :nmap
+"       :vmap
+"       :imap
+"   Show options
+"       :options
+"   Show startup error messages
+"       :messages
+"
+" Adapted from: https://dougblack.io/words/a-good-vimrc.html
 
 " Don't put any lines in your vimrc that you don't understand.
 " Don't put any lines in your vimrc that you don't understand.
@@ -20,7 +31,7 @@ Plug 'flazz/vim-colorschemes'   " Tons of colorschemes
 Plug 'dhruvasagar/vim-zoom'     " tmux-style 'zooming' - hit <C-W>m to toggle zoom into / out of a window (split).
 Plug 'christoomey/vim-tmux-navigator'       " Seamless navigation between tmux panes and vim splits
 " git
-Plug 'mhinz/vim-signify'        " Puts symbols in the sign_column (gutter?) to indicate git status of given lines. 
+Plug 'mhinz/vim-signify'        " Puts symbols in the sign_column (gutter?) to indicate git status of given lines.
 " Experimenting with these
 " Plug 'dense-analysis/ale'       " Asynchronous linting... Nice, but loud, disabling for now.
 call plug#end()
@@ -76,7 +87,7 @@ set visualbell          " blink cursor on error, instead of beeping
 "     See https://stackoverflow.com/a/10703012
 "
 " Note: iTerm also needs configuring for this to work:
-"       Click box for: iTerm > Preferences > General > Applications in terminal may access clipboard 
+"       Click box for: iTerm > Preferences > General > Applications in terminal may access clipboard
 set clipboard=unnamed   " Copying with vim (e.g. 'y', 'd', 'dd', etc) puts yanked text into your clipboard.
 set mouse=a             " Enable mouse for scrolling, resizing, clicking to move cursor, etc.
 " }}}
@@ -107,7 +118,7 @@ set nofoldenable        " don't fold files by default on open
 " NOTE: Weird - These two lines are broken somehow.  They cause my cursor to
 "   get "stuck" in various places...
 "nnoremap j gj
-"nnoremap k gk 
+"nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
 " }}}
