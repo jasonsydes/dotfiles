@@ -68,6 +68,8 @@ set autoindent          " Turn on auto indentation.
 " Credit: https://www.reddit.com/r/vim/comments/6btmtg/how_to_indent_multiple_lines_multiple_times/dhpk1pw/
 xnoremap < <gv
 xnoremap > >gv
+nnoremap > >>            " Just use a single '>' to indent (while in normal mode).
+nnoremap < <<            " Just use a single '<' to deindent (while in normal mode).
 " }}} ------------------------------------------------------------------------
 " UI Layout {{{
 set number              " show line numbers
