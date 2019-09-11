@@ -68,8 +68,16 @@ set autoindent          " Turn on auto indentation.
 " Credit: https://www.reddit.com/r/vim/comments/6btmtg/how_to_indent_multiple_lines_multiple_times/dhpk1pw/
 xnoremap < <gv
 xnoremap > >gv
-nnoremap > >>            " Just use a single '>' to indent (while in normal mode).
-nnoremap < <<            " Just use a single '<' to deindent (while in normal mode).
+" Just use a single '>' to indent (while in normal mode).
+nnoremap > >>
+" Just use a single '<' to deindent (while in normal mode).
+nnoremap < <<
+" A few items from https://unix.stackexchange.com/a/76163 and https://unix.stackexchange.com/questions/76008/text-editor-with-indented-word-wrapping
+" Better display of softwrap:
+set showbreak=....         " Show '....' at the beginning of wrapped lines.
+set breakindent                 " Make the any wrapped lines be indented.
+
+
 " }}} ------------------------------------------------------------------------
 " UI Layout {{{
 set number              " show line numbers
