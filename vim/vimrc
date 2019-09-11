@@ -48,7 +48,7 @@ colorscheme badwolf     " This colorscheme available via plugin.
 " }}} ------------------------------------------------------------------------
 " Text Rendering {{{
 set wrap                " Enable line wrapping.
-set linebreak           " Avoid wrapping a line in the middle of a word.
+"set linebreak           " Avoid wrapping a line in the middle of a word. MEH - I don't like this...
 " }}} ------------------------------------------------------------------------
 " Spaces & Tabs & Indent {{{
 set tabstop=4           " 4 space tab
