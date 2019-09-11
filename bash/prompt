@@ -64,7 +64,8 @@ fi
 export GIT_PS1_SHOWDIRTYSTATE=1               # unstaged (*) and staged (+) changes will be shown next to the branch name.
 export GIT_PS1_SHOWSTASHSTATE=1               # If something is stashed, then a '$' will be shown next to the branch name.
 export GIT_PS1_SHOWUNTRACKEDFILES=1           # If there are untracked files, then a '%' will be shown next to the branch name.
-export GIT_PS1_SHOWUPSTREAM="auto verbose"    # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged.
+export GIT_PS1_SHOWUPSTREAM="auto verbose"    # "<" indicates HEAD behind upstream, ">" indicates ahead, "<>" indicates diverged,
+                                              # and '=' indicates no difference.
                                               #           verbose       show number of commits ahead/behind (+/-) upstream
                                               #           legacy        don't use the '--count' option available in recent
                                               #                         versions of git-rev-list
