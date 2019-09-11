@@ -6,8 +6,8 @@
 source ~/.dotfiles/bash/colors
 
 # Load up the git prompt
-if [[ -e /usr/lib/git-core/git-sh-prompt ]]; then source /usr/lib/git-core/git-sh-prompt; fi 							# rayfin
-if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]] ; then source /usr/share/git-core/contrib/completion/git-prompt.sh ; fi 	# talapas
+if [[ -e /usr/lib/git-core/git-sh-prompt ]]; then source /usr/lib/git-core/git-sh-prompt; fi                                                # rayfin
+if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]] ; then source /usr/share/git-core/contrib/completion/git-prompt.sh ; fi    # talapas
 
 # Update the title bar (i.e. at the top of your terminal) to contain <hostname>:<working directory>.
 # See https://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/xterm-title-bar-manipulations.html
