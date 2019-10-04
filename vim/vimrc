@@ -29,15 +29,19 @@ set nocompatible
 " Note: Once installed, to install plugins, from within Vim, do this:
 "       :PlugInstall
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-commentary'     " Toggle comments with commands like gc gcc gcgc
-Plug 'kien/ctrlp.vim'           " Fuzzy finder
-Plug 'flazz/vim-colorschemes'   " Tons of colorschemes
-Plug 'dhruvasagar/vim-zoom'     " tmux-style 'zooming' - hit <C-W>m to toggle zoom into / out of a window (split).
-Plug 'christoomey/vim-tmux-navigator'       " Seamless navigation between tmux panes and vim splits
+Plug 'tpope/vim-commentary'                     " Toggle comments with commands like gc gcc gcgc
+Plug 'kien/ctrlp.vim'                           " Fuzzy finder
+Plug 'flazz/vim-colorschemes'                   " Tons of colorschemes
+Plug 'dhruvasagar/vim-zoom'                     " tmux-style 'zooming' - hit <C-W>m to toggle zoom into / out of a window (split).
+Plug 'christoomey/vim-tmux-navigator'           " Seamless navigation between tmux panes and vim splits
 " git
-Plug 'mhinz/vim-signify'        " Puts symbols in the sign_column (gutter?) to indicate git status of given lines.
+Plug 'mhinz/vim-signify'                        " Puts symbols in the sign_column (gutter?) to indicate git status of given lines.
+Plug 'tpope/vim-fugitive'                       " '... may very well be the best Git wrapper of all time'
 " Experimenting with these
-" Plug 'dense-analysis/ale'       " Asynchronous linting... Nice, but loud, disabling for now.
+" Plug 'dense-analysis/ale'                     " Asynchronous linting... Nice, but loud, disabling for now.
+Plug 'plasticboy/vim-markdown'                  " markdown syntax highlighting
+
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }       " markdown preview in browser
 call plug#end()
 " }}} ------------------------------------------------------------------------
 " Colors {{{
