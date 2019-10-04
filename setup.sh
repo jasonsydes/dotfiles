@@ -3,8 +3,8 @@
 cd $HOME
 
 # bash
-ln -s .dotfiles/vim/bash_profile ~/.bash_profile
-ln -s .dotfiles/vim/bashrc ~/.bashrc
+ln -s .dotfiles/bash/bash_profile ~/.bash_profile
+ln -s .dotfiles/bash/bashrc ~/.bashrc
 # vim
 ln -s .dotfiles/vim/vimrc ~/.vimrc
 # tmux + tmux plugin manager
