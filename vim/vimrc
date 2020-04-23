@@ -18,6 +18,11 @@
 " Don't put any lines in your vimrc that you don't understand.
 " Don't put any lines in your vimrc that you don't understand.
 " Don't put any lines in your vimrc that you don't understand.
+"
+"
+
+
+
 
 " Vim, not Vi {{{
 " Don't try to be vi compatible
@@ -39,9 +44,12 @@ Plug 'mhinz/vim-signify'                        " Puts symbols in the sign_colum
 Plug 'tpope/vim-fugitive'                       " '... may very well be the best Git wrapper of all time'
 " Experimenting with these
 " Plug 'dense-analysis/ale'                     " Asynchronous linting... Nice, but loud, disabling for now.
+Plug 'godlygeek/tabular'                        " required for some plasticboy/vim-markdown functionlaity
 Plug 'plasticboy/vim-markdown'                  " markdown syntax highlighting
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }       " markdown preview in browser
+Plug 'https://github.com/sjl/gundo.vim'         " Gundo - Better Undo.  - https://docs.stevelosh.com/gundo.vim
+
 call plug#end()
 " }}} ------------------------------------------------------------------------
 " Colors {{{
@@ -140,6 +148,30 @@ set nofoldenable        " don't fold files by default on open
 " highlight last inserted text
 nnoremap gV `[v`]
 " }}} ------------------------------------------------------------------------
+" Some Tmux integration {{{
+"
+" The following did not work.  Not sure why. Gotta get back to work.
+"
+            """ EXPERIMENTAL - I setup cmd-ctrl-[ and -] in iTerm to send hex codes
+            """ <prefix>p and <prefix>n to tmux to allow 'one key' pane switching.
+            """ Unfortunately, if I do this accidentailly while *not* in tmux but *in* vim,
+            """ it sends a ctrl-a following by a p or n, which 'does stuff' in vim (e.g.
+            """ pasting.
+            """ So!
+            """ I could just do this:
+            """            noremap <C-a>p <Nop>
+            """            noremap <C-a>n <Nop>
+            """ to turn off ctrl-a p and ctrl-a n in vim, but that 'slows down' ctrl-a (by
+            """ making it wait for 'timeout'), and I think I want to keep ctrl-a. Instead,
+            """ ctrl-@ seems much less used, I think I can live without it.  See in
+            """ particular https://vim.fandom.com/wiki/Unused_keys
+            """ So! I will 1) make <C-@> the prefix2 in tmux, 2) I will map C-@ p and n to
+            """ prev and next-window, 3) I will have iTerm send the hex codes for <C-@>p or n
+            """ when I push cmd-ctrl-[ or -], and 4) I will map <C-@>p and n to NOOPs.
+            ""noremap <C-@>p <Nop>
+            ""noremap <C-@>n <Nop>
+"
+" }}}
 " Misc {{{
 " Remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e

@@ -1,8 +1,15 @@
-Jason found this:
-	https://github.com/caarlos0/dotfiles
-And is trying to base his new dotfiles setup around his setup.  I like it.
+This is just my dotfiles setup.  Don't try to actually run any of the scripts
+such as "setup.sh" or "install.sh" without understanding what is in them.
+Running those scripts may BREAK your setup. I did not write those "scripts" for
+the public, I wrote them for me. Running those "scripts" may BREAK your setup.
+You've been warned.
 
+See my "notes" in the various 'setup.sh' and 'install.sh' files.
+
+I'm publishing this mostly so I can give URLs to friends, colleagues, students
+to specific config files.
+
+Originally modeled around modeled after:
+    https://github.com/caarlos0/dotfiles.
 Found it because he made this:
-	http://getantibody.github.io
-
-Check out testjasonfun@rayfin, where you installed his dotfiles to see how they work.
+    http://getantibody.github.io
