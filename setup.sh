@@ -37,7 +37,7 @@ mkdir -p ~/.config
 cd !$
 ln -s ../.dotfiles/nvim
 
-# Currently (Apr 2020) my symlinks look like this:
+# Currently my symlinks look like this:
 
 .bash_profile -> .dotfiles/bash/bash_profile
 .bashrc -> .dotfiles/bash/bashrc

@@ -15,6 +15,16 @@ See my "notes" in the various 'setup.sh' and 'install.sh' files.
 I'm publishing this mostly so I can give URLs to friends, colleagues, students
 to specific config files.
 
+Currently my symlinks look like this:
+
+.bash_profile -> .dotfiles/bash/bash_profile
+.bashrc -> .dotfiles/bash/bashrc
+.nvimrc -> .vimrc
+.tmux.conf -> .dotfiles/tmux/tmux.conf
+.vimrc -> .dotfiles/vim/vimrc
+
+---
+
 Originally modeled around modeled after:
     https://github.com/caarlos0/dotfiles.
 Found it because he made this:
