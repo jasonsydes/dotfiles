@@ -1,8 +1,14 @@
-This is just my dotfiles setup.  Don't try to actually run any of the scripts
-such as "setup.sh" or "install.sh" without understanding what is in them.
-Running those scripts may BREAK your setup. I did not write those "scripts" for
-the public, I wrote them for me. Running those "scripts" may BREAK your setup.
-You've been warned.
+My dotfiles setup.
+
+Don't try to actually run any of the scripts such as "setup.sh" or "install.sh"
+without understanding what is in them.  Running those scripts may BREAK your
+setup. I did not write those "scripts" for the public, I wrote them for me.
+Running those "scripts" may BREAK your setup.  You've been warned.
+
+******************************************************************************
+***** As always, the best advice is to never put anything in any of your *****
+***** dotfiles (e.g. .bashrc, .vimrc, etc) that you don't understand.    *****
+******************************************************************************
 
 See my "notes" in the various 'setup.sh' and 'install.sh' files.
 

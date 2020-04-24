@@ -1,6 +1,7 @@
-# DO NOT RUN OR EXECUTED THIS FILE!
-# DO NOT RUN OR EXECUTED THIS FILE!
-# DO NOT RUN OR EXECUTED THIS FILE!
+# DO NOT RUN OR EXECUTE THIS FILE!
+# DO NOT RUN OR EXECUTE THIS FILE!
+# DO NOT RUN OR EXECUTE THIS FILE!
+#
 # If you run it, it'll probably break things for you.
 #
 # This file is just my rough notes on how I setup my dotfiles from this repository.
@@ -8,9 +9,10 @@
         cd $HOME
         git clone https://github.com/jasonsydes/dotfiles .dotfiles
 # Then I made a bunch of symlinks into ~/.dotfiles/, like so:
-        ln -s .dotfiles/bash/bash_profile ~/.bash_profile
-        ln -s .dotfiles/bash/bashrc ~/.bashrc
-        ln -s .dotfiles/vim/vimrc ~/.vimrc
+        cd $HOME
+        ln -s .dotfiles/bash/bash_profile .bash_profile
+        ln -s .dotfiles/bash/bashrc .bashrc
+        ln -s .dotfiles/vim/vimrc .vimrc
 
 # Rough notes below.
 # Likely incredibly incomplete.
@@ -34,3 +36,11 @@ ln -s .dotfiles/inputrc ~/.inputrc
 mkdir -p ~/.config
 cd !$
 ln -s ../.dotfiles/nvim
+
+# Currently (Apr 2020) my symlinks look like this:
+
+.bash_profile -> .dotfiles/bash/bash_profile
+.bashrc -> .dotfiles/bash/bashrc
+.nvimrc -> .vimrc
+.tmux.conf -> .dotfiles/tmux/tmux.conf
+.vimrc -> .dotfiles/vim/vimrc
