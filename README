@@ -10,6 +10,20 @@ Running those "scripts" may BREAK your setup.  You've been warned.
 ***** dotfiles (e.g. .bashrc, .vimrc, etc) that you don't understand.    *****
 ******************************************************************************
 
+-----------------------------------------------------------------------------
+----- The second best piece of advice is to make changes slowly.  Don't -----
+----- make dozens of changes at a time.  Make one or two or a small     -----
+----- handful of changes, then work in that environment for a few days. -----
+-----------------------------------------------------------------------------
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^ Last piece of advice: Make multiple backups of your dotfiles as ^^^^^
+^^^^^ you make changes and/or put your dotfiles into a git repo.      ^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are many different ways to manage your dotfiles, and thousands of
+examples on the internet.  Nothing fancy in this repo, it only has what I need.
+
 See my "notes" in the various 'setup.sh' and 'install.sh' files.
 
 I'm publishing this mostly so I can give URLs to specific dotfiles to students,
