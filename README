@@ -12,8 +12,8 @@ Running those "scripts" may BREAK your setup.  You've been warned.
 
 See my "notes" in the various 'setup.sh' and 'install.sh' files.
 
-I'm publishing this mostly so I can give URLs to friends, colleagues, students
-to specific config files.
+I'm publishing this mostly so I can give URLs to specific dotfiles to students,
+colleagues and friends.
 
 Currently my symlinks look like this:
 
