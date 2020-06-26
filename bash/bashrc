@@ -3,6 +3,10 @@ if [ -f $HOME/.dotfiles/etc_profile_workaround ]; then
     source $HOME/.dotfiles/etc_profile_workaround
 fi
 
+# Never put anything in your bashrc that you don't understand.
+# Never put anything in your bashrc that you don't understand.
+# Never put anything in your bashrc that you don't understand.
+
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
 

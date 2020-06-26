@@ -1,3 +1,5 @@
+# Rename this file to be ~/.inputrc for fun and profit.
+
 # From http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # Type partial command, then hit arrow-UP or arrow-DOWN multiple times.
 # It's a way of limiting the searching of your history to just history items
@@ -5,6 +7,7 @@
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
+# From http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # Ignore case during tab completion.
 # If you're trying to tab complete on, say, DOWNLOADS, then you can
 # type 'dow' and then TAB, and it will tab complete to DOWNLOADS.
@@ -21,7 +24,7 @@ set completion-ignore-case on
 #   So use Magic Space!
 #   After you type in '!$' (but before hitting ENTER) hit the SPACE button and
 #   the '!$' will be replaced with its value.
-# From many places, here's one: 
+# From many places, here's one:
 #   http://www.ukuug.org/events/linux2003/papers/bash_tips/
 $if Bash
   Space: magic-space
@@ -29,10 +32,16 @@ $endif
 
 ## Meta+O can be made to load the previous command and position the cursor for typing an option
 # from http://www.ukuug.org/events/linux2003/papers/bash_tips/
-"\M-o": "\C-p\C-a\M-f "
+# Uncomment to activate.
+# "\M-o": "\C-p\C-a\M-f "
 
 ## #27 from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# Keep hidden files hidden when doing, for example, cp ~/ Tab:
+# Note: cp ~/. Tab will match hidden files.
 set match-hidden-files off
+
+## #27 from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# When listing possible file completions, put / after directory names and * after programs:
 set visible-stats on
 
 ## Cycling through bash completion possibilities

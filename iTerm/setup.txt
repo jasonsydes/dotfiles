@@ -1,0 +1,16 @@
+Use alt + left/right arrow keys to jump around quickly across command line.
+    Preferences > Profiles > select default profile > Keys
+    Find alt-leftArrow and change it to
+        Send escape sequence
+        And add "b" in the "Esc+" box.
+    Find alt-rightArrow and change it to
+        Send escape sequence
+        And add "f" in the "Esc+" box.
+
+For Tmux changing between windows:
+    Preferences > Profiles > select default profile > Keys
+    Create these key mappings:
+        ctrl-cmd-[
+            Send Hex Codes: 0x01 0x70
+        ctrl-cmd-]
+            Send Hex Codes: 0x01 0x6E
