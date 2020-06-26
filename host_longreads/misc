@@ -1,0 +1,2 @@
+# cellranger path
+export PATH=$PATH:/opt/cellranger-current
