@@ -174,7 +174,7 @@ nnoremap gV `[v`]
 " }}}
 " Misc {{{
 " Remove trailing whitespace on save
-autocmd BufWritePre * :%s/\s\+$//e
+""""""""""""""""""autocmd BufWritePre * :%s/\s\+$//e
 " Make backspace sane / fixed - see https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
 " }}} ------------------------------------------------------------------------
