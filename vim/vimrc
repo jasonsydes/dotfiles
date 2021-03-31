@@ -140,11 +140,20 @@ set nofoldenable        " don't fold files by default on open
 "set foldlevelstart=10   " start with fold level of 1
 " }}} ------------------------------------------------------------------------
 " Line Shortcuts {{{
+"
 " in wrap mode, don't skip over wrapped portion of lines while navigating
 " NOTE: Weird - These two lines are broken somehow.  They cause my cursor to
 "   get "stuck" in various places...
 "nnoremap j gj
 "nnoremap k gk
+"
+" In wrap mode, don't skip over wrapped portion of lines while navigating.
+" Also, add jumps bigger than 5 lines to the jump list, allowing us to use Ctrl-o and Ctrl-i.
+" From https://stackoverflow.com/a/60907908
+" source: https://www.vi-improved.org/vim-tips/
+nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+"
 " highlight last inserted text
 nnoremap gV `[v`]
 " }}} ------------------------------------------------------------------------
