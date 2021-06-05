@@ -1,0 +1,8 @@
+case $OS in
+linux)
+    # -v results in a) dotfiles showing up first, b) natural sort order of numbers.
+    alias ls="ls -v --color"
+;;
+darwin)
+;;
+esac
