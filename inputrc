@@ -1,5 +1,8 @@
 # Rename this file to be ~/.inputrc for fun and profit.
 
+# When altering this file, either log out and log in again or type C-x C-r to
+# reload.
+
 # From http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # Type partial command, then hit arrow-UP or arrow-DOWN multiple times.
 # It's a way of limiting the searching of your history to just history items
@@ -51,3 +54,11 @@ set visible-stats on
 set show-all-if-ambiguous on
 # Make Meta+S cycle through the list:
 "\M-s": menu-complete
+
+# Map NBSP to an ugly literal " &nbsp " to make it obvious that we're copying
+# and pasting NBSPs from somewhere (my frequent and recent hair-pulling use
+# case that I've been helping others debug has been from MS Teams, but this
+# likely applies to copy/pastes from the web as well).
+# Left side has NBSP in quotes, right side has a literal " &nbsp " in quotes.
+# Adapted from https://askubuntu.com/a/1147033 , Thanks Mikko!
+" ":" &nbsp "
