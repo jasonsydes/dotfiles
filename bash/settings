@@ -44,6 +44,13 @@ esac
 # }}}
 # Infinite history {{{  ---------------------------------------------------
 ## History
+# I've been having the problem (for several years now) where my bash_history
+# somehow gets overwritten. Then I have to restore it, I have to keep backups...
+# I hate it! My previous setup is just below here (see "Infinite history - PREVIOUSLY" below).
+# So, maybe if I goose some settings here, that phenotype will disappear. Crossing fingers.
+# See also https://unix.stackexchange.com/a/48113
+#
+shopt -s histappend                 # append to history, don't overwrite it
 HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
 HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
 # HISTCONTROL=ignoreboth            # ignores lines with repeated entries, but then you can't do this:
@@ -52,7 +59,19 @@ HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 
 #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
 #       needs to be aliased to a one or two letter shorthand.
 # Append to history after every command (instead of waiting until logout).
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# }}}
+# Infinite history - PREVIOUSLY {{{  ---------------------------------------------------
+## History
+######## HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
+######## HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
+######## # HISTCONTROL=ignoreboth            # ignores lines with repeated entries, but then you can't do this:
+######## #       cut -f1 -d" " .bash_history | sort | uniq -c | sort -nr | head -n 30
+######## #       In other words, just what do you spend so much time typing? Here’s the money:
+######## #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
+######## #       needs to be aliased to a one or two letter shorthand.
+######## # Append to history after every command (instead of waiting until logout).
+######## PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # }}}
 
 # " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
