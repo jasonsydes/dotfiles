@@ -62,3 +62,21 @@ set show-all-if-ambiguous on
 # Left side has NBSP in quotes, right side has a literal " &nbsp " in quotes.
 # Adapted from https://askubuntu.com/a/1147033 , Thanks Mikko!
 " ":" &nbsp "
+
+# Maybe at some point incorporate some of the "forward-word" / "backward-word" stuff
+# from talapas' /etc/inputrc. Why? Goal would be to make these keystrokes work
+# "from anywhere" (eg from iterm, from terminal, from windows linux) *without*
+# having to modify iTerm profiles or analogous configs.
+
+# excerted from talapas' /etc/inputrc
+#
+# # for linux console and RH/Debian xterm
+# "\e[5C": forward-word
+# "\e[5D": backward-word
+# "\e[1;5C": forward-word
+# "\e[1;5D": backward-word
+
+# # for rxvt
+# "\e[8~": end-of-line
+# "\eOc": forward-word
+# "\eOd": backward-word
