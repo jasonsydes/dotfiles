@@ -76,7 +76,8 @@ export GIT_PS1_SHOWUPSTREAM="auto verbose"    # "<" indicates HEAD behind upstre
                                               #           git           always compare HEAD to @{upstream}
                                               #           svn           always compare HEAD to your SVN upstream
 
-
 # Prompt, with Git
+# eg "Mon 20221017"
+DATE_STR=`date '+%a %Y%m%d'`
 export PS1="${TITLEBAR}\
-[ \[$PATH_COLOR\]\w\[$GIT_COLOR\]"'$(__git_ps1 " (%s)")'"\[$NORM\] ] [\[$HOST_COLOR\]\u@\h\[$NORM\]] [\[$TIME_COLOR\]\@\[$NORM\]]$DOLLAR_COLOR\n∴\[$NORM\] "
+[ \[$PATH_COLOR\]\w\[$GIT_COLOR\]"'$(__git_ps1 " (%s)")'"\[$NORM\] ] [\[$HOST_COLOR\]\u@\h\[$NORM\]] [\[$TIME_COLOR\]\@ - $DATE_STR\[$NORM\]]$DOLLAR_COLOR\n∴\[$NORM\] "
