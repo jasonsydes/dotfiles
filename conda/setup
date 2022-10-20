@@ -19,6 +19,10 @@ linux)
             fi
         fi
         unset __conda_setup
+        # mamba init generated this part:
+        if [ -f "/home/sydes/miniconda3/etc/profile.d/mamba.sh" ]; then
+            . "/home/sydes/miniconda3/etc/profile.d/mamba.sh"
+        fi
         # <<< conda initialize <<<
 
     ;;
@@ -37,6 +41,10 @@ linux)
             fi
         fi
         unset __conda_setup
+        # mamba init generated this part:
+        if [ -f "/home/sydes/miniconda3/etc/profile.d/mamba.sh" ]; then
+            . "/home/sydes/miniconda3/etc/profile.d/mamba.sh"
+        fi
         # <<< conda initialize <<<
 
     ;;
@@ -57,6 +65,10 @@ linux)
             fi
         fi
         unset __conda_setup
+        # mamba init generated this part:
+        if [ -f "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh" ]; then
+            . "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh"
+        fi
         # <<< conda initialize <<<
 
     ;;
@@ -81,6 +93,10 @@ darwin)
         fi
     fi
     unset __conda_setup
+    # mamba init generated this part:
+    if [ -f "/Users/sydes/miniconda3/etc/profile.d/mamba.sh" ]; then
+        . "/Users/sydes/miniconda3/etc/profile.d/mamba.sh"
+    fi
     # <<< conda initialize <<<
 
 ;;
