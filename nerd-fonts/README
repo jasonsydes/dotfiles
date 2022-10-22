@@ -1,0 +1,13 @@
+NerdFonts come from here:
+    https://github.com/ryanoasis/nerd-fonts
+Here's their description as of Oct 2022:
+    Nerd Fonts is a project that patches developer targeted fonts with a high
+    number of glyphs (icons). Specifically to add a high number of extra glyphs
+    from popular 'iconic fonts' such as Font Awesome, Devicons, Octicons, and
+    others.
+Think Powerline, Font Awesome, etc. They basically allow you to have cool looking
+tmux, zellij, vim status lines (among other things).
+
+I'm using it here initially for zellij, but plenty of environments use these.
+
+See "setup.txt" in this folder for how to manually install these.

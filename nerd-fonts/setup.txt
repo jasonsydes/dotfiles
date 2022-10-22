@@ -1,0 +1,18 @@
+I followed this:
+    https://github.com/ryanoasis/nerd-fonts#option-2-release-archive-download
+Which says:
+    Option 2: Release Archive Download
+        Best option if you want an archive or complete font family of variations (Bold, Italic, etc.).
+    Fonts are available for download as packages in the latest release
+So, I went here:
+    https://github.com/ryanoasis/nerd-fonts/releases/tag/v2.2.2
+And downloaded 
+    https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Inconsolata.zip
+Unzipped it, then installed all the *.otf non-windows fonts on my mac.
+    - Prefer otf over ttf if available, otherwise ttf is fine.
+    - To install on mac, just double-click on the file 
+        (eg Inconsolata Bold Nerd Font Complete Mono.otf) which brings
+        up the Font Book app, then click on its "Install Font" button.
+And then enable it iTerm, like so:
+    Preferences > Profiles > Pick the appropriate Profile > Text > Font > Choose Inconsolata
+        Note: I also had to set the horizontal space to 80 (it should be right there, looks like "v|i")
