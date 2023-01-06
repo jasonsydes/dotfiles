@@ -4,7 +4,10 @@
 
 # from http://wiki.archlinux.org/index.php/Color_Bash_Prompt#Better_return_value_visualisation
 # misc
-export NO_COLOR='\e[0m' #disable any colors
+
+# The following line breaks lazygit. I'm disabling it!
+# export NO_COLOR='\e[0m' #disable any colors
+
 export NORM='\e[m'               #return to normal
 # regular colors
 export BLACK='\e[0;30m'
