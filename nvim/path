@@ -1,0 +1,2 @@
+# Path to nvim installation
+PATH=$PATH:$HOME/src/nvim/bin

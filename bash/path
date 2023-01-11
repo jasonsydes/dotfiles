@@ -1,2 +1,6 @@
 # Local bin directory.
 PATH=~/bin:$PATH
+
+# The other local bin directory.
+# Potentially used by many tools (currently just lvim).
+PATH=~/.local/bin:$PATH

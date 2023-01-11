@@ -1,0 +1,12 @@
+### Neovim puts stuff in multiple different places (AKA to start from scratch, delete all this stuff...)
+- ~/.config/nvim/init.vim               - the config file
+- ~/.local/state/nvim/                  - backup, undo
+- ~/.local/share/nvim/                  - the data dir, swap, includes plugins, autoload
+- ~/.local/share/nvim/site/pack/packer - this is for Packer, which is 
+- ~/.cache/nvim                         - yup, stuff goes in here as well.
+
+NO LONGER APPLICABLE:
+    I'm currently getting an error on line 7 of kickstart.nvim's init.lua.
+    But the look is wrong...
+        But I can't copy the error. This post suggests using the Trouble.nvim plugin for better experience:
+        https://www.reddit.com/r/neovim/comments/og1cdv/neovim_lsp_how_do_you_get_diagnostic_mesages_to/
