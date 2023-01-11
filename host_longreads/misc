@@ -1,2 +1,4 @@
-# cellranger path
-export PATH=$PATH:/opt/cellranger-current
+## Give me a readout summary on storage space consumed.
+#echo
+#df -h /storageGC3F/ /JBOD /JBOD3
+#echo

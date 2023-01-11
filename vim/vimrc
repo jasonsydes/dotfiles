@@ -51,6 +51,7 @@ Plug 'plasticboy/vim-markdown'                  " markdown syntax highlighting
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }       " markdown preview in browser
 Plug 'https://github.com/sjl/gundo.vim'         " Gundo - Better Undo.  - https://docs.stevelosh.com/gundo.vim
+Plug 'ojroques/vim-oscyank', {'branch': 'main'} " Yank to system clipboard from anywhere (local or remote).
 
 call plug#end()
 " }}} ------------------------------------------------------------------------

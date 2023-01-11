@@ -59,7 +59,7 @@ HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 
 #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
 #       needs to be aliased to a one or two letter shorthand.
 # Append to history after every command (instead of waiting until logout).
-PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; history -c; history -r"
 # }}}
 # Infinite history - PREVIOUSLY {{{  ---------------------------------------------------
 ## History
