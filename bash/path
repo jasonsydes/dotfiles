@@ -6,5 +6,5 @@ PATH=~/bin:$PATH
 PATH=~/.local/bin:$PATH
 
 # The opt local bin directory.
-# Potentially used by many tools (currently just lvim built from source on longreads).
+# Potentially used by many tools (currently just lvim built from source on longreads/talapas).
 PATH=~/opt/bin:$PATH
