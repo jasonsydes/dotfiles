@@ -1,0 +1,65 @@
+You must build neovim from source on Talapas (and longreads).
+
+(Using the binary distribution results in GLIBC_X.XX something or other not found.)
+
+## Build
+
+This was the build environment that worked.
+I think actually gxx wasn't needed for the build (lvim startup, maybe treesitter, complained until I added gxx).
+Everything else though, was present during the build.
+
+        ∴ conda env export --from-history
+        name: lunarvim-play8
+        channels:
+          - conda-forge
+          - bioconda
+          - defaults
+        dependencies:
+          - python
+          - rust
+          - nodejs
+          - fd-find
+          - ripgrep
+          - pynvim
+          - msgpack-python
+          - greenlet
+          - gcc
+          - cmake
+          - lua
+          - ca-certificates
+          - openssl
+          - git
+          - gxx
+        prefix: /home/sydes/miniconda3/envs/lunarvim-play8
+
+Commands used to build:
+
+    make -j100 CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/opt
+    make install
+
+
+Also, see my "bug" report:
+    https://github.com/LunarVim/LunarVim/issues/3705
+    Basically, don't move the nvim binary out of place, otherwise bootstrapping won't work.
+        This is true for both a) using Release binary, and b) building from source.
+
+## Run environment
+
+conda activate base
+mamba install python rust nodejs fd-find ripgrep pynvim msgpack-python greenlet     gxx lua
+
+4. Install LunarVim according to their instructions. At time of writing, this was:
+    LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh)
+    But this will change for each release.
+
+5. During install, 
+    * say "yes" to the nodejs dependencies (they will install in your conda env)
+    * say "no" to both python and rust deps (they are installed as conda packages, see the mamba create command above).
+
+6. Set PATH
+    export PATH=~/opt/bin:$PATH
+
+7. Type "lvim" to run LunarVim for the first time.
+    (It needs to do some tree-sitter installs for a minute, then it's ready to go.
+
+Then head over and do ~/.dotfiles/nvim-lvim-common/setup.sh .
