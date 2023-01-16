@@ -1,0 +1,7 @@
+# Default to using lvim as vim, for now.
+#   vim     -> lvim
+#   lvim    -> lvim
+#   vvim    -> vim
+#   nvim    -> nvim
+alias vvim=$HOME/miniconda3/bin/vim
+alias vim=$HOME/.local/bin/lvim
