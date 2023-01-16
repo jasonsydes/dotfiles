@@ -8,14 +8,15 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
--- general
+-- general {{{
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
+-- }}}
 
--- keymappings [view all the defaults by pressing <leader>Lk]
+-- keymappings [view all the defaults by pressing <leader>Lk] {{{
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
@@ -43,12 +44,13 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --     ["<C-k>"] = actions.move_selection_previous,
 --   },
 -- }
+-- }}}
 
--- Change theme settings
+-- Change theme settings {{{
 -- lvim.builtin.theme.options.dim_inactive = true
 -- lvim.builtin.theme.options.style = "storm"
 
--- Use which-key to add extra bindings with the leader-key prefix
+-- Use which-key to add extra bindings with the leader-key prefix 
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
 --   name = "+Trouble",
@@ -59,7 +61,9 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
+-- }}}
 
+-- Random Stuff {{{
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
@@ -67,7 +71,9 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+-- }}}
 
+-- Some Treesitter Stuff {{{
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -86,8 +92,9 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
+-- }}}
 
--- generic LSP settings
+-- generic LSP settings {{{
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 -- lvim.lsp.installer.setup.ensure_installed = {
@@ -143,8 +150,9 @@ lvim.builtin.treesitter.highlight.enable = true
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
+-- }}}
 
--- -- set additional linters
+-- -- set additional linters {{{
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
 --   { command = "flake8", filetypes = { "python" } },
@@ -161,16 +169,18 @@ lvim.builtin.treesitter.highlight.enable = true
 --     filetypes = { "javascript", "python" },
 --   },
 -- }
+-- }}}
 
--- Additional Plugins
+-- Additional Plugins {{{
 -- lvim.plugins = {
 --     {
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
 -- }
+-- }}}
 
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
+-- Autocommands (https://neovim.io/doc/user/autocmd.html) {{{
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
 --   -- enable wrap mode for json files only
@@ -183,3 +193,6 @@ lvim.builtin.treesitter.highlight.enable = true
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+-- }}}
+
+-- vim:set foldenable foldmethod=marker foldlevel=0:
