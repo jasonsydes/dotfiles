@@ -26,7 +26,9 @@ fi
 
 # Don't allow this tool to run on an existing symlinked config.
 # for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/lvim; do
-for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
+for THING in ~/.config/lvim ~/.cache/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
     if test -L $THING; then
         echo "ERROR: You're trying to run $0 on an already symlinked lvim config."
         exit
@@ -34,7 +36,9 @@ for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunar
 done
 
 # for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/lvim; do
-for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
+for THING in ~/.config/lvim ~/.cache/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
     NEW_THING="${THING}--${NAME}"
     # Just in case a particular THING folder hasn't been made yet (eg ~/.cache/lvim), go ahead and make it.
     mkdir -p $THING

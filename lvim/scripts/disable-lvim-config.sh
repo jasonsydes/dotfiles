@@ -16,7 +16,9 @@
 
 # Don't allow this tool to run on a non-symlinked config.
 # for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/lvim; do
-for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
+for THING in ~/.config/lvim ~/.cache/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
     if ! test -L $THING; then
         echo "ERROR: You're trying to run $0 on a non-symlinked lvim config."
         exit
@@ -24,7 +26,9 @@ for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunar
 done
 
 # for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/lvim; do
-for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ; do
+# for THING in ~/.config/lvim ~/.cache/lvim ~/.local/bin/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
+for THING in ~/.config/lvim ~/.cache/lvim ~/.local/share/lunarvim ~/.local/state/nvim ~/.local/share/nvim ; do
     set -x
     rm $THING
     set +x
