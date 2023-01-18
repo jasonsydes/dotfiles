@@ -1,0 +1,16 @@
+# Stash away or delete existing configs.
+# Either see
+#   ~/.dotfiles/nvim/scripts
+#   ~/.dotfiles/nvim/scripts
+# or just rename them manually:
+    mv ~/.config/nvim ~/.config/nvim.bak
+    mv ~/.local/share/nvim ~/.local/share/nvim.bak
+    mv ~/.local/state/nvim ~/.local/state/nvim.bak
+    mv ~/.cache/nvim ~/.cache/nvim.bak
+
+# Download Astrovim initial config:
+git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+# Setup your "customizations" config:
+cd ~/.config/nvim/lua
+ln -s ~/.dotfiles/astrovim/user_customizations user
+

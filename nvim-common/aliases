@@ -1,8 +1,12 @@
+# All roads point towards nvim. Make it hard to not use nvim.
+alias vvim=$HOME/miniconda3/bin/vim
+alias vim=nvim
+
+# Disabled for now:
 # Temporarily disable the "vim" command, so that you'll use the others.
 #   vim     -> noop with a helpful message.
 #   lvim    -> lvim
 #   vvim    -> vim
 #   nvim    -> nvim
-alias vvim=$HOME/miniconda3/bin/vim
-alias vim="echo 'vim command temporarily disabled (for learning purposes). Use nvim, lvim, or vvim instead.' ; :"
-
+# alias vvim=$HOME/miniconda3/bin/vim
+# alias vim="echo 'vim command temporarily disabled (for learning purposes). Use nvim, lvim, or vvim instead.' ; :"
