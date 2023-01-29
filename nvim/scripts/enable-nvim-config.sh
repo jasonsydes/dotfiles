@@ -8,7 +8,7 @@
 #   enable-nvim-config.sh NAME
 # Example:
 #   enable-nvim-config.sh nvim-basic-ide
-# Above example will result in SYMLINKS that look like this: 
+# Above example will add SYMLINKS that look like this: 
 #   ~/.config/nvim       -> ~/.config/nvim--nvim-basic-ide 
 #   ~/.cache/nvim        -> ~/.cache/nvim--nvim-basic-ide 
 #   ~/.local/state/nvim  -> ~/.local/state/nvim--nvim-basic-ide

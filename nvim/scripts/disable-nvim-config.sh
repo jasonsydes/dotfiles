@@ -7,7 +7,6 @@
 # Example:
 #   disable-nvim-config.sh 
 # Above example will DELETE SYMLINKS that look like this: 
-#           INCOMPLETE
 #   ~/.config/nvim       -> ~/.config/nvim--nvim-basic-ide 
 #   ~/.cache/nvim        -> ~/.cache/nvim--nvim-basic-ide 
 #   ~/.local/state/nvim  -> ~/.local/state/nvim--nvim-basic-ide
