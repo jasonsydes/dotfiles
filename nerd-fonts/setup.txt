@@ -16,3 +16,6 @@ Unzipped it, then installed all the *.otf non-windows fonts on my mac.
 And then enable it iTerm, like so:
     Preferences > Profiles > Pick the appropriate Profile > Text > Font > Choose Inconsolata
         Note: I also had to set the horizontal space to 80 (it should be right there, looks like "v|i")
+---
+Someone said that "Fantasque Sans Mono" looks great. Let's try that.
+    
