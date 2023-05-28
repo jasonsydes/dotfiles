@@ -37,3 +37,5 @@ source $DOTFILES/bash/prompt
 #
 # Miniconda 3 - This should be the LAST item in your bash_proile.
 source $DOTFILES/conda/setup
+
+source /home/sydes/.config/broot/launcher/bash/br
