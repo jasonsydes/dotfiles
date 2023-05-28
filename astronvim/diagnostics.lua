@@ -4,7 +4,8 @@ return {
   --    You cannot copy virtual_text.
   --    Useful to be able to disable this.
   --    Alternative: Put cursor over line with error, then type "gl" (Hover diagnostics); that text *is* copyable.
-  virtual_text = true,
+  -- virtual_text = true,
+  virtual_text = false,
   update_in_insert = true,    -- When false, will not update virtual_text / diagnostics in Insert mode (waits until returning to Normal mode).
   underline = true,
 }
