@@ -19,4 +19,5 @@ module load slurm 2> /dev/null
 # Load up easybuild
 module load easybuild 2> /dev/null
 # And it turns out that Java is pretty useful.  Let's always load it.
-module load Java/1.8.0_162 2> /dev/null
+# Update Oct 2022 - Nope, let's not.
+###module load Java/1.8.0_162 2> /dev/null

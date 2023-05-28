@@ -3,6 +3,7 @@ return {
   { 'jalvesaq/Nvim-R' },                              -- RStudio replacement in nvim. Gotta start with ,rf to get things going. See https://github.com/jamespeapen/Nvim-R/wiki/Use
   { 'ThePrimeagen/vim-be-good' },                     -- Get better at vim by playing a fun game. Start with :VimBeGood .
   { 'karb94/neoscroll.nvim' },
+  { 'ThePrimeagen/harpoon' },
   ["nvim-treesitter/playground"] = {
     cmd = "TSHighlightCapturesUnderCursor",
   },
