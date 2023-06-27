@@ -79,5 +79,8 @@ export GIT_PS1_SHOWUPSTREAM="auto verbose"    # "<" indicates HEAD behind upstre
 # Prompt, eg:
 #       [ ~/.dotfiles (master *% u=) ] [sydes@longreads] [09:06 AM - Fri 20221028]
 #       ∴ 
-export PS1="${TITLEBAR}\
-[ \[$PATH_COLOR\]\w\[$GIT_COLOR\]"'$(__git_ps1 " (%s)")'"\[$NORM\] ] [\[$HOST_COLOR\]\u@\h\[$NORM\]] [\[$TIME_COLOR\]\D{%H:%M %p - %a %Y%m%d}\[$NORM\]]$DOLLAR_COLOR\n∴\[$NORM\] "
+#export PS1="${TITLEBAR}\
+#[ \[$PATH_COLOR\]\w\[$GIT_COLOR\]"'$(__git_ps1 " (%s)")'"\[$NORM\] ] [\[$HOST_COLOR\]\u@\h\[$NORM\]] [\[$TIME_COLOR\]\D{%H:%M %p - %a %Y%m%d}\[$NORM\]]$DOLLAR_COLOR\n∴\[$NORM\] "
+
+# New starship prompt
+eval "$(starship init bash)"
