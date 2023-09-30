@@ -6,3 +6,15 @@ linux)
 darwin)
 ;;
 esac
+
+# Show both the head and tail of something.
+# For "long" running commands, like "ls -alrt" or "sort", it's nice to be able to
+# see both the head and tail, but not have to run the command twice to do so, eg
+# like so:
+#       ls -alrt | head
+#       ls -alrt | tail
+# You can do so like this: 
+#       ls -alrt | (head;tail)
+# This is an alias to allow that quickly:
+#       ls -alrt | ht
+alias ht="(head;tail)"
