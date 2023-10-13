@@ -11,8 +11,19 @@ return {
   -- },
 
   -- Provide :Bdelete
-  "famiu/bufdelete.nvim",
+  { "famiu/bufdelete.nvim",
+    -- load no matter what (otherwise, doesn't seem to work...)
+    lazy = false,
+  },
 
-  -- Nextflow (doesn't seem to be working currently)
-  "Mxrcon/nextflow-vim",
+  -- Nextflow 
+  { "Mxrcon/nextflow-vim",
+    -- load no matter what (otherwise, doesn't seem to work...)
+    lazy = false,
+  },
+  -- Doesn't seem to work?
+  -- { 'karb94/neoscroll.nvim', lazy = false}
+
+  -- Disable these plugins that AstroNvim includes by default.
+  {'goolord/alpha-nvim', enabled = false}
 }
