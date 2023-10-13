@@ -9,4 +9,10 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
+
+  -- Provide :Bdelete
+  "famiu/bufdelete.nvim",
+
+  -- Nextflow (doesn't seem to be working currently)
+  "Mxrcon/nextflow-vim",
 }
