@@ -1,0 +1,5 @@
+return {
+  {
+    "Mxrcon/nextflow-vim",
+  },
+}
