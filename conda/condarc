@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+auto_activate_base: true
+# Definitely want "strict" here.
+channel_priority: strict
+# Not sure if this is needed if you've installed Miniforge.
+solver: libmamba
+
