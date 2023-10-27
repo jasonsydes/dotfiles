@@ -18,3 +18,6 @@ esac
 # This is an alias to allow that quickly:
 #       ls -alrt | ht
 alias ht="(head;tail)"
+
+# easy to type 'sudo' alias
+alias s="sudo -E"
