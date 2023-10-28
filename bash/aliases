@@ -21,3 +21,4 @@ alias ht="(head;tail)"
 
 # easy to type 'sudo' alias
 alias s="sudo -E"
+alias tms="$HOME/.dotfiles/bin/tmux_send_sudo.sh"
