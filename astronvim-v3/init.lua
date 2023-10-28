@@ -22,7 +22,11 @@ return {
 
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
-    virtual_text = true,
+  -- "virtual_text" is the often red or yellow text that shows up to the right side of the an error.
+  --    You cannot copy virtual_text.
+  --    Useful to be able to disable this.
+  --    Alternative: Put cursor over line with error, then type "gl" (Hover diagnostics); that text *is* copyable.
+    virtual_text = false,
     underline = true,
   },
 
