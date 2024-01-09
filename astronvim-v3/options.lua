@@ -2,11 +2,19 @@
 return {
   opt = {
     -- set to true or false etc.
-    relativenumber = true, -- sets vim.opt.relativenumber
-    number = true, -- sets vim.opt.number
     spell = false, -- sets vim.opt.spell
     signcolumn = "auto", -- sets vim.opt.signcolumn to auto
-    wrap = false, -- sets vim.opt.wrap
+
+    -- Number and relative number display on. 
+    relativenumber = true,  -- sets vim.opt.relativenumber
+    number = true,          -- sets vim.opt.number
+    -- Wrap and better display of soft wrap
+    wrap = true,            -- Yes please wrap lines (sets vim.opt.wrap)
+                            -- These next two lines make it easier to "see" / "distinguish" between
+                            -- the beginning/unwrapped portion of the line and the 'wrapped' portions
+                            -- of the line.
+    breakindent = true,     -- Make the wrapped part of lines display as indented.
+    showbreak = "....",     -- Prefix the wrapped part of lines with '....', thank you very much.
   },
   g = {
     mapleader = " ", -- sets vim.g.mapleader
