@@ -1,0 +1,167 @@
+###################
+###################
+###################
+
+# from https://twitter.com/StarshipPrompt/status/1440380145861226496?s=20
+format = """
+$conda\
+$username\
+$all\
+$fill\
+$time\
+$line_break\
+$character
+"""
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[✖](bold red)'
+
+[directory]
+# What is this?
+truncation_length = 1000
+# truncation_symbol = '…/'
+style="bold bright-yellow"
+
+[fill]
+symbol = " "
+
+# The time (on the right side).
+# https://starship.rs/config/#time
+[time]
+disabled = false
+style = "bold bright-black"
+format = "[$time]($style)"
+# eg Mon Jun 26 14:57:14 2023, see https://docs.rs/chrono/0.4.7/chrono/format/strftime/index.html
+time_format = "%c"
+
+[username]
+style_user = 'black bold'
+style_root = 'white bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = '[@$hostname]($style) 🌎 : '
+# format = '[$ssh_symbol$hostname]($style) in '
+# ssh_symbol = '🌎'
+
+[conda]
+# format = '[$symbol$environment](dimmed green) '
+format = '[\($environment\)](dimmed green) '
+ignore_base = false
+
+### Annoying stuff to disable for now ###
+
+[python]
+# Looks like this:
+#     🐍 v3.11.0
+disabled = true
+
+[nodejs]
+# Javascript
+# Looks like this:
+#      v16.19.0
+disabled = true
+
+[gcloud]
+# Looks like this: 
+#     on ☁️
+disabled = true
+
+
+###################
+###################
+###################
+
+# This is the default format, see https://starship.rs/config/#prompt . 
+# The following is equivalent to $all. 
+# NOTE: DO NOT UNCOMMENT THIS HERE (it will break everything above).
+#       This is only included here for reference.
+# format = """
+# $username\
+# $hostname\
+# $localip\
+# $shlvl\
+# $singularity\
+# $kubernetes\
+# $directory\
+# $vcsh\
+# $fossil_branch\
+# $git_branch\
+# $git_commit\
+# $git_state\
+# $git_metrics\
+# $git_status\
+# $hg_branch\
+# $pijul_channel\
+# $docker_context\
+# $package\
+# $c\
+# $cmake\
+# $cobol\
+# $daml\
+# $dart\
+# $deno\
+# $dotnet\
+# $elixir\
+# $elm\
+# $erlang\
+# $fennel\
+# $golang\
+# $guix_shell\
+# $haskell\
+# $haxe\
+# $helm\
+# $java\
+# $julia\
+# $kotlin\
+# $gradle\
+# $lua\
+# $nim\
+# $nodejs\
+# $ocaml\
+# $opa\
+# $perl\
+# $php\
+# $pulumi\
+# $purescript\
+# $python\
+# $raku\
+# $rlang\
+# $red\
+# $ruby\
+# $rust\
+# $scala\
+# $solidity\
+# $swift\
+# $terraform\
+# $vlang\
+# $vagrant\
+# $zig\
+# $buf\
+# $nix_shell\
+# $conda\
+# $meson\
+# $spack\
+# $memory_usage\
+# $aws\
+# $gcloud\
+# $openstack\
+# $azure\
+# $env_var\
+# $crystal\
+# $custom\
+# $sudo\
+# $cmd_duration\
+# $line_break\
+# $jobs\
+# $battery\
+# $time\
+# $status\
+# $os\
+# $container\
+# $shell\
+# $character"""
