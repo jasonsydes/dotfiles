@@ -21,6 +21,7 @@
 cd ~/src/
 rm -f nvim
 wget https://github.com/neovim/neovim/releases/latest/download/nvim-macos.tar.gz
+wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 mv nvim-macos nvim-macos-v0.9.4
 ln -s nvim-macos-v0.9.4 nvim
 
@@ -43,6 +44,8 @@ I installed pyright.
 
 # Install tree-sitter for things
 :TSInstall python
+:TSInstall yaml
+:TSInstall json
 
 # Quit nvim.
 

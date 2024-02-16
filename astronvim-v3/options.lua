@@ -15,6 +15,9 @@ return {
                             -- of the line.
     breakindent = true,     -- Make the wrapped part of lines display as indented.
     showbreak = "....",     -- Prefix the wrapped part of lines with '....', thank you very much.
+    -- Keep cursor vertically centered always.
+    -- (thank you https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen)
+    scrolloff=999
   },
   g = {
     mapleader = " ", -- sets vim.g.mapleader
