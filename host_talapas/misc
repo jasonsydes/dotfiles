@@ -1,5 +1,23 @@
 # Stuff specific to talapas only.
 
+# regex approach
+# see https://stackoverflow.com/questions/229551/how-to-check-if-a-string-contains-a-substring-in-bash
+if [[ $HOSTNAME =~ talapas ]]; then
+
+    # Start fresh
+    module purge 2> /dev/null
+    # Load up slurm
+    module load slurm 2> /dev/null
+    # Load up easybuild
+    module load easybuild 2> /dev/null
+    # And it turns out that Java is pretty useful.  Let's always load it.
+    # Update Oct 2022 - Nope, let's not.
+    ###module load Java/1.8.0_162 2> /dev/null
+    
+    # It's about time.
+    export PATH="$PATH:~/G/automation/local"
+fi
+
 # HRM, not sure where I left this...
     # In general, don't share, but leave your home directory viewable in case you do want to share.
     # umask 0007
@@ -11,13 +29,3 @@
     #          visible (and writable) by swmgr, but only visible and not
     #          writable by everyone.
     # umask 0002
-
-# Start fresh
-module purge 2> /dev/null
-# Load up slurm
-module load slurm 2> /dev/null
-# Load up easybuild
-module load easybuild 2> /dev/null
-# And it turns out that Java is pretty useful.  Let's always load it.
-# Update Oct 2022 - Nope, let's not.
-###module load Java/1.8.0_162 2> /dev/null
