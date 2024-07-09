@@ -4,7 +4,7 @@
 # belongs) to the rear of PATH.  Then the wrong vim gets read, and I can no
 # longer use my conda vim under Tmux.
 
-# Since we alter /etc/profile on some systems, we "fix" this problem with a hack:
+# Since we can't alter /etc/profile on some systems, we "fix" this problem with a hack:
 # Simply reset the PATH to nothing, then manually source /etc/profile.
 
 # Background:
