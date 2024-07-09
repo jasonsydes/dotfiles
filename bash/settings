@@ -4,14 +4,6 @@
 
 # OS Specific Stuff {{{ --------------------------------------------
 
-## Taken from http://harts.net/reece/setup/bashrc, Thanks!
-# This is my attempt to create order from chaos in platform naming
-# All info is derived from uname and lowercased.  OS patchlevel is truncated.
-export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
-export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-export PLATFORM="$MACHINE-$OS-$OSVERSION"
-
 case $OS in
 linux)
 

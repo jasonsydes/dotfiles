@@ -1,0 +1,15 @@
+# zshrc is for interactive shells
+
+# Source the (non-interactive) ~/.zshenv.
+if [ -f ~/.zshenv ]; then
+    source ~/.zshenv
+fi
+
+# Load prompt
+source $DOTFILES/zsh/prompt &> /dev/null
+
+# Source your fake 'inputrc' file 
+source $DOTFILES/zsh/inputrc_zsh &> /dev/null
+
+# Source the main interactive file
+source $DOTFILES/all/main-interactive

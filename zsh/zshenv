@@ -1,0 +1,31 @@
+# zshenv is for non-interactive shells
+
+# shortcut to this dotfiles path is $DOTFILES
+export DOTFILES="$HOME/.dotfiles"
+
+# UNKNOWN if I will need this or not.
+### # /etc/zprofile workaround - MUST BE (NEARLY) THE FIRST LINE IN THIS FILE!
+### if [ -f $DOTFILES/etc_zprofile_workaround ]; then
+###     source $DOTFILES/etc_zprofile_workaround
+### fi
+
+# Never put anything in your zshenv that you don't understand.
+# Never put anything in your zshenv that you don't understand.
+# Never put anything in your zshenv that you don't understand.
+
+# Source the non-interactive file
+source $DOTFILES/all/main-non-interactive &> /dev/null
+
+# Load bash settings.
+source $DOTFILES/zsh/settings &> /dev/null
+
+# Load source files.
+for f in $DOTFILES/*/source ; do source "$f" &> /dev/null ; done
+
+# THE LAST ITEM BELOW.
+#
+# Miniconda 3 - This should be the LAST item in your zshenv.
+source $DOTFILES/conda/setup_zsh &> /dev/null
+
+# Lando
+export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}"; #landopath

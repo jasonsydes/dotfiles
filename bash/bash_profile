@@ -1,4 +1,12 @@
-# Get the bashrc.  This is the only thing that this file should do.
+# bash_profile is for interactive shells
+
+# Source the (non-interactive) ~/.bashrc.
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
+
+# Load prompt
+source $DOTFILES/bash/prompt
+
+# Source the main interactive file
+source ~/.dotfiles/all/main-interactive

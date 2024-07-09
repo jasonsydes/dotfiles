@@ -20,6 +20,18 @@
 " Don't put any lines in your vimrc that you don't understand.
 "
 "
+" Plans for switching to neovim:
+"   https://gist.github.com/mendeza/e0c4fbb5592ad52f5eca77ed5873a46b
+"   https://www.baeldung.com/linux/vim-neovim-configs
+"
+"
+"
+"
+"   This seems DANGEROUS:
+"       https://github.com/LunarVim/nvim-basic-ide
+"       Found it here:
+"       https://www.youtube.com/watch?v=eMnZBaOs4vM
+"
 
 
 
@@ -52,9 +64,22 @@ Plug 'plasticboy/vim-markdown'                  " markdown syntax highlighting
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }       " markdown preview in browser
 Plug 'https://github.com/sjl/gundo.vim'         " Gundo - Better Undo.  - https://docs.stevelosh.com/gundo.vim
 Plug 'ojroques/vim-oscyank', {'branch': 'main'} " Yank to system clipboard from anywhere (local or remote).
+" Theme experimentation
+Plug 'vim-airline/vim-airline'                  " vim powerline like theme and integrations. Also, its github page has a list of popular other plugins.
+Plug 'edkolev/tmuxline.vim'                     " tmux powerline like thing?
 
 call plug#end()
 " }}} ------------------------------------------------------------------------
+
+
+" Configuration of Vim Plugs {{{
+" vim-airline
+" not sure I like this...
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+" }}} ------------------------------------------------------------------------
+
+
 " Colors {{{
 syntax enable           " enable syntax processing
 "colorscheme evening    " This colorscheme included with Vim.
@@ -156,6 +181,23 @@ set nofoldenable        " don't fold files by default on open
 " source: https://www.vi-improved.org/vim-tips/
 nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+            " NEOVIM VERSION OF THE ABOVE, MAYBE:
+            " https://neovim.discourse.group/t/how-do-i-jump-to-relative-line-number-with-gj-gk/2203/4 
+            "       Mar '22
+            "       Ah, yes, keymap is a recently added feature and does not work with the current stable version(v0.6.1).
+            "
+            "       If you are fine with vim script, this will work.
+            "
+            "       nnoremap <expr> j v:count ? 'j' : 'gj'
+            "       nnoremap <expr> k v:count ? 'k' : 'gk'
+            "       Or you can use the Lua api that has been available before
+            "
+            "       vim.api.nvim_set_keymap("n", "j", "v:count ? 'j' : 'gj'", { noremap = true, expr = true })
+            "       vim.api.nvim_set_keymap("n", "k", "v:count ? 'k' : 'gk'", { noremap = true, expr = true })
+            "   
+            " Also, in the following, search for "nvim_set_keymap" and/or noremap:
+            "       https://github.com/nanotee/nvim-lua-guide
+
 "
 " highlight last inserted text
 nnoremap gV `[v`]
@@ -186,7 +228,7 @@ nnoremap gV `[v`]
 " }}}
 " Misc {{{
 " Remove trailing whitespace on save
-""""""""""""""""""autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
 " Make backspace sane / fixed - see https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
 " }}} ------------------------------------------------------------------------

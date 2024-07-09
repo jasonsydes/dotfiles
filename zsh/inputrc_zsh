@@ -1,0 +1,15 @@
+# ZSH doesn't have the equivalent of ~/.inputrc like Bash does.
+# That said, it's how you think about these things, so you're putting all
+# the Bash ~/.inputrc equivalents here.
+
+# From http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# Type partial command, then hit arrow-UP or arrow-DOWN multiple times.
+# It's a way of limiting the searching of your history to just history items
+# prefixed with your partial command.
+bindkey "\e[A" history-search-backward
+bindkey "\e[B" history-search-forward
+
+# Auxillary. 
+# Hit SHIFT-arrow-UP or SHIFT-arrow-DOWN
+bindkey "\e[1;2A" history-incremental-search-backward
+bindkey "\e[1;2B" history-incremental-search-forward

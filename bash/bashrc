@@ -1,45 +1,30 @@
-# /etc/profile workaround - MUST BE THE FIRST LINE IN THIS FILE!
-if [ -f $HOME/.dotfiles/etc_profile_workaround ]; then
-    source $HOME/.dotfiles/etc_profile_workaround
+# bashrc is for non-interactive shells
+
+# shortcut to this dotfiles path is $DOTFILES
+export DOTFILES="$HOME/.dotfiles"
+
+# /etc/profile workaround - MUST BE (NEARLY) THE FIRST LINE IN THIS FILE!
+if [ -f $DOTFILES/etc_profile_workaround ]; then
+    source $DOTFILES/etc_profile_workaround
 fi
 
 # Never put anything in your bashrc that you don't understand.
 # Never put anything in your bashrc that you don't understand.
 # Never put anything in your bashrc that you don't understand.
 
-# shortcut to this dotfiles path is $DOTFILES
-export DOTFILES="$HOME/.dotfiles"
-
-# your default editor
-export EDITOR='vim'
-
-# Load path files.
-for f in $DOTFILES/*/path ; do source "$f" ; done
-export PATH
+# Source the non-interactive file
+source $DOTFILES/all/main-non-interactive
 
 # Load bash settings.
 source $DOTFILES/bash/settings
 
-# Load alias files.
-for f in $DOTFILES/*/aliases ; do source "$f"; done
-
-# Load misc files.
-for f in $DOTFILES/*/misc ; do source "$f" ; done
-
-# Load prompt
-source $DOTFILES/bash/prompt
-
-# Load cargo / rust stuff
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-
 # Load source files.
 for f in $DOTFILES/*/source ; do source "$f" ; done
-
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-[ -f ~/.localrc ] && source ~/.localrc
 
 # THE LAST ITEM BELOW.
 #
 # Miniconda 3 - This should be the LAST item in your bash_proile.
-source $DOTFILES/conda/setup
+source $DOTFILES/conda/setup_bash
+
+# Lando
+export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}"; #landopath
