@@ -10,6 +10,12 @@
 # Background:
 #       https://superuser.com/a/970847 - Tmux *should* start a login shell, even though it causes the problem described above.
 
+# Update, July 2024:
+#       Just realizing that, by default on MacOS, for its integrated terminal VSCode starts login shells, and 
+#       under certain circumstances, this results in the Conda/Mamba PATHs ending up at the end of $PATH.
+#       Just realizing that this workaround file, while originally designed to deal with tmux, ALSO successfully
+#       deals with VSCode's integrated terminal problem. Yay.
+
 
 # Looks like we maybe need to source /etc/environment first (which is apparently how rayfin sets up PATH??)
 PATH="/bin:/usr/bin"
