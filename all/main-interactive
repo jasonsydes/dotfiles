@@ -1,0 +1,8 @@
+# your default editor
+export EDITOR='vim'
+
+# Load alias files.
+for f in $DOTFILES/*/aliases ; do source "$f"; done
+
+# Load interactive-specific files.
+for f in $DOTFILES/*/interactive ; do source "$f" ; done

@@ -1,0 +1,21 @@
+## Taken from http://harts.net/reece/setup/bashrc, Thanks!
+# This is my attempt to create order from chaos in platform naming
+# All info is derived from uname and lowercased.  OS patchlevel is truncated.
+export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
+export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export PLATFORM="$MACHINE-$OS-$OSVERSION"
+
+# Load path files.
+for f in $DOTFILES/*/path ; do source "$f" ; done
+export PATH
+
+# Load host misc files.
+for f in $DOTFILES/*/misc ; do source "$f" ; done
+
+# Load cargo / rust stuff
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+[ -f ~/.localrc ] && source ~/.localrc
