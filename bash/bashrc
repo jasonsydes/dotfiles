@@ -28,3 +28,15 @@ source $DOTFILES/conda/setup_bash
 
 # Lando
 export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}"; #landopath
+
+# Prompt.
+# Yes, inside bashrc (non-interactive), not bash_profile (interactive).
+# For whatever reason, 'sudo bash' won't load bash_profile, only bashrc.
+# All of these incantations do *not* work:
+#       sudo bash
+#       sudo -E bash
+#       sudo -i bash  (i.e., sudo --login bash)
+# But putting the prompt here in bashrc *does* work, so that's what I'll do. 🤷
+# And, noted, putting it here doesn't seem to interfere with scp. 
+eval "$(starship init bash)"
+
