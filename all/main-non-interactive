@@ -7,11 +7,11 @@ export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdef
 export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Load path files.
-for f in $DOTFILES/*/path ; do source "$f" ; done
+for f in $DOTFILES/*/path $DOTFILES/*/*/path ; do source "$f" ; done
 export PATH
 
 # Load host misc files.
-for f in $DOTFILES/*/misc ; do source "$f" ; done
+for f in $DOTFILES/*/misc $DOTFILES/*/*/misc ; do source "$f" ; done
 
 # Load cargo / rust stuff
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"

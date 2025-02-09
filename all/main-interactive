@@ -2,7 +2,7 @@
 export EDITOR='vim'
 
 # Load alias files.
-for f in $DOTFILES/*/aliases ; do source "$f"; done
+for f in $DOTFILES/*/aliases $DOTFILES/*/*/aliases ; do source "$f"; done
 
 # Load interactive-specific files.
-for f in $DOTFILES/*/interactive ; do source "$f" ; done
+for f in $DOTFILES/*/interactive $DOTFILES/*/*/interactive ; do source "$f" ; done
