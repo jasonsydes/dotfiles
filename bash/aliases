@@ -7,6 +7,10 @@ darwin)
 ;;
 esac
 
+# standard 'll' (because broke my arm and tired of typing 'ls -al' one-handed)
+alias ll="ls -al"
+alias lll="ls -ald"
+
 # Show both the head and tail of something.
 # For "long" running commands, like "ls -alrt" or "sort", it's nice to be able to
 # see both the head and tail, but not have to run the command twice to do so, eg
