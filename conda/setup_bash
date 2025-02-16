@@ -29,6 +29,31 @@ case $OS in
 
         case $HOSTNAME in 
 
+            longreads)
+                case $USER in
+                    sydes|root)
+                        # >>> conda initialize >>>
+                        # !! Contents within this block are managed by 'conda init' !!
+                        __conda_setup="$('/home/sydes/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+                        if [ $? -eq 0 ]; then
+                            eval "$__conda_setup"
+                        else
+                            if [ -f "/home/sydes/miniforge3/etc/profile.d/conda.sh" ]; then
+                                . "/home/sydes/miniforge3/etc/profile.d/conda.sh"
+                            else
+                                export PATH="/home/sydes/miniforge3/bin:$PATH"
+                            fi
+                        fi
+                        unset __conda_setup
+
+                        if [ -f "/home/sydes/miniforge3/etc/profile.d/mamba.sh" ]; then
+                            . "/home/sydes/miniforge3/etc/profile.d/mamba.sh"
+                        fi
+                        # <<< conda initialize <<<
+                    ;;
+                esac
+            ;;
+
             longreads-old)
                 case $USER in
                     sydes|root)
@@ -54,7 +79,8 @@ case $OS in
                 esac
             ;;
 
-            longreads|Prometheus|doug-Z97M-DS3H)
+            #longreads|Prometheus|doug-Z97M-DS3H)
+            Prometheus|doug-Z97M-DS3H)
                 case $USER in
                     sydes|root)
                         # >>> conda initialize >>>
