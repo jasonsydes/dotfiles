@@ -1,0 +1,2 @@
+# from their docs:
+eval "$(zoxide init bash)"
