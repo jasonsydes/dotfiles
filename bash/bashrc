@@ -21,10 +21,12 @@ source $DOTFILES/bash/settings
 # Load source files.
 for f in $DOTFILES/*/source ; do source "$f" ; done
 
-# THE LAST ITEM BELOW.
+# THE LAST ITEMS BELOW.
 #
 # Miniconda 3 - This should be the LAST item in your bash_proile.
 source $DOTFILES/conda/setup_bash
+# Nix
+source $DOTFILES/nix/setup_bash
 
 # Lando
 export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}"; #landopath

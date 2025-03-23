@@ -1,0 +1,18 @@
+## multi-user nix setup
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+# Jason-specific: Add Nix directly PATH 
+# (I think my .dotfiles setup starts PATH from scratch, so have to manually do this here).
+  export PATH="/nix/var/nix/profiles/default/bin:$PATH"
+  # Not sure why MANPATH wasn't setup correctly.
+  export MANPATH="$MANPATH::/nix/var/nix/profiles/default/share/man"
+fi
+# End Nix
+
+## Nix basics
+# Jason-specific: Add Nix directly PATH 
+# (I think my .dotfiles setup starts PATH from scratch, so have to manually do this here).
+export PATH="$HOME/.local/state/nix/profile/bin:$PATH"
+# Not sure why MANPATH wasn't setup correctly.
+export MANPATH="$MANPATH:$HOME/.local/state/nix/profile/share/man"
