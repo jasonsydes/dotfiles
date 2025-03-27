@@ -1,10 +1,16 @@
 channels:
   - conda-forge
   - bioconda
-  - defaults
 auto_activate_base: true
 # Definitely want "strict" here.
 channel_priority: strict
-# Not sure if this is needed if you've installed Miniforge.
-solver: libmamba
+## # Not sure if this is needed if you've installed Miniforge.
+## solver: libmamba
+
+create_default_packages:
+  # Always install neovim.
+  #   Must use conda (instead of, say, homebrew) because neovim needs to 
+  #   use the same python and python packages used by our project (otherwise
+  #   can't do things like debugging in neovim properly).
+  - nvim
 
