@@ -1,6 +1,9 @@
 # your default editor
 export EDITOR='vim'
 
+# https://stackoverflow.com/questions/37209913/how-does-alias-sudo-sudo-work
+alias sudo='sudo '
+
 # Load alias files.
 for f in $DOTFILES/*/aliases $DOTFILES/*/*/aliases ; do source "$f"; done
 
