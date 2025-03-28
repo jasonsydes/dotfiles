@@ -7,6 +7,9 @@ darwin)
 ;;
 esac
 
+# color ls
+alias ls="ls --color"
+
 # standard 'll' (because broke my arm and tired of typing 'ls -al' one-handed)
 alias ll="ls -al"
 alias lll="ls -ald"
