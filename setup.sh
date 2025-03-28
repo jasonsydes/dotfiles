@@ -6,13 +6,13 @@
 #
 # This file is just my rough notes on how I setup my dotfiles from this repository.
 # In short, I effectively did this:
-        cd $HOME
-        git clone https://github.com/jasonsydes/dotfiles .dotfiles
+cd $HOME
+git clone https://github.com/jasonsydes/dotfiles .dotfiles
 # Then I made a bunch of symlinks into ~/.dotfiles/, like so:
-        cd $HOME
-        ln -s .dotfiles/bash/bash_profile .bash_profile
-        ln -s .dotfiles/bash/bashrc .bashrc
-        ln -s .dotfiles/vim/vimrc .vimrc
+cd $HOME
+ln -s .dotfiles/bash/bash_profile .bash_profile
+ln -s .dotfiles/bash/bashrc .bashrc
+ln -s .dotfiles/vim/vimrc .vimrc
 
 # Rough notes below.
 # Likely incredibly incomplete.
@@ -22,7 +22,7 @@ cd $HOME
 mkdir ~/.config
 
 ## initial symlinks
-ln -s .dotfiles/bash/bash_profile .bash_profile 
+ln -s .dotfiles/bash/bash_profile .bash_profile
 ln -s .dotfiles/bash/bashrc .bashrc
 ln -s .dotfiles/inputrc .inputrc
 ln -s .dotfiles/tmux/tmux.conf .tmux.conf
@@ -38,7 +38,7 @@ vim ~/.bashrc ~/.dotfiles/conda/setup
 ln -s .dotfiles/conda/condarc .condarc
 
 ## Starship prompt
-# Just download a raw binary from https://github.com/starship/starship/releases, and install it in ~/bin/ 
+# Just download a raw binary from https://github.com/starship/starship/releases, and install it in ~/bin/
 ln -s ~/.dotfiles/starship/starship.toml .config/starship.toml
 
 ## vim & tmux
@@ -53,7 +53,18 @@ ln -s .dotfiles/terminal/alacritty.yml ~/.alacritty.yml
 
 # Currently my symlinks look like this:
 
-.bash_profile -> .dotfiles/bash/bash_profile
-.bashrc -> .dotfiles/bash/bashrc
-.inputrc -> /Users/sydes/.dotfiles/inputrc
-.tmux.conf -> .dotfiles/tmux/tmux.conf
+.bash_profile - >.dotfiles/bash/bash_profile
+.bashrc - >.dotfiles/bash/bashrc
+.inputrc - >/Users/sydes/.dotfiles/inputrc
+.tmux.conf - >.dotfiles/tmux/tmux.conf
+
+#####
+
+## Install ##
+
+# Install cargo + rust
+
+# Install homebrew
+
+# Install homebrew packages
+brew install ast-grep fd fzf ripgrep npm go wget lazygit javac
