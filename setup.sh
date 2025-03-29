@@ -68,3 +68,9 @@ ln -s .dotfiles/terminal/alacritty.yml ~/.alacritty.yml
 
 # Install homebrew packages
 brew install ast-grep fd fzf ripgrep npm go wget lazygit javac
+
+# Install kanata and friends.
+# For Mac this is not the easiest / documentation isn't exactly the best.
+# Wrote a note about it here;
+# https://github.com/jtroo/kanata/issues/1264#issuecomment-2763085239
+# See .dotfiles/kanata/setup-kanata.txt
