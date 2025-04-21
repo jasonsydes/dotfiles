@@ -1,0 +1,31 @@
+(defcfg
+  ;; For macOS
+  macos-dev-names-include "Apple Internal Keyboard / Trackpad"
+)
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lalt lmet           spc            rmet ralt rctl
+)
+
+;; Define tap-hold configuration
+(defvar tap-timeout 200)
+(defvar hold-timeout 200)
+
+;; Define tap-hold for F and J keys
+(defalias
+  sf (tap-hold-press $tap-timeout $hold-timeout f lsft)
+  sj (tap-hold-press $tap-timeout $hold-timeout j rsft)
+)
+
+(deflayer default
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  esc  a    s    d    @sf   g    h    @sj   k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lalt lmet           spc            rmet ralt rctl
+)

@@ -1,0 +1,26 @@
+(defsrc ralt a b c lsft spc)
+(deflayer default
+  lrld @cha @chb @chc @lsft @spc
+)
+
+(defalias
+  ;; cha (chord example a)
+  ;; chb (chord example b)
+  ;; chc (chord example c)
+  cha a 
+  chb b 
+  chc c 
+  lsft (chord example lsft)
+  spc (chord example spc)
+)
+
+(defchords example 2000
+  ;; (a) a
+  ;; (b) b
+  ;; (c) c
+  ;; (a     c) S-M-v
+
+  (lsft) lsft
+  (spc) spc
+  (lsft spc) (macro a a a)
+)
