@@ -3,6 +3,7 @@
     path = ~/.dotfiles/git/git-aliases
 [core]
 	editor = vim
+	excludesfile = /Users/sydes/.dotfiles/git/gitignore-global
 [user]
 	name = Jason Sydes
 [color]
