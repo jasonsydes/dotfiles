@@ -63,7 +63,7 @@ brew install starship
 brew install neovim tmux
 
 ## Brew Install some great tools
-brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree
+brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs
 
 ## Install cargo
 curl https://sh.rustup.rs -sSf | sh
