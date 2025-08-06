@@ -1,0 +1,6 @@
+# Make a copy of this file, stick it at ~/.gitconfig-local, and put
+# your 'sensitive' data in it (e.g., your email address), so that it
+# doesn't get published on github.
+[user]
+	name = Your Full Name
+	email = me@my-email.com

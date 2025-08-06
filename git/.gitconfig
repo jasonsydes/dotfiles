@@ -1,0 +1,16 @@
+[include]
+    path = ~/.gitconfig-local
+    path = ~/.dotfiles/git/git-aliases
+[core]
+	editor = vim
+[user]
+	name = Jason Sydes
+[color]
+	ui = true
+[credential]
+	helper = manager
+	credentialStore = cache
+	cacheOptions = --timeout 259200
+[log]
+  # All timestamps appear in my local timezone, no matter where they were made.
+	date = local
