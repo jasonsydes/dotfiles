@@ -29,7 +29,13 @@ source $DOTFILES/conda/setup_bash
 source $DOTFILES/nix/setup_bash
 
 # Lando
-export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}"; #landopath
+export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}" #landopath
+
+# Atuin
+source "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash --disable-up-arrow)"
 
 # Prompt.
 # Yes, inside bashrc (non-interactive), not bash_profile (interactive).

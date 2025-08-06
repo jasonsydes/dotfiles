@@ -3,7 +3,7 @@
 if [[ $HOSTNAME =~ longreads ]]; then
     # Give me a readout summary on storage space consumed.
     echo
-    df -h /storageGC3F/ /JBOD /JBOD3
+    df -h /storageGC3F/ /JBOD /JBOD3 /scratch
     echo
 
     # It's about time.
