@@ -1,0 +1,13 @@
+
+# URL yank UI via fzf
+# via https://github.com/wfxr/tmux-fzf-url
+<prefix> u
+
+# Use FZF for a bunch of things
+# via https://github.com/sainnhe/tmux-fzf
+<prefix> F
+
+# vimium-like tmux
+# Consider configuring it to use pbcopy on mac and xclip on linux, see this:
+#     https://github.com/fcsonline/tmux-thumbs?tab=readme-ov-file#thumbs-command
+<prefix> <space>

@@ -1,0 +1,28 @@
+(defsrc ralt lsft rsft spc)
+
+(deflayer default
+  ;; lrld is just live reload if you hit ralt
+  lrld @lsft @rsft @spc
+)
+
+(defalias lsft
+  (switch
+    ((and spc)) l break
+    () lsft break
+  )
+)
+
+(defalias rsft
+  (switch
+    ((and spc)) r break
+    () rsft break
+  )
+)
+
+(defalias spc
+  (switch
+    ((and lsft)) l break
+    ((and rsft)) r break
+    () spc break
+  )
+)

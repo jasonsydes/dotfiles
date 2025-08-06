@@ -1,0 +1,18 @@
+(defsrc ralt)
+(deflayer default lrld)
+
+(defcfg 
+  concurrent-tap-hold yes
+  process-unmapped-keys yes
+  sequence-input-mode visible-backspaced
+)
+(defchordsv2
+  (lsft spc) (macro l l l) 100 first-release ()
+  (rsft spc) (macro r r r) 100 all-released ()
+)
+
+#|
+In general, all the keys work, and this would be a good solution.
+
+I tend to not really like the fact that 'space' is "sent" on space-release rather than space-press.
+|#

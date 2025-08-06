@@ -1,0 +1,64 @@
+# Install kanata and friends.
+# For Mac this is not the easiest / documentation isn't exactly the best.
+# Wrote a note about it here:
+#   https://github.com/jtroo/kanata/issues/1264#issuecomment-2763085239
+
+# Install kanata, brew or cargo will work, just choose one:
+brew install kanata
+cargo install kanata
+
+# Install Karabiner-elements.
+# Not sure if the order matters (i.e., Karabiner-elements then kanata, or kanata then Karabiner-Elements)
+
+# The carefully setup Karabiner Elements. See the text below, or visit this
+# link (both are the same): 
+https://github.com/jtroo/kanata/issues/1264#issuecomment-2763085239
+
+cat << EOF
+
+I had a similar experience to @Alounv . I almost gave up trying to make Kanata work after spending a few hours on it with many reboots. I'm leaving this here for anyone else struggling to get it to work, and as a note to future me. Happy that I got it working in the end, very excited to play with Kanata!
+ 
+ My system:
+ 
+ MacOS Sequoia 15.3.2
+ Macbook Pro (2022, Mac14,7).
+ 
+ How I got it to work (as best as I can remember):
+ 
+ Don't install the Karabiner VirtualHiDDevice Driver suggested by the README on https://github.com/jtroo/kanata. If you did, uninstall / deactivate it:
+ 
+ ❯ sudo /Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager deactivate
+ 
+ Maybe reboot to be safe.
+ 
+ Install the full Karabiner Elements (Karabiner-Elements-15.3.0.dmg), and carefully follow all of the prompts within Karabiner to make changes in the MacOS System Settings, which included, if I remember correctly, the following:
+ 
+ Login Items & Extensions > Karabiner-Elements Non-Privileged Agents (enable)
+ 
+ Login Items & Extensions > Karabiner-Elements Privileged Daemons (enable)
+ 
+ Login Items & Extensions > Driver Extensions > .Karabiner-VirtualHIDDevice-Manager (enable)
+ 
+ And not sure if all of these are required, but somewhere along the way I enabled these:
+ Privacy & Security > Input Monitoring, enable for:
+ 
+ iTerm
+ karabiner_grabber
+ Karabiner-Elements
+ Karabiner-EventViewer
+ Terminal
+ Then, importantly, QUIT Karabiner the app, AND, importantly, find and quit the Karabiner running in the MacOS menu bar (at the top of the screen). IF you don't do this, then Kanata will complain that something else is using the keyboard, and won't work.
+ 
+ Possibly / Probably reboot again.
+ 
+ THEN try running Kanata like so:
+ 
+ sudo kanata --cfg your-config.kbd
+ 
+ For me, the executables from cargo install kanata as well as the ones hosted @ https://github.com/jtroo/kanata/releases all worked. Didn't test homebrew kanata.
+ 
+ Side note: In MacOS Settings > Privacy & Security > Security, I noted that my laptop has "Allow applications from" grayed out and force selected on "App Store & Known Developers", with a warning "This setting has been configured by a profile" (I think this is probably my workplace limiting my configuration choices). I don't know if this limitation affects the situation (e.g., would the Karabiner VirtualHiDDevice Driver have worked for laptops unencumbered by this gray-out? I don't know...)
+ 
+ Thank you for making Kanata @jtroo and contributors, it looks like a beautiful work of software.
+
+EOF
