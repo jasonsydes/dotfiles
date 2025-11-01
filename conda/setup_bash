@@ -1,13 +1,29 @@
-# Setup conda correctly depending upon which system we're on.
+case $HOSTNAME in 
 
-case $OS in
+    # Systems still using mambaforge
+    Prometheus|doug-Z97M-DS3H)
 
-    darwin)
+        # >>> conda initialize >>>
+        # !! Contents within this block are managed by 'conda init' !!
+        __conda_setup="$($HOME/mambaforge/bin/conda shell.bash hook 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__conda_setup"
+        else
+            if [ -f "$HOME/mambaforge/etc/profile.d/conda.sh" ]; then
+                . "$HOME/mambaforge/etc/profile.d/conda.sh"
+            else
+                export PATH="$HOME/mambaforge/bin:$PATH"
+            fi
+        fi
+        unset __conda_setup
 
-	# This generalized version works on Mac. Try it on linux etc.
-	# This generalized version works on Mac. Try it on linux etc.
-	# This generalized version works on Mac. Try it on linux etc.
-	# This generalized version works on Mac. Try it on linux etc.
+        if [ -f "$HOME/mambaforge/etc/profile.d/mamba.sh" ]; then
+            . "$HOME/mambaforge/etc/profile.d/mamba.sh"
+        fi
+        # <<< conda initialize <<<
+    ;;
+    *)
+        # Modern generalized miniforge3 version in use most places.
 
         # >>> conda initialize >>>
         # !! Contents within this block are managed by 'conda init' !!
@@ -22,202 +38,269 @@ case $OS in
             fi
         fi
         unset __conda_setup
-        
-        if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
-            . "$HOME/miniforge3/etc/profile.d/mamba.sh"
-        fi
         # <<< conda initialize <<<
 
-    ;;
-
-    linux)
-
-        case $HOSTNAME in 
-
-            longreads)
-                case $USER in
-                    sydes|root)
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/sydes/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/sydes/miniforge3/etc/profile.d/conda.sh" ]; then
-                                . "/home/sydes/miniforge3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/sydes/miniforge3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-
-                        if [ -f "/home/sydes/miniforge3/etc/profile.d/mamba.sh" ]; then
-                            . "/home/sydes/miniforge3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                esac
-            ;;
-
-            longreads-old)
-                case $USER in
-                    sydes|root)
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/sydes/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/sydes/miniforge3/etc/profile.d/conda.sh" ]; then
-                                . "/home/sydes/miniforge3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/sydes/miniforge3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-                        
-                        if [ -f "/home/sydes/miniforge3/etc/profile.d/mamba.sh" ]; then
-                            . "/home/sydes/miniforge3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                esac
-            ;;
-
-            #longreads|Prometheus|doug-Z97M-DS3H)
-            Prometheus|doug-Z97M-DS3H)
-                case $USER in
-                    sydes|root)
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/sydes/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/sydes/mambaforge/etc/profile.d/conda.sh" ]; then
-                                . "/home/sydes/mambaforge/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/sydes/mambaforge/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-
-                        if [ -f "/home/sydes/mambaforge/etc/profile.d/mamba.sh" ]; then
-                            . "/home/sydes/mambaforge/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                esac
-            ;;
+        # >>> mamba initialize >>>
+        # !! Contents within this block are managed by 'mamba shell init' !!
+        export MAMBA_EXE="$HOME/miniforge3/bin/mamba";
+        export MAMBA_ROOT_PREFIX="$HOME/miniforge3";
+        __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__mamba_setup"
+        else
+            alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+        fi
+        unset __mamba_setup
+        # <<< mamba initialize <<<
 
 
-            ## Talapas - Cheating and using a wildcard to match for Talapas (because hostname varies on talapas, e.g. login1.talapas vs login2.talapas, etc).
-            *)
-                case $USER in
-                    sydes)
 
-                        # Note: The following was autogenerated during mambaforge setup, then modified to point to "/home" instead of "/JBOD"
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/sydes/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/sydes/miniconda3/etc/profile.d/conda.sh" ]; then
-                                . "/home/sydes/miniconda3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/sydes/miniconda3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-
-                        if [ -f "/home/sydes/miniconda3/etc/profile.d/mamba.sh" ]; then
-                            . "/home/sydes/miniconda3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                    is-svc-racs-gc3f)
-                        # Note: The following was autogenerated during miniconda3 setup.
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/projects/gc3f/is-svc-racs-gc3f/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/conda.sh" ]; then
-                                . "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/projects/gc3f/is-svc-racs-gc3f/miniforge3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-
-                        if [ -f "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/mamba.sh" ]; then
-                            . "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                    gc3f-usr)
-                        # Note: The following was autogenerated during miniconda3 setup.
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/gc3f-usr/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/gc3f-usr/miniconda3/etc/profile.d/conda.sh" ]; then
-                                . "/home/gc3f-usr/miniconda3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/gc3f-usr/miniconda3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-                        # mamba init generated this part:
-                        if [ -f "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh" ]; then
-                            . "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                    gc3f)
-                        # Note: The following was autogenerated during miniconda3 setup.
-                        # >>> conda initialize >>>
-                        # !! Contents within this block are managed by 'conda init' !!
-                        __conda_setup="$('/home/gc3f/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-                        if [ $? -eq 0 ]; then
-                            eval "$__conda_setup"
-                        else
-                            if [ -f "/home/gc3f/miniforge3/etc/profile.d/conda.sh" ]; then
-                                . "/home/gc3f/miniforge3/etc/profile.d/conda.sh"
-                            else
-                                export PATH="/home/gc3f/miniforge3/bin:$PATH"
-                            fi
-                        fi
-                        unset __conda_setup
-                        
-                        if [ -f "/home/gc3f/miniforge3/etc/profile.d/mamba.sh" ]; then
-                            . "/home/gc3f/miniforge3/etc/profile.d/mamba.sh"
-                        fi
-                        # <<< conda initialize <<<
-                    ;;
-                    *)
-                        # USER=unknown
-                        # 
-                        # Huh, unknown user here.
-                        # noop
-                        :
-                    ;;
-                esac
-            ;;
-        esac
     ;;
 esac
 
 # Lame that conda does not export.
 # Make this function available to scripts.
+# Updated 251101
 export -f conda
-export -f __conda_exe
 export -f __conda_activate
+export -f __conda_exe
 export -f __conda_hashr
-export -f __conda_reactivate
+# export -f __conda_reactivate
 export -f mamba
+export -f __mamba_wrap
+export -f __mamba_xctivate
 export -f __mamba_exe
+export -f __mamba_hashr
+
+
+
+
+
+
+### #######################
+### # OLDER VERSION BELOW #
+### #######################
+### 
+### # Setup conda correctly depending upon which system we're on.
+### 
+### case $OS in
+### 
+###     darwin)
+### 
+### 	# This generalized version works on Mac. Try it on linux etc.
+### 	# This generalized version works on Mac. Try it on linux etc.
+### 	# This generalized version works on Mac. Try it on linux etc.
+### 	# This generalized version works on Mac. Try it on linux etc.
+### 
+###         # >>> conda initialize >>>
+###         # !! Contents within this block are managed by 'conda init' !!
+###         __conda_setup="$($HOME/miniforge3/bin/conda shell.bash hook 2> /dev/null)"
+###         if [ $? -eq 0 ]; then
+###             eval "$__conda_setup"
+###         else
+###             if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+###                 . "$HOME/miniforge3/etc/profile.d/conda.sh"
+###             else
+###                 export PATH="$HOME/miniforge3/bin:$PATH"
+###             fi
+###         fi
+###         unset __conda_setup
+###         
+###         if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
+###             . "$HOME/miniforge3/etc/profile.d/mamba.sh"
+###         fi
+###         # <<< conda initialize <<<
+### 
+###     ;;
+### 
+###     linux)
+### 
+###         case $HOSTNAME in 
+### 
+###             longreads)
+###                 case $USER in
+###                     sydes|root)
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/sydes/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/sydes/miniforge3/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/sydes/miniforge3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/sydes/miniforge3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+### 
+###                         if [ -f "/home/sydes/miniforge3/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/sydes/miniforge3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                 esac
+###             ;;
+### 
+###             longreads-old)
+###                 case $USER in
+###                     sydes|root)
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/sydes/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/sydes/miniforge3/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/sydes/miniforge3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/sydes/miniforge3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+###                         
+###                         if [ -f "/home/sydes/miniforge3/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/sydes/miniforge3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                 esac
+###             ;;
+### 
+###             #longreads|Prometheus|doug-Z97M-DS3H)
+###             Prometheus|doug-Z97M-DS3H)
+###                 case $USER in
+###                     sydes|root)
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/sydes/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/sydes/mambaforge/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/sydes/mambaforge/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/sydes/mambaforge/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+### 
+###                         if [ -f "/home/sydes/mambaforge/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/sydes/mambaforge/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                 esac
+###             ;;
+### 
+### 
+###             ## Talapas - Cheating and using a wildcard to match for Talapas (because hostname varies on talapas, e.g. login1.talapas vs login2.talapas, etc).
+###             *)
+###                 case $USER in
+###                     sydes)
+### 
+###                         # Note: The following was autogenerated during mambaforge setup, then modified to point to "/home" instead of "/JBOD"
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/sydes/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/sydes/miniconda3/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/sydes/miniconda3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/sydes/miniconda3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+### 
+###                         if [ -f "/home/sydes/miniconda3/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/sydes/miniconda3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                     is-svc-racs-gc3f)
+###                         # Note: The following was autogenerated during miniconda3 setup.
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/projects/gc3f/is-svc-racs-gc3f/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/conda.sh" ]; then
+###                                 . "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/projects/gc3f/is-svc-racs-gc3f/miniforge3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+### 
+###                         if [ -f "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/mamba.sh" ]; then
+###                             . "/projects/gc3f/is-svc-racs-gc3f/miniforge3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                     gc3f-usr)
+###                         # Note: The following was autogenerated during miniconda3 setup.
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/gc3f-usr/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/gc3f-usr/miniconda3/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/gc3f-usr/miniconda3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/gc3f-usr/miniconda3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+###                         # mamba init generated this part:
+###                         if [ -f "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/gc3f-usr/miniconda3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                     gc3f)
+###                         # Note: The following was autogenerated during miniconda3 setup.
+###                         # >>> conda initialize >>>
+###                         # !! Contents within this block are managed by 'conda init' !!
+###                         __conda_setup="$('/home/gc3f/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###                         if [ $? -eq 0 ]; then
+###                             eval "$__conda_setup"
+###                         else
+###                             if [ -f "/home/gc3f/miniforge3/etc/profile.d/conda.sh" ]; then
+###                                 . "/home/gc3f/miniforge3/etc/profile.d/conda.sh"
+###                             else
+###                                 export PATH="/home/gc3f/miniforge3/bin:$PATH"
+###                             fi
+###                         fi
+###                         unset __conda_setup
+###                         
+###                         if [ -f "/home/gc3f/miniforge3/etc/profile.d/mamba.sh" ]; then
+###                             . "/home/gc3f/miniforge3/etc/profile.d/mamba.sh"
+###                         fi
+###                         # <<< conda initialize <<<
+###                     ;;
+###                     *)
+###                         # USER=unknown
+###                         # 
+###                         # Huh, unknown user here.
+###                         # noop
+###                         :
+###                     ;;
+###                 esac
+###             ;;
+###         esac
+###     ;;
+### esac
+### 
+### # Lame that conda does not export.
+### # Make this function available to scripts.
+### export -f conda
+### export -f __conda_exe
+### export -f __conda_activate
+### export -f __conda_hashr
+### export -f __conda_reactivate
+### export -f mamba
+### export -f __mamba_exe
