@@ -59,11 +59,14 @@ TODO: starship.toml not in ~/.dotfiles??
 brew install wget
 brew install starship
 
+# To enable flock with safe bash_history appending.
+brew install flock
+
 ## Brew Install some bigger stuff
 brew install neovim tmux
 
 ## Brew Install some great tools
-brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs
+brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs bat
 
 ## Install cargo
 curl https://sh.rustup.rs -sSf | sh
