@@ -50,8 +50,25 @@ HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 
 #       In other words, just what do you spend so much time typing? Here’s the money:
 #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
 #       needs to be aliased to a one or two letter shorthand.
+
 # Append to history after every command (instead of waiting until logout).
-PROMPT_COMMAND="history -a; history -c; history -r"
+#       ORIGINAL: Append to history after every command (instead of waiting until logout).
+#       ORIGINAL: PROMPT_COMMAND="history -a; history -c; history -r"
+# Better: Safe history update with file locking to prevent race conditions.
+# Maybe important when using nested SSH sessions (e.g., rstudio on talapas apptainer via double ssh port forwarding)
+# In general, my ~/.bash_history was getting occassionally wiped during "ORIGINAL" as shown above.
+# Approach below maybe ensures no more wiping; at worst we'll lose a given bash session's history (if flock not acquired).
+# Step 1: Parentheses create subshell (hence, the 'exit 1' exits the subshell, not our main bash shell).
+PROMPT_COMMAND='( 
+  # Step 2: fd 9 is already open to ~/.bash_history.lock (see last line) (fd 9 is arbitrary choice of fds 3-9).
+  # Step 3: flock tries to get exclusive lock on fd 9.
+  flock -n 9 || exit 1
+  history -a        # Append the ``new'' history lines to the history file (those entered since the beginning of the current bash session)
+  history -c        # Clear the history list by deleting all the entries.
+  history -r        # Read the contents of the history file and append them to the current history list.
+) 9>~/.bash_history.lock || true'  # Step 0: This redirect happens BEFORE the subshell runs.
+
+
 # }}}
 # Infinite history - PREVIOUSLY {{{  ---------------------------------------------------
 ## History
