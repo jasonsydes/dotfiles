@@ -5,7 +5,7 @@ export DOTFILES="$HOME/.dotfiles"
 
 # /etc/profile workaround - MUST BE (NEARLY) THE FIRST LINE IN THIS FILE!
 if [ -f $DOTFILES/etc_profile_workaround ]; then
-    source $DOTFILES/etc_profile_workaround
+  source $DOTFILES/etc_profile_workaround
 fi
 
 # Never put anything in your bashrc that you don't understand.
@@ -19,7 +19,7 @@ source $DOTFILES/all/main-non-interactive
 source $DOTFILES/bash/settings
 
 # Load source files.
-for f in $DOTFILES/*/source ; do source "$f" ; done
+for f in $DOTFILES/*/source; do source "$f"; done
 
 # THE LAST ITEMS BELOW.
 #
@@ -29,7 +29,7 @@ source $DOTFILES/conda/setup_bash
 source $DOTFILES/nix/setup_bash
 
 # Lando
-export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}" #landopath
+export PATH="/home/sydes/.lando/bin:$PATH" #landopath
 
 # Hrm, 251102 - Maybe atuin being here and Starship and colliding. Disabling this block results in starship working again. Moving atuin AFTER starship.
 #### # Atuin
@@ -46,7 +46,7 @@ export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}" #landopath
 #       sudo -E bash
 #       sudo -i bash  (i.e., sudo --login bash)
 # But putting the prompt here in bashrc *does* work, so that's what I'll do. 🤷
-# And, noted, putting it here doesn't seem to interfere with scp. 
+# And, noted, putting it here doesn't seem to interfere with scp.
 eval "$(starship init bash)"
 
 # Hrm, 251102 - Maybe atuin BEFORE starship causes them to collide. Moving atuin AFTER starship.
