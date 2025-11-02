@@ -31,11 +31,12 @@ source $DOTFILES/nix/setup_bash
 # Lando
 export PATH="/Users/sydes/.lando/bin${PATH+:$PATH}" #landopath
 
-# Atuin
-source "$HOME/.atuin/bin/env"
-
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash --disable-up-arrow)"
+# Hrm, 251102 - Maybe atuin being here and Starship and colliding. Disabling this block results in starship working again. Moving atuin AFTER starship.
+#### # Atuin
+#### source "$HOME/.atuin/bin/env"
+#### 
+#### [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+#### eval "$(atuin init bash --disable-up-arrow)"
 
 # Prompt.
 # Yes, inside bashrc (non-interactive), not bash_profile (interactive).
@@ -48,3 +49,9 @@ eval "$(atuin init bash --disable-up-arrow)"
 # And, noted, putting it here doesn't seem to interfere with scp. 
 eval "$(starship init bash)"
 
+# Hrm, 251102 - Maybe atuin BEFORE starship causes them to collide. Moving atuin AFTER starship.
+# Atuin
+source "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash --disable-up-arrow)"
