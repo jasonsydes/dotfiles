@@ -2,16 +2,20 @@
     path = ~/.gitconfig-local
     path = ~/.dotfiles/git/git-aliases
 [core]
-	editor = vim
-	excludesfile = /Users/sydes/.dotfiles/git/gitignore-global
+    editor = vim
+    excludesfile = ~/.dotfiles/git/gitignore-global
 [user]
-	name = Jason Sydes
+    name = Jason Sydes
 [color]
-	ui = true
-[credential]
-	helper = manager
-	credentialStore = cache
-	cacheOptions = --timeout 259200
+    ui = true
 [log]
-  # All timestamps appear in my local timezone, no matter where they were made.
-	date = local
+    # All timestamps appear in my local timezone, no matter where they were made.
+    date = local
+
+# Mac-specific settings (hack relying upon /Users only being on Macs)
+[includeIf "gitdir:/Users/"]
+    path = ~/.dotfiles/git/gitconfig-mac
+
+# Linux/WSL-specific settings (hack relying upon /home only being on Linux/WSL)
+[includeIf "gitdir:/home/"]
+    path = ~/.dotfiles/git/gitconfig-linux
