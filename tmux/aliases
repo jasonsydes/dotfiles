@@ -1,1 +1,6 @@
+# Because we switch conda environments frequently, let's just try aliasing
+# 'tmux' to the conda install (so that we don't accidentally start using
+# /bin/tmux instead).
+alias tmux=~/miniforge3/bin/tmux
+# Our handy 'tm' helper.
 alias tm=~/.dotfiles/bin/tmux_new_or_attach.sh

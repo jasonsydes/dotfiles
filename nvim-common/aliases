@@ -1,5 +1,6 @@
 # All roads point towards nvim. Make it hard to not use nvim.
-alias vvim=$HOME/miniconda3/bin/vim
+alias vvim=$HOME/miniforge3/bin/vim
+alias nvim=$HOME/miniforge3/bin/nvim
 alias vim=nvim
 
 # Disabled for now:
