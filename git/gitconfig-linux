@@ -1,4 +1,2 @@
 [credential]
-    helper = manager
-    credentialStore = cache
-    cacheOptions = --timeout 259200
+    helper = cache --timeout=259200
