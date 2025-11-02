@@ -82,15 +82,18 @@ brew install kanata
 #     https://github.com/jtroo/kanata/issues/1264#issuecomment-2763085239
 #     See .dotfiles/kanata/setup-kanata.txt
 
-## "Install" Lazy.vim
-# NEWER (doesn't exist yet):
-git clone https://github.com/jasonsydes/lazyvim-config ~/.config/nvim
-nvim    # Be patient, takes a minute.
-# OLDER:
-    # see https://www.lazyvim.org/installation, but currently:
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
-    rm -rf ~/.config/nvim/.git
-    nvim    # Be patient, takes a minute.
+## Install kickstart vim
+# Confirm NOTHING exists at ~/.config/nvim first:
+ls -ald ~/.config/nvim
+# See also: ~/.dotfiles/nvim/scripts/*.sh 
+git clone https://github.com/jasonsydes/kickstart.nvim ~/.config/nvim
+# Store existing config, if needed:
+~/.dotfiles/nvim/scripts/store-existing-nvim-config.sh kickstart-251102
+# Start nvim, give it a minute or so to install stuff.
+nvim
+# Quit, restart.
+# Optionally, do this to make sure your plugin versions are identical across machines:
+:Lazy restore
 
 ## Setup
 
