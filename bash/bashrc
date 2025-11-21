@@ -3,6 +3,11 @@
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
 
+# Let's set infinite history and PROMPT_COMMAND immediately
+# (perhaps this will stop the endemic history truncation)
+# 251121
+source $DOTFILES/bash/history_and_prompt_command
+
 # /etc/profile workaround - MUST BE (NEARLY) THE FIRST LINE IN THIS FILE!
 if [ -f $DOTFILES/etc_profile_workaround ]; then
   source $DOTFILES/etc_profile_workaround

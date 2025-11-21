@@ -30,59 +30,65 @@ sunos)
 ;;
 esac
 # }}}
-# Infinite history {{{  ---------------------------------------------------
-## History
-# I've been having the problem (for several years now) where my bash_history
-# somehow gets overwritten. Then I have to restore it, I have to keep backups...
-# I hate it! My previous setup is just below here (see "Infinite history - PREVIOUSLY" below).
-# So, maybe if I goose some settings here, that phenotype will disappear. Crossing fingers.
-# See also https://unix.stackexchange.com/a/48113
-#
-shopt -s histappend                 # append to history, don't overwrite it
-HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
-HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
-# HISTCONTROL=ignoreboth            # ignores lines with repeated entries, but then you can't do this:
-#       cut -f1 -d" " .bash_history | sort | uniq -c | sort -nr | head -n 30
-#       In other words, just what do you spend so much time typing? Here’s the money:
-#       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
-#       needs to be aliased to a one or two letter shorthand.
-# }}}
-# Bash History Syncing {{{  ---------------------------------------------------
-# Append to history after every command (instead of waiting until logout).
-#       ORIGINAL: Append to history after every command (instead of waiting until logout).
-#       ORIGINAL: PROMPT_COMMAND="history -a; history -c; history -r"
-# Better: Safe history update with file locking to prevent race conditions.
-# Maybe important when using nested SSH sessions (e.g., rstudio on talapas apptainer via double ssh port forwarding)
-# In general, my ~/.bash_history was getting occassionally wiped during "ORIGINAL" as shown above.
-#       INTERMEDIARY: Approach below maybe ensures no more wiping; at worst we'll lose a given bash session's history (if flock not acquired).
-#       INTERMEDIARY: Step 1: Parentheses create subshell (hence, the 'exit 1' exits the subshell, not our main bash shell).
-#       INTERMEDIARY: PROMPT_COMMAND='( 
-#       INTERMEDIARY:   # Step 2: fd 9 is already open to ~/.bash_history.lock (see last line) (fd 9 is arbitrary choice of fds 3-9).
-#       INTERMEDIARY:   # Step 3: flock tries to get exclusive lock on fd 9.
-#       INTERMEDIARY:   flock -n 9 || exit 1
-#       INTERMEDIARY:   history -a        # Append the ``new'' history lines to the history file (those entered since the beginning of the current bash session)
-#       INTERMEDIARY:   history -c        # Clear the history list by deleting all the entries.
-#       INTERMEDIARY:   history -r        # Read the contents of the history file and append them to the current history list.
-#       INTERMEDIARY: ) 9>~/.bash_history.lock || true'  # Step 0: This redirect happens BEFORE the subshell runs.
-#       INTERMEDIARY: PROMPT_COMMAND='(flock -n 9 || exit 1 ; history -a ; history -c ; history -r ) 9>~/.bash_history.lock || true'
-# The subshell approach above provides safety, but because it's in a subshell, shells can't "see" each others recent commands.
-# 
-# Safe bash history sync:
-#     After every command, appends command to ~/.bash_history, and reloads.
-#     After every commmand, clears and reloads from ~/.bash_history.
-#     Only does the above if can be done safely (via acquiring lock).
-#     Otherwise, we just wait until the next prompt, maybe we get it then!
-#
-_jason_safe_bash_history_sync() {
-  exec 9>~/.bash_history.lock   # Open file descriptor 9 for writing to lock file.
-  if flock -n 9; then           # Try to acquire exclusive, non-blocking lock on fd 9.
-    history -a                  #   Append new commands from this session to ~/.bash_history.
-    history -c                  #   Clear the in-memory history of this session.
-    history -r                  #   Read ~/.bash_history back into memory (so we can "see" other bash sessions recent commands).
-  fi                            # If lock failed, then simply do nothing. History will be appended and synced at next prompt, no big deal.
-  exec 9>&-                     # Close file descriptor 9, releasing the lock.
-}
-PROMPT_COMMAND="_jason_safe_bash_history_sync"
-# }}}
+
+
+
+
+###   MIGRATED TO ./history_and_prompt_command   ###
+
+##### # Infinite history {{{  ---------------------------------------------------
+##### ## History
+##### # I've been having the problem (for several years now) where my bash_history
+##### # somehow gets overwritten. Then I have to restore it, I have to keep backups...
+##### # I hate it! My previous setup is just below here (see "Infinite history - PREVIOUSLY" below).
+##### # So, maybe if I goose some settings here, that phenotype will disappear. Crossing fingers.
+##### # See also https://unix.stackexchange.com/a/48113
+##### #
+##### shopt -s histappend                 # append to history, don't overwrite it
+##### HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
+##### HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
+##### # HISTCONTROL=ignoreboth            # ignores lines with repeated entries, but then you can't do this:
+##### #       cut -f1 -d" " .bash_history | sort | uniq -c | sort -nr | head -n 30
+##### #       In other words, just what do you spend so much time typing? Here’s the money:
+##### #       Anything in at least the top ten, assuming it is not from some massive one-time splurge,
+##### #       needs to be aliased to a one or two letter shorthand.
+##### # }}}
+##### # Bash History Syncing {{{  ---------------------------------------------------
+##### # Append to history after every command (instead of waiting until logout).
+##### #       ORIGINAL: Append to history after every command (instead of waiting until logout).
+##### #       ORIGINAL: PROMPT_COMMAND="history -a; history -c; history -r"
+##### # Better: Safe history update with file locking to prevent race conditions.
+##### # Maybe important when using nested SSH sessions (e.g., rstudio on talapas apptainer via double ssh port forwarding)
+##### # In general, my ~/.bash_history was getting occassionally wiped during "ORIGINAL" as shown above.
+##### #       INTERMEDIARY: Approach below maybe ensures no more wiping; at worst we'll lose a given bash session's history (if flock not acquired).
+##### #       INTERMEDIARY: Step 1: Parentheses create subshell (hence, the 'exit 1' exits the subshell, not our main bash shell).
+##### #       INTERMEDIARY: PROMPT_COMMAND='( 
+##### #       INTERMEDIARY:   # Step 2: fd 9 is already open to ~/.bash_history.lock (see last line) (fd 9 is arbitrary choice of fds 3-9).
+##### #       INTERMEDIARY:   # Step 3: flock tries to get exclusive lock on fd 9.
+##### #       INTERMEDIARY:   flock -n 9 || exit 1
+##### #       INTERMEDIARY:   history -a        # Append the ``new'' history lines to the history file (those entered since the beginning of the current bash session)
+##### #       INTERMEDIARY:   history -c        # Clear the history list by deleting all the entries.
+##### #       INTERMEDIARY:   history -r        # Read the contents of the history file and append them to the current history list.
+##### #       INTERMEDIARY: ) 9>~/.bash_history.lock || true'  # Step 0: This redirect happens BEFORE the subshell runs.
+##### #       INTERMEDIARY: PROMPT_COMMAND='(flock -n 9 || exit 1 ; history -a ; history -c ; history -r ) 9>~/.bash_history.lock || true'
+##### # The subshell approach above provides safety, but because it's in a subshell, shells can't "see" each others recent commands.
+##### # 
+##### # Safe bash history sync:
+##### #     After every command, appends command to ~/.bash_history, and reloads.
+##### #     After every commmand, clears and reloads from ~/.bash_history.
+##### #     Only does the above if can be done safely (via acquiring lock).
+##### #     Otherwise, we just wait until the next prompt, maybe we get it then!
+##### #
+##### _jason_safe_bash_history_sync() {
+#####   exec 9>~/.bash_history.lock   # Open file descriptor 9 for writing to lock file.
+#####   if flock -n 9; then           # Try to acquire exclusive, non-blocking lock on fd 9.
+#####     history -a                  #   Append new commands from this session to ~/.bash_history.
+#####     history -c                  #   Clear the in-memory history of this session.
+#####     history -r                  #   Read ~/.bash_history back into memory (so we can "see" other bash sessions recent commands).
+#####   fi                            # If lock failed, then simply do nothing. History will be appended and synced at next prompt, no big deal.
+#####   exec 9>&-                     # Close file descriptor 9, releasing the lock.
+##### }
+##### PROMPT_COMMAND="_jason_safe_bash_history_sync"
+##### # }}}
 
 # " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4 foldenable foldmethod=marker foldlevel=0:
