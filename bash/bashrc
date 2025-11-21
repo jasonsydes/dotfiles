@@ -13,6 +13,12 @@ if [ -f $DOTFILES/etc_profile_workaround ]; then
   source $DOTFILES/etc_profile_workaround
 fi
 
+# Looks like Talapas /etc/profile modifies HIST env vars, source
+# our version again here. 
+# (perhaps this will stop the endemic history truncation)
+# 251121
+source $DOTFILES/bash/history_and_prompt_command
+
 # Never put anything in your bashrc that you don't understand.
 # Never put anything in your bashrc that you don't understand.
 # Never put anything in your bashrc that you don't understand.
