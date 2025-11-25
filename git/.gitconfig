@@ -19,3 +19,9 @@
 # Linux/WSL-specific settings (hack relying upon /home only being on Linux/WSL)
 [includeIf "gitdir:/home/"]
     path = ~/.dotfiles/git/gitconfig-linux
+
+[pull]
+    # Only pull if fast-forward is possible.
+    # Fails if diverged, forces me to decide merge vs rebase explicitly
+    # git config --global pull.ff only
+    ff = only
