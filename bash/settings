@@ -13,13 +13,15 @@ darwin)
     # (So this is a problem with readline I guess.)
     # Anyway, the following fixes it, and you can use awesome C-o.
     # Not sure if this problem exists on other platforms.
-    stty discard '^-'
+    # Adding [ -t 0 ] to test that stdin is a terminal / exists (platforms without stdin complain otherwise).
+    [ -t 0 ] && stty discard '^-'
 
     ## from http://stackoverflow.com/questions/68372/what-are-some-of-your-favorite-command-line-tricks-using-bash
     # "Finally, on Mac OS X (if you're not using vi mode), you'll want to
     # reset <CTRL>-S from being scroll stop. This prevents bash from being
     # able to interpret it as forward search."
-    stty stop ""
+    # Adding [ -t 0 ] to test that stdin is a terminal / exists (platforms without stdin complain otherwise).
+    [ -t 0 ] && stty stop ""
     # }}}
 ;;
 sunos)

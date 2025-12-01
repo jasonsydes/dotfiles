@@ -1,2 +1,2 @@
 # from their docs:
-eval "$(zoxide init bash)"
+### DISABLED FOR NOW - eval "$(zoxide init bash)"
