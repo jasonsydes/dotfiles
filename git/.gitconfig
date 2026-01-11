@@ -25,3 +25,47 @@
     # Fails if diverged, forces me to decide merge vs rebase explicitly
     # git config --global pull.ff only
     ff = only
+
+# ===============================================================================
+# Delta as global pager (OPTIONAL)
+# Uncomment to make delta your default pager for ALL git commands
+# This does NOT need to be uncommented to use (can use via aliases, see below)
+# (diff, log, show, blame, reflog, stash, etc.)
+# You can still override with aliases (e.g., git difft for difftastic)
+# See .dotfiles/git/git-aliases for easy use.
+# This do
+# mamba install git-delta or brew install git-delta
+# ===============================================================================
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+# ===============================================================================
+
+# ===============================================================================
+# Difftastic as git difftool (structural diff engine)
+# This configures 'git difftool' to use difftastic for structural diffs
+# Does NOT affect: git diff, git log, git show (unless using aliases such as l4t)
+# Only affects: git difftool, git difftool --staged, etc.
+# Binary name: difft (not difftastic)
+# Note that 'difft' the binary is distinct from 'git difft' our git alias.
+# See .dotfiles/git/git-aliases for easy use.
+# mamba install difftastic or brew install difftastic
+# ===============================================================================
+[diff]
+    tool = difftastic
+
+[difftool]
+    prompt = false
+
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+    difftool = true
+# ===============================================================================

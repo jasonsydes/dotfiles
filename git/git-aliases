@@ -15,30 +15,56 @@
   lvp = log -p --graph --abbrev-commit --decorate
   # log with walk-reflog
   lg = log -g --decorate
-  # The four log levels that I think I need:
+
+  # Git log aliases flags below
+  # --graph                    : Shows ASCII art branch/merge structure (*, |, /, \)
+  # --abbrev-commit            : Shows short commit hashes (e.g., 280923a instead of full 40 chars)
+  # --decorate                 : Shows branch/tag names next to commits
+  # --stat                     : Shows file change summary (files changed, insertions, deletions)
+  # -p, --patch                : Shows patch/diff (actual code changes)
+  # -W, --function-context     : Shows full function/method context (expands diff to entire function)
+  # --pretty=format            : Custom output format
+  #                              %h  = short hash
+  #                              %an = author name
+  #                              %ar = author date, relative (e.g., "2 days ago")
+  #                              %ai = author date, ISO 8601 format
+  #                              %s  = subject (commit message)
+  #                              %d  = ref names (branches, tags)
+  
+  # The five log levels that I think I need:
   l1 = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ar%d %x09%C(blue)%s'
-  l1a = log --graph --abbrev-commit --decorate --pretty=oneline
-  l1b = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ai%d %x09%C(blue)%s'
   l2 = log --graph --abbrev-commit --decorate
   l3 = log --graph --abbrev-commit --decorate --stat
   l4 = log --graph --abbrev-commit --decorate -p
+  # Function context (no tool change)
+  l5 = log --graph --abbrev-commit --decorate -p -W
+
+  # Original versions ('o' suffix) - plain git, no delta or difftastic 
+  # (currently, during testing, delta is the default in l4 and l5; eg l4==l4d currently; this may change...)
+  l4o = -c core.pager=less log --graph --abbrev-commit --decorate -p
+  l5o = -c core.pager=less log --graph --abbrev-commit --decorate -p -W
+
+  # Delta versions ('d' suffix) - git's diff + delta formatting
+  # NOTE: --graph does NOT work well with Delta, removing.
+  l4d = -c core.pager=delta log --abbrev-commit --decorate -p
+  l5d = -c core.pager=delta log --abbrev-commit --decorate -p -W
+  diffd = -c core.pager=delta diff
+
+  # Difftastic versions ('t' suffix) - structural diff engine (side-by-side, disables delta pager)
+  l4t = -c diff.external=difft -c core.pager=less log --graph --abbrev-commit --decorate -p --ext-diff
+  l5t = -c diff.external=difft -c core.pager=less log --graph --abbrev-commit --decorate -p -W --ext-diff
+  difft = -c diff.external=difft -c core.pager=less diff
+  showt = -c diff.external=difft -c core.pager=less show --ext-diff
+  # Difftastic Inline alternative (uncomment to switch from side-by-side to inline):
+  # l4t = -c diff.external='difft --display inline' -c core.pager=less log --graph --abbrev-commit --decorate -p --ext-diff
+  # l5t = -c diff.external='difft --display inline' -c core.pager=less log --graph --abbrev-commit --decorate -p -W --ext-diff
+  # difft = -c diff.external='difft --display inline' -c core.pager=less diff
+  # showt = -c diff.external='difft --display inline' -c core.pager=less show --ext-diff
+
+  # Old
+  # l1a = log --graph --abbrev-commit --decorate --pretty=oneline
+  # l1b = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ai%d %x09%C(blue)%s'
   #l1 = log --graph --abbrev-commit --decorate=full --pretty=oneline
   #l2 = log --graph --abbrev-commit --decorate=full
   #l3 = log --graph --abbrev-commit --decorate=full --stat
   #l4 = log --graph --abbrev-commit --decorate=full -p
-
-  ### # Publish a local branch!
-  ### #     http://bit.ly/cstIvd shows one way to publish:
-  ### #     publish = !sh -c 'git push origin \"$0\" && git config \"branch.$0.remote\" origin && git config \"branch.$0.merge\" \"refs/heads/$0\"'
-  ### # See also: http://bit.ly/afgpOK
-  ### # My way, better.
-  ### publish = !sh -c 'CURRENT=$(git symbolic-ref HEAD | sed -e s@.*/@@) && git push --set-upstream origin $CURRENT:$CURRENT'
-  ### unpublish = !sh -c 'CURRENT=$(git symbolic-ref HEAD | sed -e s@.*/@@) && git push origin :$CURRENT'
-  ###
-  ### # deep cloning for modules with submodules... for now, mostly just for nemo.git
-  ### deepclone = !sh -c 'git clone $0 && cd nemo && git submodule init && git submodule update'
-  ### clonedeep = !sh -c 'git clone $0 && cd nemo && git submodule init && git submodule update'
-  ###
-  ### # easy submodule add/rm
-  ### smadd = !sh -c '~/bin/git/git_submodule_add $0 $1'
-  ### smrm  = !sh -c '~/bin/git/git_submodule_rm $0'
