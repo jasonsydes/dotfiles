@@ -32,12 +32,20 @@
   #                              %d  = ref names (branches, tags)
   
   # The five log levels that I think I need:
+  # l1 - quick one line summary
+  # l2 - include commit message
+  # l3 - include files changed
+  # l4 - show diff
+  # l4 - show diff with function context
   l1 = log --graph --abbrev-commit --decorate --pretty=format:'%C(yellow)%h%Creset %an %ar%d %x09%C(blue)%s'
   l2 = log --graph --abbrev-commit --decorate
   l3 = log --graph --abbrev-commit --decorate --stat
-  l4 = log --graph --abbrev-commit --decorate -p
-  # Function context (no tool change)
-  l5 = log --graph --abbrev-commit --decorate -p -W
+  # removing --graph for l4 & l5 (interferes with delta, not super useful with diff anyway)
+  l4 = log --abbrev-commit --decorate -p
+  l5 = log --abbrev-commit --decorate -p -W
+  # original
+  # l4 = log --graph --abbrev-commit --decorate -p
+  # l5 = log --graph --abbrev-commit --decorate -p -W
 
   # Original versions ('o' suffix) - plain git, no delta or difftastic 
   # (currently, during testing, delta is the default in l4 and l5; eg l4==l4d currently; this may change...)

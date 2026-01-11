@@ -45,6 +45,9 @@
 [delta]
     navigate = true
     line-numbers = true
+    # Default is hunk-header-style = line-number syntax
+    hunk-header-style = file line-number syntax
+    hunk-header-file-style = magenta
 # ===============================================================================
 
 # ===============================================================================
