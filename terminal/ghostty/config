@@ -1,7 +1,8 @@
 # Ghostty Config 
 #
 # Originally from a best effort Feb 2026 conversion of my 
-# iTerm2 config (260205)
+# iTerm2 config (260205).
+# Edited since then.
 #
 # ============================================================
 
@@ -92,74 +93,74 @@ clipboard-paste-bracketed-safe = true
 # Ghostty equivalent for Esc+ mode:
 # macos-option-as-alt = true
 
-# ============================================================
-# Color Palette (Dark Mode)
-# ============================================================
-# Converted from iTerm2's sRGB color values
-# Note: Colors are from the "(Dark)" variants in iTerm2
-
-# Background (Dark): rgb(0.08, 0.10, 0.12) = #141921
-background = #141921
-
-# Foreground (Dark): rgb(0.86, 0.86, 0.86) = #dbdbdb
-foreground = #dbdbdb
-
-# Selection (Dark): rgb(0.70, 0.84, 1.0) = #b3d7ff
-selection-background = #b3d7ff
-
-# Cursor (Dark): rgb(1.0, 1.0, 1.0) = #ffffff
-cursor-color = #ffffff
-
-# ANSI Colors (palette indices 0-15)
-# Converted from iTerm2 float RGB to hex
-
-# palette 0 - Black: rgb(0.08, 0.10, 0.12)
-palette = 0=#141e1e
-
-# palette 1 - Red: rgb(0.71, 0.24, 0.16)
-palette = 1=#b43c29
-
-# palette 2 - Green: rgb(0.00, 0.76, 0.00)
-palette = 2=#00c200
-
-# palette 3 - Yellow: rgb(0.78, 0.77, 0.00)
-palette = 3=#c7c400
-
-# palette 4 - Blue: rgb(0.15, 0.26, 0.78)
-palette = 4=#2743c7
-
-# palette 5 - Magenta: rgb(0.75, 0.25, 0.74)
-palette = 5=#c03fbe
-
-# palette 6 - Cyan: rgb(0.00, 0.77, 0.78)
-palette = 6=#00c5c7
-
-# palette 7 - White: rgb(0.78, 0.78, 0.78)
-palette = 7=#c7c7c7
-
-# palette 8 - Bright Black: rgb(0.41, 0.41, 0.41)
-palette = 8=#686868
-
-# palette 9 - Bright Red: rgb(0.87, 0.48, 0.46)
-palette = 9=#dd7a75
-
-# palette 10 - Bright Green: rgb(0.35, 0.90, 0.57)
-palette = 10=#58e790
-
-# palette 11 - Bright Yellow: rgb(0.93, 0.88, 0.00)
-palette = 11=#ece100
-
-# palette 12 - Bright Blue: rgb(0.65, 0.67, 0.95)
-palette = 12=#a6abf2
-
-# palette 13 - Bright Magenta: rgb(0.88, 0.49, 0.88)
-palette = 13=#e17ee1
-
-# palette 14 - Bright Cyan: rgb(0.38, 0.99, 1.00)
-palette = 14=#60fdff
-
-# palette 15 - Bright White: rgb(1.00, 1.00, 1.00)
-palette = 15=#ffffff
+### # ============================================================
+### # Color Palette (Dark Mode)
+### # ============================================================
+### # Converted from iTerm2's sRGB color values
+### # Note: Colors are from the "(Dark)" variants in iTerm2
+### 
+### # Background (Dark): rgb(0.08, 0.10, 0.12) = #141921
+### background = #141921
+### 
+### # Foreground (Dark): rgb(0.86, 0.86, 0.86) = #dbdbdb
+### foreground = #dbdbdb
+### 
+### # Selection (Dark): rgb(0.70, 0.84, 1.0) = #b3d7ff
+### selection-background = #b3d7ff
+### 
+### # Cursor (Dark): rgb(1.0, 1.0, 1.0) = #ffffff
+### cursor-color = #ffffff
+### 
+### # ANSI Colors (palette indices 0-15)
+### # Converted from iTerm2 float RGB to hex
+### 
+### # palette 0 - Black: rgb(0.08, 0.10, 0.12)
+### palette = 0=#141e1e
+### 
+### # palette 1 - Red: rgb(0.71, 0.24, 0.16)
+### palette = 1=#b43c29
+### 
+### # palette 2 - Green: rgb(0.00, 0.76, 0.00)
+### palette = 2=#00c200
+### 
+### # palette 3 - Yellow: rgb(0.78, 0.77, 0.00)
+### palette = 3=#c7c400
+### 
+### # palette 4 - Blue: rgb(0.15, 0.26, 0.78)
+### palette = 4=#2743c7
+### 
+### # palette 5 - Magenta: rgb(0.75, 0.25, 0.74)
+### palette = 5=#c03fbe
+### 
+### # palette 6 - Cyan: rgb(0.00, 0.77, 0.78)
+### palette = 6=#00c5c7
+### 
+### # palette 7 - White: rgb(0.78, 0.78, 0.78)
+### palette = 7=#c7c7c7
+### 
+### # palette 8 - Bright Black: rgb(0.41, 0.41, 0.41)
+### palette = 8=#686868
+### 
+### # palette 9 - Bright Red: rgb(0.87, 0.48, 0.46)
+### palette = 9=#dd7a75
+### 
+### # palette 10 - Bright Green: rgb(0.35, 0.90, 0.57)
+### palette = 10=#58e790
+### 
+### # palette 11 - Bright Yellow: rgb(0.93, 0.88, 0.00)
+### palette = 11=#ece100
+### 
+### # palette 12 - Bright Blue: rgb(0.65, 0.67, 0.95)
+### palette = 12=#a6abf2
+### 
+### # palette 13 - Bright Magenta: rgb(0.88, 0.49, 0.88)
+### palette = 13=#e17ee1
+### 
+### # palette 14 - Bright Cyan: rgb(0.38, 0.99, 1.00)
+### palette = 14=#60fdff
+### 
+### # palette 15 - Bright White: rgb(1.00, 1.00, 1.00)
+### palette = 15=#ffffff
 
 # 
 # ============================================================
