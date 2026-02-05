@@ -18,6 +18,7 @@ git clone https://github.com/jasonsydes/dotfiles .dotfiles
 ## If on Mac, first, default to bash shell
 chsh -s /bin/bash
 # Close that terminal and open a new one.
+# Update 260205 - MacOS bash is from 2007! Switch to another shell, or use homebrew bash (latest from 2025). See homebrew section below.
 
 ## Install mamba/conda before anything else.
 #     Accept the defaults for all the questions, which also means "no" to the following question:
@@ -65,6 +66,12 @@ mamba install nvim tmux vim
 
 ## Brew Installs
 
+
+# Update 260205 - MacOS bash is from 2007! Switch to another shell, or use homebrew bash (latest from 2025).
+# install, allow, change shell to homebrew bash.
+brew install bash
+sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
+chsh -s /opt/homebrew/bin/bash
 ## Brew Install some basics (partially to make sure brew works)
 brew install wget
 brew install starship

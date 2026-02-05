@@ -1,7 +1,20 @@
+# Bracketed paste mode: prevents pasted text from auto-executing.
+# Protects against "paste attacks" when copying commands from the web, docs,
+# Slack, Stack Overflow, or other untrusted sources. Malicious sites can hide
+# dangerous commands (rm -rf, curl|bash, etc.) in innocent-looking snippets,
+# or embed hidden newlines that execute before you can review.
+#
+# How it works: the terminal wraps pasted text in escape sequences that tell
+# bash "this is pasted, not typed." Bash displays the text but waits for you
+# to hit Enter, giving you a chance to inspect before execution.
+set enable-bracketed-paste on
+
 # Rename this file to be ~/.inputrc for fun and profit.
 
-# When altering this file, either log out and log in again or type C-x C-r to
-# reload.
+# To reload after editing: Ctrl+x Ctrl+r (or log out and back in).
+# This is a readline command - readline is the line-editing library that bash
+# uses under the hood. Other programs that use readline (python REPL, gdb,
+# psql, etc.) will also pick up these settings in that terminal session.
 
 # From http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # Type partial command, then hit arrow-UP or arrow-DOWN multiple times.
