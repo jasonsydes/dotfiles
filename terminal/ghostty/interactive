@@ -1,2 +1,2 @@
 # Ensure ~/.terminfo is found (needed for ghostty on remotes like talapas)
-export TERMINFO=$HOME/.terminfo
+[ -f "$HOME/.terminfo/x/xterm-ghostty" ] && export TERMINFO=$HOME/.terminfo
