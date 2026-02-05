@@ -1,0 +1,2 @@
+# Ensure ~/.terminfo is found (needed for ghostty on remotes like talapas)
+export TERMINFO=$HOME/.terminfo
