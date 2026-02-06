@@ -33,3 +33,12 @@ Ghostty's `terminal-features` config lets tmux know about RGB color and
 extended key support. The `ssh-env` and `ssh-terminfo` shell integration
 features propagate terminal info to remote hosts. The `xterm-ghostty` terminfo
 entry is purpose-built for correct behavior inside and outside tmux.
+
+## Known Quirks
+
+- **No Cmd+F search** (yet): Coming in Ghostty 1.3 (March 2026). Workaround:
+  use tmux copy mode (`Ctrl-A [` then `/` to search).
+  Tracking: https://github.com/ghostty-org/ghostty/discussions/3656
+- **Cmd+Triple-Click on command input zones** (not output) behaves oddly when
+  starship prompt is active — selects too much. Not a real issue since the
+  intended use is clicking on command *output*. Low priority.
