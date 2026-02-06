@@ -40,7 +40,8 @@ source $DOTFILES/conda/setup_bash
 source $DOTFILES/nix/setup_bash
 
 # Lando
-export PATH="/home/sydes/.lando/bin:$PATH" #landopath
+# export PATH="/home/sydes/.lando/bin:$PATH" #landopath
+export PATH="$HOME/.lando/bin:$PATH" #landopath
 
 # Hrm, 251102 - Maybe atuin being here and Starship and colliding. Disabling this block results in starship working again. Moving atuin AFTER starship.
 #### # Atuin

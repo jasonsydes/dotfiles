@@ -72,6 +72,7 @@ mamba install nvim tmux vim
 brew install bash
 sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
 chsh -s /opt/homebrew/bin/bash
+
 ## Brew Install some basics (partially to make sure brew works)
 brew install wget
 brew install starship
@@ -87,6 +88,8 @@ brew install flock
 #      Do we want to start using conda everywhere again for these softwares, and just add aliases?
 #      (Like we are trying for tmux and nvim?)
 brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs bat
+# Trying out git-delta and difftastic (see changes to ~/.dotfiles/git/, to start with)
+brew install git-delta difftastic
 
 ## Install cargo
 curl https://sh.rustup.rs -sSf | sh
