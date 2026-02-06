@@ -1,0 +1,7 @@
+name = "dotfiles"
+worktree_dir = "WK"
+mode = "silent"
+
+[hub]
+branch = "dev"
+folder = "hub"
