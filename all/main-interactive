@@ -5,7 +5,9 @@ export EDITOR='vim'
 alias sudo='sudo '
 
 # Load alias files.
+shopt -s nullglob
 for f in $DOTFILES/*/aliases $DOTFILES/*/*/aliases ; do source "$f"; done
 
 # Load interactive-specific files.
 for f in $DOTFILES/*/interactive $DOTFILES/*/*/interactive ; do source "$f" ; done
+shopt -u nullglob
