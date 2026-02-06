@@ -15,6 +15,9 @@ shell-integration-features = ssh-terminfo,ssh-env
 keybind = ctrl+shift+up=jump_to_prompt:-1
 keybind = ctrl+shift+down=jump_to_prompt:1
 
+# Make shift+enter work through tmux (needed for Claude Code)
+keybind = shift+enter=text:\x1b\r
+
 # ============================================================
 # Theme
 # ============================================================
