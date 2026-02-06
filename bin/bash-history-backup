@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# bash-history-backup — daily rotation backup of ~/.bash_history
+#
+# Called from bash startup. Copies ~/.bash_history to
+# ~/.bash_history.d/bash_history.YYYY-MM-DD once per day.
+# Prunes backups older than 60 days.
+#
+# Safe to call multiple times per day (no-ops if today's backup exists).
+
+set -euo pipefail
+
+HISTORY_FILE="${HISTFILE:-$HOME/.bash_history}"
+BACKUP_DIR="$HOME/.bash_history.d"
+TODAY=$(date +%Y-%m-%d)
+BACKUP_FILE="$BACKUP_DIR/bash_history.$TODAY"
+KEEP_DAYS=60
+
+# Nothing to back up
+[[ -f "$HISTORY_FILE" ]] || exit 0
+
+# Already ran today
+[[ -f "$BACKUP_FILE" ]] && exit 0
+
+# Ensure backup directory exists with private permissions
+mkdir -p "$BACKUP_DIR"
+chmod go-rwx "$BACKUP_DIR"
+
+# Back up today's history
+cp "$HISTORY_FILE" "$BACKUP_FILE"
+chmod go-rwx "$BACKUP_FILE"
+
+# Prune old backups
+find "$BACKUP_DIR" -name 'bash_history.*' -mtime +${KEEP_DAYS} -delete 2>/dev/null || true
