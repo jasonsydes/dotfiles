@@ -6,6 +6,15 @@
 #
 # ============================================================
 
+shell-integration-features = ssh-terminfo,ssh-env
+
+# Keybindings
+
+# Use ctrl-shift-up and ctrl-shift-down arrows to jump up and down
+# between prompts.
+keybind = ctrl+shift+up=jump_to_prompt:-1
+keybind = ctrl+shift+down=jump_to_prompt:1
+
 # ============================================================
 # Theme
 # ============================================================

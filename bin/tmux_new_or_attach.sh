@@ -25,8 +25,8 @@ if [[ ! $NAME ]] ; then
     exit
 fi
 
-DATE=`date +'%Y%m%d'`
-NEW_SESSION="${DATE}_${NAME}"
+DATE=`date +'%y%m%d'`
+NEW_SESSION="${DATE}-${NAME}"
 
 NUMBER_MATCHING=`tmux ls &> /dev/null && tmux ls 2> /dev/null | grep $NAME | wc -l`
 if [ "$NUMBER_MATCHING" ] && [ "$NUMBER_MATCHING" -gt "1" ]; then
