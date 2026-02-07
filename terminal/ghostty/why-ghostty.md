@@ -14,6 +14,12 @@ Docs: https://ghostty.org/docs/features/shell-integration
 Hold Opt (Alt) while clicking and dragging to select a rectangular region
 instead of line-by-line. Useful for grabbing a single column from tabular output.
 
+## Shift+Double-Click: Trimmed Selection
+
+Double-click with Shift held to select text excluding leading/trailing
+whitespace. Particularly nice with Claude Code, which indents most of its
+responses by two spaces.
+
 ## Ctrl+Shift+Up/Down: Jump to Prompt
 
 Jump between prompts without scrolling. Ctrl+Shift+Up goes to the previous
@@ -30,9 +36,18 @@ Docs: https://ghostty.org/docs/features/graphics
 ## Plays Well with tmux
 
 Ghostty's `terminal-features` config lets tmux know about RGB color and
-extended key support. The `ssh-env` and `ssh-terminfo` shell integration
-features propagate terminal info to remote hosts. The `xterm-ghostty` terminfo
-entry is purpose-built for correct behavior inside and outside tmux.
+extended key support. The `xterm-ghostty` terminfo entry is purpose-built
+for correct behavior inside and outside tmux.
+
+The `ssh-terminfo` shell integration feature auto-installs the xterm-ghostty
+terminfo on remote hosts (needs testing — discovered after setting up a manual
+approach, but appears to be working).
+
+The `ssh-env` feature propagates env vars (TERM_PROGRAM, COLORTERM, etc.) to
+remote hosts, but most servers won't accept them — `sshd_config` requires
+explicit `AcceptEnv` directives for each variable, and the default is to accept
+none (only TERM is always accepted per the SSH protocol).
+Docs: https://ghostty.org/docs/features/shell-integration
 
 ## Known Quirks
 
