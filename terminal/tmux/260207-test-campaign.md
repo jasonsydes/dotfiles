@@ -57,7 +57,8 @@ Tested on 260207. tmux 3.6a via brew, Ghostty with shell integration.
 
 ### Mouse
 
-7. **Mouse scroll** — Scroll up with trackpad/mouse wheel. Enters copy mode, scrollback works. **PASS**
+7. **Mouse scroll (shell)** — Scroll up with trackpad/mouse wheel at a plain shell prompt. Enters copy mode, scrollback works. **PASS**
+7b. **Mouse scroll (vim)** — Open vim/neovim, scroll with trackpad. Should scroll *inside vim* without entering tmux copy mode. Vim handles mouse natively via `mouse_any_flag`. See `terminal/tmux/mouse-scroll-integration---apps-inside-tmux.md`. **PASS**
 8. **Mouse selection** — Click-drag to select text in a pane. Text selected, released to clipboard. **PASS**
 9. **Rectangular selection** — Alt+click+drag outside tmux, Shift+Alt+click+drag inside tmux. Block/column selection. **PASS**
 10. **Window drag reorder** — Drag a window tab on the status bar. Window reorders. **FAIL** (may be catppuccin interaction or 3.6a change, investigate later)
