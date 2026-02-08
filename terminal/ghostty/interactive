@@ -7,7 +7,7 @@
 # prompt navigation (Ctrl+Shift+Up/Down).
 # LOAD ORDER: bash-preexec must be sourced BEFORE this (it is — bashrc loads
 # bash-preexec, then bash_profile sources main-interactive which loads this file).
-# See also: terminal/ghostty/config and tmux/tmux.260205-NEW.conf
+# See also: terminal/ghostty/config and terminal/tmux/tmux.conf
 if [[ -n "$TMUX" && -n "$GHOSTTY_RESOURCES_DIR" ]]; then
     source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
 fi

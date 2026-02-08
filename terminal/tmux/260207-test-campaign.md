@@ -5,7 +5,7 @@
 Start a test tmux session with the new config (use brew 3.6a, not conda 3.5a):
 
 ```bash
-/opt/homebrew/bin/tmux -L test36 -f ~/C/devops/dotfiles/WK/feat/ghostty-shell-integration/tmux/tmux.260205-NEW.conf new -s test-3.6a
+/opt/homebrew/bin/tmux -L test36 -f ~/C/devops/dotfiles/WK/feat/ghostty-shell-integration/terminal/tmux/tmux.conf new -s test-3.6a
 ```
 
 Verify shell integration loaded automatically (should see `__ghostty_precmd`):

@@ -18,7 +18,7 @@ install — no hacks, no surprises, no interference with production tmux.
 ```
 # Point .dotfiles and .tmux.conf at test config
 ln -sfn ~/C/devops/dotfiles/WK/feat/ghostty-shell-integration ~/.dotfiles
-ln -sfn ~/.dotfiles/tmux/tmux.260205-NEW.conf ~/.tmux.conf
+ln -sfn ~/.dotfiles/terminal/tmux/tmux.conf ~/.tmux.conf
 
 # Back up plugins and reinstall fresh
 mv ~/.tmux/plugins ~/.tmux/plugins.SAFE-TEST-BAK

@@ -41,7 +41,7 @@ cd $HOME
 ln -s ~/.dotfiles/bash/bash_profile ~/.bash_profile
 ln -s ~/.dotfiles/bash/bashrc ~/.bashrc
 ln -s ~/.dotfiles/inputrc ~/.inputrc
-ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+ln -s ~/.dotfiles/terminal/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/conda/condarc ~/.condarc
 ln -s ~/.dotfiles/starship/starship.toml ~/.config/starship.toml
 
@@ -52,7 +52,7 @@ TODO: starship.toml not in ~/.dotfiles??
 
 # Always use conda for neovim and tmux
 #  NOTE: Aliases are added to ensure availablity when leaving 'base' environment.
-#  NOTE: See: ~/.dotfiles/nvim-common/aliases ~/.dotfiles/tmux/aliases
+#  NOTE: See: ~/.dotfiles/nvim-common/aliases ~/.dotfiles/terminal/tmux/aliases
 mamba activate base
 mamba install nvim tmux vim
 
@@ -80,7 +80,7 @@ brew install starship
 # To enable flock with safe bash_history appending. (built-in on linux)
 brew install flock
 
-## Brew Install some bigger stuff - ACTUALLY, let's start using conda again (see ~/.dotfiles/nvim-common/aliases ~/.dotfiles/tmux/aliases)
+## Brew Install some bigger stuff - ACTUALLY, let's start using conda again (see ~/.dotfiles/nvim-common/aliases ~/.dotfiles/terminal/tmux/aliases)
 ### DISABLED - brew install neovim tmux
 
 ## Brew Install some great tools
@@ -147,7 +147,7 @@ ln -s .dotfiles/terminal/alacritty.yml ~/.alacritty.yml
 .bash_profile - >.dotfiles/bash/bash_profile
 .bashrc - >.dotfiles/bash/bashrc
 .inputrc - >/Users/sydes/.dotfiles/inputrc
-.tmux.conf - >.dotfiles/tmux/tmux.conf
+.tmux.conf - >.dotfiles/terminal/tmux/tmux.conf
 
 
 ---

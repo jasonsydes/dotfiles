@@ -1,7 +1,7 @@
 # Ghostty + tmux Test Results
 
 Tested 260207 (local) and 260208 (remote).
-Config: `tmux/tmux.260205-NEW.conf` on branch `feat/260206-ghostty-shell-integration`.
+Config: `terminal/tmux/tmux.conf` on branch `feat/260206-ghostty-shell-integration`.
 
 ## Local (macOS, Ghostty, tmux 3.6a brew)
 

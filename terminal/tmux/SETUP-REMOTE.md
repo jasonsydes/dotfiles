@@ -67,14 +67,14 @@ git clone https://github.com/catppuccin/tmux ~/.tmux/plugins/tmux
 ## 5. Launch tmux and install plugins
 
 ```bash
-tmux -f ~/.dotfiles/tmux/tmux.conf new -s main
+tmux -f ~/.dotfiles/terminal/tmux/tmux.conf new -s main
 ```
 
 First launch will error on catppuccin source-file if step 4 was skipped.
 Inside tmux:
 
 1. Press `Ctrl-A I` to install remaining TPM plugins (resurrect)
-2. Reload: `tmux source-file ~/.dotfiles/tmux/tmux.conf`
+2. Reload: `tmux source-file ~/.dotfiles/terminal/tmux/tmux.conf`
 
 ## 6. Verify
 
