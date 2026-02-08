@@ -1,0 +1,49 @@
+# bashrc — Starter Kit (Ghostty + tmux + Starship)
+# Author: Jason Sydes
+#
+# Install: symlink this to ~/.bashrc
+#   ln -s /path/to/this/bash/bashrc ~/.bashrc
+#
+# Dependencies:
+#   bash-preexec: https://github.com/rcaloras/bash-preexec
+#     curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh
+#   starship: https://starship.rs
+#     brew install starship
+
+# ── If not running interactively, don't do anything ─────────────────
+[[ $- != *i* ]] && return
+
+# ── bash-preexec ────────────────────────────────────────────────────
+# Must be sourced BEFORE Ghostty shell integration.
+# Provides precmd/preexec hook infrastructure for bash.
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+# ── Ghostty shell integration inside tmux ───────────────────────────
+# Ghostty can't auto-inject through tmux (tmux is the terminal, not
+# Ghostty). Manually sourcing enables OSC 133 prompt marking, which
+# powers tmux's prompt navigation (Ctrl+Shift+Up/Down).
+if [[ -n "$TMUX" && -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+    source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+fi
+
+# ── Starship prompt ────────────────────────────────────────────────
+# Config lives at ~/.config/starship.toml (symlink from this kit).
+eval "$(starship init bash)"
+
+# ── Your config below ──────────────────────────────────────────────
+
+# History
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+
+# Mouse scroll in less/bat/man/git-log inside tmux. Without this, scrolling
+# in these apps enters tmux copy mode instead of scrolling inside the app.
+# Also fixes bat (which uses less internally) and anything else that pages
+# through less. Uncomment to activate:
+# export LESS="--mouse"
+
+# Basics
+alias ls='ls --color=auto'
+alias ll='ls -alF'

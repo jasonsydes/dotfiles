@@ -1,0 +1,50 @@
+# Starship Prompt Config — Starter Kit (Ghostty + tmux + Starship)
+# Author: Jason Sydes
+#
+# Install: symlink this to ~/.config/starship.toml
+#   ln -s /path/to/this/starship/starship.toml ~/.config/starship.toml
+#
+# Docs: https://starship.rs/config/
+
+# Two-line prompt: info on top, input character on bottom.
+# $fill pushes $time to the right edge.
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$all\
+$fill\
+$time\
+$line_break\
+$character
+"""
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[✖](bold red)'
+
+[directory]
+truncation_length = 5
+style = "bold bright-yellow"
+
+[fill]
+symbol = " "
+
+[time]
+disabled = false
+style = "bold bright-black"
+format = "[$time]($style)"
+time_format = "%H:%M:%S"
+
+[username]
+style_user = 'black bold'
+style_root = 'white bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = '[@$hostname]($style) : '

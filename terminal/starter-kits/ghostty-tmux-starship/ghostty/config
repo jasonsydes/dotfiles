@@ -1,0 +1,58 @@
+# Ghostty Config — Starter Kit (Ghostty + tmux + Starship)
+# Author: Jason Sydes
+#
+# Install: symlink this to ~/.config/ghostty/config
+#   mkdir -p ~/.config/ghostty
+#   ln -s /path/to/this/ghostty/config ~/.config/ghostty/config
+
+# ── Shell Integration ─────────────────────────────────────────────
+# ssh-terminfo: auto-installs xterm-ghostty terminfo on remotes via SSH
+# ssh-env: sends TERM_PROGRAM, COLORTERM, etc. to remote hosts
+#   Note: most remote sshd_config won't AcceptEnv these vars, so they
+#   get dropped on arrival. The real workaround is tmux's update-environment
+#   (see tmux/tmux.conf) which refreshes them on reattach.
+shell-integration-features = ssh-terminfo,ssh-env
+
+# ── Keybindings ───────────────────────────────────────────────────────
+
+# Prompt navigation (jump between shell prompts):
+#   Outside tmux: Cmd+Shift+Up/Down (Ghostty native)
+#   Inside tmux:  Ctrl+Shift+Up/Down (passes through to tmux bindings)
+keybind = super+shift+up=jump_to_prompt:-1
+keybind = super+shift+down=jump_to_prompt:1
+
+# Make Shift+Enter send Esc+Enter (needed for Claude Code newlines in tmux)
+keybind = shift+enter=text:\x1b\r
+
+# ── Theme ─────────────────────────────────────────────────────────────
+theme = GitHub Dark High Contrast
+minimum-contrast = 1
+
+# ── Font ──────────────────────────────────────────────────────────────
+# Requires a Nerd Font. Install from: https://www.nerdfonts.com/
+font-family = Inconsolata Nerd Font
+font-size = 15
+font-style-bold = bold
+font-style-italic = italic
+
+# ── Cursor ────────────────────────────────────────────────────────────
+cursor-style = block
+cursor-style-blink = false
+
+# ── Scrollback ────────────────────────────────────────────────────────
+scrollback-limit = 100000
+
+# ── Mouse ─────────────────────────────────────────────────────────────
+mouse-hide-while-typing = true
+
+# ── Clipboard / Paste Safety ──────────────────────────────────────
+# Ghostty's paste-protection dialog warns before pasting text with
+# newlines. Disabled — burdensome in practice, and bracketed paste
+# mode (below + inputrc) already prevents accidental execution.
+clipboard-paste-protection = false
+
+# Bracketed paste: Ghostty wraps pasted text in \e[200~ ... \e[201~
+# escape sequences. tmux passes them through, readline (inputrc)
+# interprets them and holds pasted text for review instead of
+# executing immediately. See also inputrc `enable-bracketed-paste`.
+clipboard-paste-bracketed-safe = true

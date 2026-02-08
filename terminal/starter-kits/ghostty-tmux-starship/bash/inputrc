@@ -1,0 +1,81 @@
+# inputrc — readline configuration
+# Author: Jason Sydes
+#
+# Install: symlink this to ~/.inputrc
+#   ln -s /path/to/this/bash/inputrc ~/.inputrc
+#
+# To reload after editing: Ctrl+x Ctrl+r (or log out and back in).
+# readline is the line-editing library that bash uses under the hood.
+# Other programs that use readline (python REPL, gdb, psql, etc.) will
+# also pick up these settings.
+
+
+# ── Bracketed Paste (security) ──────────────────────────────────────
+
+# Prevents pasted text from auto-executing. Protects against "paste
+# attacks" when copying commands from the web, docs, Slack, Stack
+# Overflow, or other untrusted sources. Malicious sites can hide
+# dangerous commands (rm -rf, curl|bash, etc.) in innocent-looking
+# snippets, or embed hidden newlines that execute before you can review.
+#
+# How it works — three layers cooperate:
+#   1. The terminal emulator (Ghostty, iTerm2, etc.) wraps pasted text in
+#      escape sequences: \e[200~ <pasted text> \e[201~
+#   2. tmux passes those escape sequences through to the program inside.
+#   3. readline (here, via inputrc) interprets the sequences and holds the
+#      pasted text for review instead of executing it immediately.
+# The terminal is the transport, readline is the gatekeeper. Without
+# readline's support, the escape sequences are ignored and pasted text
+# executes as if typed.
+#
+# Note: bash 5.1+ (readline 8.1+) enables this by default. This line is
+# redundant on modern bash but still useful for older versions or as
+# explicit documentation of intent.
+set enable-bracketed-paste on
+
+
+# ── History Prefix Search ───────────────────────────────────────────
+
+# Type a partial command, then hit arrow-Up/Down to cycle through only
+# history entries that start with what you've typed. Much faster than
+# mashing Up through your entire history.
+#   Example: type "git " then Up — cycles through git commands only.
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+
+# ── Tab Completion ──────────────────────────────────────────────────
+
+# Case-insensitive tab completion. Type "dow" + Tab and it will match
+# "Downloads", "downloads", "DOWNLOADS", etc.
+set completion-ignore-case on
+
+# Show all completions immediately on the first Tab press. Without this,
+# bash beeps on the first Tab and requires a second Tab to show the list.
+set show-all-if-ambiguous on
+
+# Append indicator characters to completion results: / after directories,
+# * after executables, @ after symlinks. Like ls -F but for completions.
+set visible-stats on
+
+
+# ── Magic Space ─────────────────────────────────────────────────────
+
+# After typing a history expansion like !$ or !!, press Space to expand
+# it in-place so you can review before hitting Enter.
+#   Example: type "cp !$" then Space — !$ is replaced with the actual
+#   last argument from the previous command, so you can verify it's right.
+$if Bash
+  Space: magic-space
+$endif
+
+
+# ── NBSP Detection ──────────────────────────────────────────────────
+
+# When you copy-paste from MS Teams, Slack, web pages, etc., invisible
+# non-breaking space characters (U+00A0) sometimes sneak in. They look
+# identical to regular spaces but silently break commands. This mapping
+# replaces any pasted NBSP with the literal text " &nbsp " so you can
+# see the culprit instead of debugging invisible characters.
+# Uncomment to activate:
+# " ":" &nbsp "
