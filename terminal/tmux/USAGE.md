@@ -1,1 +1,0 @@
-USAGE.ghostty_and_tmux.md
