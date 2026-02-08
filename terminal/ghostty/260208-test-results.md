@@ -1,7 +1,7 @@
 # Ghostty + tmux Test Results
 
-Tested 260207 (local) and 260208 (remote).
-Config: `terminal/tmux/tmux.conf` on branch `feat/260206-ghostty-shell-integration`.
+Tested 260207 (local) and 260208 (remote + dev branch).
+Config: `terminal/tmux/tmux.conf` on `dev` branch.
 
 ## Local (macOS, Ghostty, tmux 3.6a brew)
 
@@ -13,19 +13,19 @@ Config: `terminal/tmux/tmux.conf` on branch `feat/260206-ghostty-shell-integrati
 | True color / RGB | PASS | Smooth gradient |
 | Session name | PASS | Right side of status bar |
 | OSC 52 clipboard | PASS | |
-| Mouse scroll | PASS | Enters copy mode |
-| Mouse selection | PASS | Copies to clipboard |
+| Mouse scroll (shell) | PASS | Enters copy mode |
+| Mouse scroll (vim) | PASS | Scrolls inside vim, no copy mode (vim sets `mouse_any_flag`) |
+| Mouse selection | PASS | Copies to clipboard, stays in place (OSC 52) |
 | Rectangular selection | PASS | Alt+click+drag outside, Shift+Alt inside tmux |
-| Window drag reorder | FAIL | Minor — catppuccin interaction or 3.6a change |
+| Window drag reorder | PASS | Fixed: `MouseDragEnd1Status` + `run-shell` |
 | Cmd+Triple-Click | PASS outside / N/A inside | tmux consumes OSC 133 (architectural) |
 | Prompt nav (outside tmux) | PASS | Cmd+Shift+Up/Down |
 | Prompt nav (inside tmux) | PASS | Ctrl+Shift+Up/Down |
 | Shell integration auto-load | PASS | `__ghostty_precmd` in `precmd_functions` |
 | URL click | PASS | Shift+Cmd+Click |
-| Resurrect save/restore | DEFERRED | Split brew/conda binary issue at time of test |
 | Extended keys (CSI-u) | PARTIAL | Ctrl+Shift combos work; Ctrl+; and Ctrl+Enter don't |
 
-## Remote (talapas, Linux, Ghostty SSH, tmux 3.6a)
+## Remote — dev branch (talapas, Linux, Ghostty SSH, tmux 3.6a)
 
 | Test | Result | Notes |
 |------|--------|-------|
@@ -33,22 +33,23 @@ Config: `terminal/tmux/tmux.conf` on branch `feat/260206-ghostty-shell-integrati
 | OSC 52 clipboard | PASS | Works through SSH + tmux back to local Ghostty |
 | Vi yank (copy-mode) | PASS | |
 | Multi-line paste | PASS | |
-| Mouse scroll | PASS | |
-| Mouse selection | PASS | |
+| Mouse scroll (shell) | PASS | |
+| Mouse scroll (vim) | PASS | Scrolls inside vim, no copy mode |
+| Mouse selection | PASS | Stays in place on release |
 | Rectangular selection | PASS | |
 | URL click | PASS | Shift+Cmd+Click |
 | Session name | PASS | |
 | Resurrect save/restore | PASS | |
-| Shift+Enter / Alt+Enter | DEFERRED | Will test with Claude Code later |
+| Window drag reorder | PASS | Fixed: `MouseDragEnd1Status` + `run-shell` |
+| Shift+Enter / Alt+Enter | PASS | Confirmed via `cat -v` (both send `^[` + newline) |
 | Prompt nav (Ctrl+Shift+Up/Down) | FAIL (expected) | No Ghostty on remote, no shell integration, no OSC 133 |
-| Window drag reorder | FAIL | Same as local |
 
 ## Known Limitations
 
 - **Cmd+Triple-Click inside tmux** — Architectural. tmux consumes OSC 133 sequences.
 - **Prompt nav on remote** — Ghostty shell integration not available (no `GHOSTTY_RESOURCES_DIR`).
-- **Window drag reorder** — Fails on both local and remote. Low priority.
 - **tmux 3.5a paste bug** — `extended-keys-format csi-u` causes garbage. Requires 3.6a.
+- **Extended keys edge cases** — Ctrl+; and Ctrl+Enter don't send distinct codes. Low priority.
 
 ## Go-Live Blockers
 
