@@ -4,9 +4,19 @@
 # dangerous commands (rm -rf, curl|bash, etc.) in innocent-looking snippets,
 # or embed hidden newlines that execute before you can review.
 #
-# How it works: the terminal wraps pasted text in escape sequences that tell
-# bash "this is pasted, not typed." Bash displays the text but waits for you
-# to hit Enter, giving you a chance to inspect before execution.
+# How it works — three layers cooperate:
+#   1. The terminal emulator (Ghostty, iTerm2, etc.) wraps pasted text in
+#      escape sequences: \e[200~ <pasted text> \e[201~
+#   2. tmux passes those escape sequences through to the program inside.
+#   3. readline (here, via inputrc) interprets the sequences and holds the
+#      pasted text for review instead of executing it immediately.
+# The terminal is the transport, readline is the gatekeeper. Without
+# readline's support, the escape sequences are ignored and pasted text
+# executes as if typed.
+#
+# Note: bash 5.1+ (readline 8.1+) enables this by default. This line is
+# redundant on modern bash but still useful for older versions or as
+# explicit documentation of intent.
 set enable-bracketed-paste on
 
 # Rename this file to be ~/.inputrc for fun and profit.
