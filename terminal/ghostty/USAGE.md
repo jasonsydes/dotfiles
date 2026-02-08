@@ -27,7 +27,7 @@ and pass it to the outer terminal.
 
 Outside tmux, Ghostty handles it natively via `jump_to_prompt`.
 Inside tmux, the key passes through to tmux which uses OSC 133 markers.
-See `terminal/ghostty/config` and `tmux/tmux.260205-NEW.conf` for the bindings.
+See `terminal/ghostty/config` and `tmux/tmux.conf` for the bindings.
 
 ## Shift+Enter / Alt+Enter (Claude Code newline)
 
@@ -48,6 +48,10 @@ sequence travels back through the SSH tunnel to Ghostty.
 |--------|------|
 | Horizontal split | Ctrl-A \| |
 | Vertical split | Ctrl-A - |
+| Previous window | Ctrl-A Ctrl-P |
+| Next window | Ctrl-A Ctrl-N |
+| Last window (toggle) | Ctrl-A a |
+| Reload config | Ctrl-A Shift-R |
 | Save sessions (resurrect) | Ctrl-A Ctrl-S |
 | Restore sessions (resurrect) | Ctrl-A Ctrl-R |
 | Install plugins (TPM) | Ctrl-A I |
