@@ -43,27 +43,48 @@ source $DOTFILES/nix/setup_bash
 # export PATH="/home/sydes/.lando/bin:$PATH" #landopath
 export PATH="$HOME/.lando/bin:$PATH" #landopath
 
-# Hrm, 251102 - Maybe atuin being here and Starship and colliding. Disabling this block results in starship working again. Moving atuin AFTER starship.
-#### # Atuin
-#### source "$HOME/.atuin/bin/env"
-#### 
-#### [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-#### eval "$(atuin init bash --disable-up-arrow)"
+# ── Prompt, bash-preexec, and atuin ───────────────────────────────
+#
+# LOAD ORDER MATTERS. These must load in this exact sequence:
+#
+#   1. starship        — Sets up PROMPT_COMMAND to regenerate PS1 each prompt.
+#   2. bash-preexec    — Wraps PROMPT_COMMAND and provides precmd_functions
+#                        and preexec_functions arrays. Multiple tools can
+#                        register hooks without stomping on each other.
+#   3. atuin           — Hooks into bash-preexec's arrays for history search.
+#   4. ghostty shell   — Loaded LATER, via terminal/ghostty/interactive
+#      integration       (bash_profile → main-interactive → ghostty/interactive).
+#                        Hooks into bash-preexec's precmd_functions for OSC 133
+#                        prompt marking. Only activates inside tmux.
+#
+# If bash-preexec loads BEFORE starship, they collide (starship prompt
+# breaks). Starship must set up PROMPT_COMMAND first, then bash-preexec
+# wraps around it. (Discovered 251102.)
+#
+# What is bash-preexec?
+# Bash natively only has PROMPT_COMMAND (runs before each prompt). It has
+# no hook for "right before a command executes." bash-preexec adds two
+# capabilities:
+#   - precmd_functions[]  — array of functions to run before each prompt
+#   - preexec_functions[] — array of functions to run before each command
+# It works by hijacking PROMPT_COMMAND and the DEBUG trap. Tools like
+# atuin, starship, and Ghostty's shell integration all register hooks
+# here so they coexist without overwriting each other.
+#
+# After bashrc finishes, bash_profile sources main-interactive, which
+# loads terminal/ghostty/interactive — that file sources Ghostty's shell
+# integration inside tmux, hooking into the same bash-preexec arrays.
 
-# Prompt.
+# 1. Starship prompt.
 # Yes, inside bashrc (non-interactive), not bash_profile (interactive).
 # For whatever reason, 'sudo bash' won't load bash_profile, only bashrc.
-# All of these incantations do *not* work:
-#       sudo bash
-#       sudo -E bash
-#       sudo -i bash  (i.e., sudo --login bash)
-# But putting the prompt here in bashrc *does* work, so that's what I'll do. 🤷
+# But putting the prompt here in bashrc *does* work. 🤷
 # And, noted, putting it here doesn't seem to interfere with scp.
 eval "$(starship init bash)"
 
-# Hrm, 251102 - Maybe atuin BEFORE starship causes them to collide. Moving atuin AFTER starship.
-# Atuin
-source "$HOME/.atuin/bin/env"
-
+# 2. bash-preexec (must be after starship, before atuin).
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+# 3. Atuin (must be after bash-preexec).
+source "$HOME/.atuin/bin/env"
 eval "$(atuin init bash --disable-up-arrow)"

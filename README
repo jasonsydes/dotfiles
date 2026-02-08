@@ -34,7 +34,7 @@ Currently my symlinks look like this:
 .bash_profile -> .dotfiles/bash/bash_profile
 .bashrc -> .dotfiles/bash/bashrc
 .nvimrc -> .vimrc
-.tmux.conf -> .dotfiles/tmux/tmux.conf
+.tmux.conf -> .dotfiles/terminal/tmux/tmux.conf
 .vimrc -> .dotfiles/vim/vimrc
 
 ---

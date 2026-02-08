@@ -10,10 +10,14 @@ shell-integration-features = ssh-terminfo,ssh-env
 
 # Keybindings
 
-# Use ctrl-shift-up and ctrl-shift-down arrows to jump up and down
-# between prompts.
-keybind = ctrl+shift+up=jump_to_prompt:-1
-keybind = ctrl+shift+down=jump_to_prompt:1
+# Prompt navigation (jump between shell prompts):
+#   Outside tmux: Cmd+Shift+Up/Down (Ghostty native jump_to_prompt)
+#   Inside tmux:  Ctrl+Shift+Up/Down (passes through to tmux, see tmux config)
+# Ghostty intercepts keybinds before they reach tmux, so we use Cmd for
+# the native feature and leave Ctrl+Shift unbound so it passes through.
+# See also: tmux.260205-NEW.conf "Prompt Navigation" section.
+keybind = super+shift+up=jump_to_prompt:-1
+keybind = super+shift+down=jump_to_prompt:1
 
 # Make shift+enter work through tmux (needed for Claude Code)
 keybind = shift+enter=text:\x1b\r
