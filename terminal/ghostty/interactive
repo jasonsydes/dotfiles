@@ -1,2 +1,13 @@
 # Ensure ~/.terminfo is found (needed for ghostty on remotes like talapas)
 [ -f "$HOME/.terminfo/x/xterm-ghostty" ] && export TERMINFO=$HOME/.terminfo
+
+# Ghostty shell integration inside tmux.
+# Ghostty can't auto-inject through tmux (tmux is the terminal, not Ghostty).
+# Manually sourcing enables OSC 133 prompt marking, which powers tmux's
+# prompt navigation (Ctrl+Shift+Up/Down).
+# LOAD ORDER: bash-preexec must be sourced BEFORE this (it is — bashrc loads
+# bash-preexec, then bash_profile sources main-interactive which loads this file).
+# See also: terminal/ghostty/config and tmux/tmux.260205-NEW.conf
+if [[ -n "$TMUX" && -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+    source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+fi
