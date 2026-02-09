@@ -13,7 +13,7 @@ A minimal, well-commented dotfiles setup for [Ghostty](https://ghostty.org/) ter
 ## What's included
 
 - **Ghostty config** — theme, font, keybindings, shell integration
-- **tmux config** — Ctrl-A prefix, vi copy mode, mouse, OSC 52 clipboard, prompt navigation, settings from [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)
+- **tmux config** — Ctrl-A prefix, vi copy mode, mouse, OSC 52 clipboard, prompt navigation, [Catppuccin Mocha](https://github.com/catppuccin/tmux) theme, settings from [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)
 - **bashrc** — minimal bash config that wires Ghostty shell integration inside tmux
 - **inputrc** — readline config: bracketed paste security, history prefix search, case-insensitive completion, magic space
 
@@ -37,14 +37,17 @@ curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec
 # 3. Install TPM (tmux plugin manager)
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# 4. Symlink configs
+# 4. Install Catppuccin tmux theme
+git clone https://github.com/catppuccin/tmux ~/.tmux/plugins/tmux
+
+# 5. Symlink configs
 mkdir -p ~/.config/ghostty
 ln -s ~/dotfiles/ghostty/config ~/.config/ghostty/config
 ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/bash/bashrc ~/.bashrc
 ln -s ~/dotfiles/bash/inputrc ~/.inputrc
 
-# 5. Open Ghostty, start tmux, press Ctrl-A I to install tmux plugins
+# 6. Open Ghostty, start tmux, press Ctrl-A I to install tmux plugins
 ```
 
 ## Prefix
