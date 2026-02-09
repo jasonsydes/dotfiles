@@ -1,7 +1,14 @@
 # Ghostty + tmux + Starship Starter Kit
-# Author: Jason Sydes
 
 A well-commented dotfiles setup for [Ghostty](https://ghostty.org/) terminal + [tmux](https://github.com/tmux/tmux) + [Starship](https://starship.rs/) prompt.
+
+- Jason Sydes
+- 2026-02-08
+
+> **Note:** These configs are extracted from a working installation but have
+> not been tested as a standalone kit. This is meant to communicate my setup
+> to other terminal users, not as a turnkey solution. It should be easily
+> adaptable to your own dotfiles.
 
 ## What's included
 

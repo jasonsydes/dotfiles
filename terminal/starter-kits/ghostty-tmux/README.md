@@ -1,7 +1,14 @@
 # Ghostty + tmux Starter Kit
-# Author: Jason Sydes
 
 A minimal, well-commented dotfiles setup for [Ghostty](https://ghostty.org/) terminal + [tmux](https://github.com/tmux/tmux).
+
+- Jason Sydes
+- 2026-02-08
+
+> **Note:** These configs are extracted from a working installation but have
+> not been tested as a standalone kit. This is meant to communicate my setup
+> to other terminal users, not as a turnkey solution. It should be easily
+> adaptable to your own dotfiles.
 
 ## What's included
 
