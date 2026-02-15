@@ -80,6 +80,14 @@ brew install starship
 # To enable flock with safe bash_history appending. (built-in on linux)
 brew install flock
 
+# GitHub CLI — repo creation, PRs, issues from the command line
+brew install gh
+
+# MacFUSE is useful, but requires reboot(s) to activate. Install on setup, then TEST to ensure working. Requires reboots.
+# The first commented out command will tell you to use the second uncommented command.
+# brew install macfuse
+brew install --cask macfuse
+
 ## Brew Install some bigger stuff - ACTUALLY, let's start using conda again (see ~/.dotfiles/nvim-common/aliases ~/.dotfiles/terminal/tmux/aliases)
 ### DISABLED - brew install neovim tmux
 
