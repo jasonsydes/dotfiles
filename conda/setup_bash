@@ -61,16 +61,20 @@ esac
 # Lame that conda does not export.
 # Make this function available to scripts.
 # Updated 251101
-export -f conda
-export -f __conda_activate
-export -f __conda_exe
-export -f __conda_hashr
-# export -f __conda_reactivate
-export -f mamba
-export -f __mamba_wrap
-export -f __mamba_xctivate
-export -f __mamba_exe
-export -f __mamba_hashr
+declare -F conda &>/dev/null && {
+    export -f conda
+    export -f __conda_activate
+    export -f __conda_exe
+    export -f __conda_hashr
+    # export -f __conda_reactivate
+}
+declare -F mamba &>/dev/null && {
+    export -f mamba
+    export -f __mamba_wrap
+    export -f __mamba_xctivate
+    export -f __mamba_exe
+    export -f __mamba_hashr
+}
 
 
 

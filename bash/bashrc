@@ -32,10 +32,14 @@ source $DOTFILES/bash/settings
 # Load source files.
 for f in $DOTFILES/*/source; do source "$f"; done
 
+# Track optional tools not found (reported at end of init)
+_missing=()
+
 # THE LAST ITEMS BELOW.
 #
 # Miniconda 3 - This should be the LAST item in your bash_proile.
 source $DOTFILES/conda/setup_bash
+command -v conda &>/dev/null || _missing+=(conda)
 # Nix
 source $DOTFILES/nix/setup_bash
 
@@ -80,11 +84,21 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 # For whatever reason, 'sudo bash' won't load bash_profile, only bashrc.
 # But putting the prompt here in bashrc *does* work. 🤷
 # And, noted, putting it here doesn't seem to interfere with scp.
-eval "$(starship init bash)"
+command -v starship &>/dev/null && eval "$(starship init bash)" || _missing+=(starship)
 
 # 2. bash-preexec (must be after starship, before atuin).
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 # 3. Atuin (must be after bash-preexec).
-source "$HOME/.atuin/bin/env"
-eval "$(atuin init bash --disable-up-arrow)"
+[ -f "$HOME/.atuin/bin/env" ] && source "$HOME/.atuin/bin/env"
+command -v atuin &>/dev/null && eval "$(atuin init bash --disable-up-arrow)" || _missing+=(atuin)
+
+# Pixi! conda/uv replacement
+export PATH="$HOME/.pixi/bin:$PATH"
+
+[ -f "$HOME/.bash_completions/gc3f-secrets.sh" ] && source "$HOME/.bash_completions/gc3f-secrets.sh"
+
+# Report missing optional tools (interactive only)
+[[ $- == *i* ]] && (( ${#_missing[@]} )) && \
+    echo -e "\e[90mshell: not installed: ${_missing[*]}\e[0m"
+unset _missing
