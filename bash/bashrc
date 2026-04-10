@@ -79,22 +79,31 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 # loads terminal/ghostty/interactive — that file sources Ghostty's shell
 # integration inside tmux, hooking into the same bash-preexec arrays.
 
+# Pixi — must be before starship/atuin so pixi-installed tools are in PATH
+export PATH="$HOME/.pixi/bin:$PATH"
+
 # 1. Starship prompt.
 # Yes, inside bashrc (non-interactive), not bash_profile (interactive).
 # For whatever reason, 'sudo bash' won't load bash_profile, only bashrc.
 # But putting the prompt here in bashrc *does* work. 🤷
 # And, noted, putting it here doesn't seem to interfere with scp.
-command -v starship &>/dev/null && eval "$(starship init bash)" || _missing+=(starship)
+if command -v starship &>/dev/null; then
+    eval "$(starship init bash)"
+else
+    _missing+=(starship)
+fi
 
 # 2. bash-preexec (must be after starship, before atuin).
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 # 3. Atuin (must be after bash-preexec).
 [ -f "$HOME/.atuin/bin/env" ] && source "$HOME/.atuin/bin/env"
-command -v atuin &>/dev/null && eval "$(atuin init bash --disable-up-arrow)" || _missing+=(atuin)
+if command -v atuin &>/dev/null; then
+    eval "$(atuin init bash --disable-up-arrow)"
+else
+    _missing+=(atuin)
+fi
 
-# Pixi! conda/uv replacement
-export PATH="$HOME/.pixi/bin:$PATH"
 
 [ -f "$HOME/.bash_completions/gc3f-secrets.sh" ] && source "$HOME/.bash_completions/gc3f-secrets.sh"
 
