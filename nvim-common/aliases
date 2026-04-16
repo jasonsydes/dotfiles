@@ -1,6 +1,5 @@
 # All roads point towards nvim. Make it hard to not use nvim.
-alias vvim=$HOME/miniforge3/bin/vim
-alias nvim=$HOME/miniforge3/bin/nvim
+# nvim and vim now installed via pixi (or system PATH). No hardcoded paths.
 alias vim=nvim
 
 # Disabled for now:
