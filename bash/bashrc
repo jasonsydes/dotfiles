@@ -32,6 +32,11 @@ source $DOTFILES/bash/settings
 # Load source files.
 for f in $DOTFILES/*/source; do source "$f"; done
 
+# ── Non-interactive shells stop here ──────────────────────────────
+# scp, sftp, rsync, and scripts don't need conda, starship, atuin, etc.
+# Without this guard, their stderr output corrupts the sftp protocol.
+[[ $- != *i* ]] && return
+
 # Track optional tools not found (reported at end of init)
 _missing=()
 
