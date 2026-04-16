@@ -15,6 +15,18 @@ git clone https://github.com/jasonsydes/dotfiles .dotfiles
 
 ## SETUP ##
 
+# UPDATE 260416
+# We're using pixi everywhere now. Where possible, we're using pixi to replace both mamba *and* homebrew. 
+# For now, continue to INSTALL homebrew, even if you don't use it much.
+# (Probably will just stop installing mamba entirely???)
+
+# ── Pixi (package manager — install first) ───────────────────────────
+#
+# Pixi replaces brew/conda for most CLI tool installs. Works cross-platform.
+# https://pixi.sh
+curl -fsSL https://pixi.sh/install.sh | bash
+# Close terminal, open new one (pixi adds itself to PATH).
+
 ## If on Mac, first, default to bash shell
 chsh -s /bin/bash
 # Close that terminal and open a new one.
@@ -48,40 +60,55 @@ ln -s ~/.dotfiles/starship/starship.toml ~/.config/starship.toml
 TODO: starship.toml not in ~/.dotfiles??
 
 
-## Conda Installs
+## Installs
 
-# Always use conda for neovim and tmux
-#  NOTE: Aliases are added to ensure availablity when leaving 'base' environment.
-#  NOTE: See: ~/.dotfiles/nvim-common/aliases ~/.dotfiles/terminal/tmux/aliases
-mamba activate base
-mamba install nvim tmux vim
+# TMUX and neovim
+pixi global install nvim tmux vim
 
-## Insteall homebrew
+## Install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # No need to do the "Next steps", because that's already in:
 #    ~/.dotfiles/host_laptop/misc
 #    ~/.dotfiles/homebrew/setup
 # Close terminal, open new one.
+# NOTE
 
+# ── Bash ─────────────────────────────────────────────────────────────
+#
+# macOS ships bash 3.2 (2007) — Apple won't update past GPLv2.
+# Linux distros ship modern bash but version varies.
+# Pixi provides a consistent modern bash across all platforms.
+#
+# Versions as of 260415:
+#   macOS built-in:  3.2.57  (ancient, missing associative arrays, etc.)
+#   pixi:            5.2.37
+#   brew:            5.3.9
+#   Differences between 5.2 and 5.3 not yet evaluated.
+#
+# Strategy: pixi bash as login shell everywhere.
+# On Mac, optionally keep brew bash installed as fallback.
 
-## Brew Installs
+## All platforms
+pixi global install bash
+sudo sh -c "echo $HOME/.pixi/bin/bash >> /etc/shells"
+chsh -s "$HOME/.pixi/bin/bash"
 
-
-# Update 260205 - MacOS bash is from 2007! Switch to another shell, or use homebrew bash (latest from 2025).
-# install, allow, change shell to homebrew bash.
+## Mac-only (optional fallback)
 brew install bash
 sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
-chsh -s /opt/homebrew/bin/bash
+# Don't chsh to brew bash — pixi is the primary.
 
-## Brew Install some basics (partially to make sure brew works)
-brew install wget
-brew install starship
+
+# ── Others ─────────────────────────────────────────────────────────────
+
+## pixi global install some basics
+pixi global install wget starship
 
 # To enable flock with safe bash_history appending. (built-in on linux)
-brew install flock
+pixi global install flock
 
 # GitHub CLI — repo creation, PRs, issues from the command line
-brew install gh
+pixi global install gh
 
 # MacFUSE is useful, but requires reboot(s) to activate. Install on setup, then TEST to ensure working. Requires reboots.
 # The first commented out command will tell you to use the second uncommented command.
@@ -91,13 +118,10 @@ brew install --cask macfuse
 ## Brew Install some bigger stuff - ACTUALLY, let's start using conda again (see ~/.dotfiles/nvim-common/aliases ~/.dotfiles/terminal/tmux/aliases)
 ### DISABLED - brew install neovim tmux
 
-## Brew Install some great tools
-#      QUESTION FOR FUTURE: 
-#      Do we want to start using conda everywhere again for these softwares, and just add aliases?
-#      (Like we are trying for tmux and nvim?)
-brew install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs bat
+# Some nice tools
+pixi global install ast-grep fd fzf ripgrep npm go wget lazygit choose-rust dust tree procs bat
 # Trying out git-delta and difftastic (see changes to ~/.dotfiles/git/, to start with)
-brew install git-delta difftastic
+pixi global install git-delta difftastic
 
 ## Install cargo
 curl https://sh.rustup.rs -sSf | sh
