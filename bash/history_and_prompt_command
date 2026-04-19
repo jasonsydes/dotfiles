@@ -12,6 +12,12 @@ export HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly abou
 #       needs to be aliased to a one or two letter shorthand.
 # }}}
 # Bash History Syncing {{{  ---------------------------------------------------
+# Bash 5.3+: history -a/-c/-r are no-ops when HISTFILE is unset or null.
+# Explicitly defaulting here is harmless on older bash (HISTFILE already
+# defaults to ~/.bash_history, so this is a no-op there too), but protects
+# against systems like Talapas where /etc/profile may clobber HISTFILE.
+export HISTFILE="${HISTFILE:-$HOME/.bash_history}"
+#
 # After every command: append to file, clear memory, reload from file.
 # This gives cross-shell history visibility (up-arrow shows commands from
 # other open shells).
