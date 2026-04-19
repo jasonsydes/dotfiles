@@ -4,8 +4,6 @@
 [core]
     editor = vim
     excludesfile = ~/.dotfiles/git/gitignore-global
-[user]
-    name = Jason Sydes
 [color]
     ui = true
 [log]
@@ -19,6 +17,32 @@
 # Linux/WSL-specific settings (hack relying upon /home only being on Linux/WSL)
 [includeIf "gitdir:/home/"]
     path = ~/.dotfiles/git/gitconfig-linux
+
+# ===============================================================================
+# Per-path user.email overrides (later entries win on overlap)
+# ===============================================================================
+
+# --- personal zones (broad) ---
+[includeIf "gitdir:~/"]
+    path = ~/.dotfiles/git/user/gitconfig-personal
+[includeIf "gitdir:~/C/devops/"]
+    path = ~/.dotfiles/git/user/gitconfig-personal
+[includeIf "gitdir:~/C/"]
+    path = ~/.dotfiles/git/user/gitconfig-personal
+
+# --- work zones (override personal where they overlap) ---
+[includeIf "gitdir:~/G/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/B/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/C/gc3f/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/C/gc3f-auto/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/C/bgmp/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/C/devops/llmpen/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
 
 [pull]
     # Only pull if fast-forward is possible.
@@ -72,3 +96,16 @@
 [pager]
     difftool = true
 # ===============================================================================
+
+
+# We want relative path worktrees
+[extensions]
+        relativeWorktrees = true
+[credential "https://github.com"]
+    helper = 
+    helper = !$HOME/.pixi/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = 
+    helper = !$HOME/.pixi/bin/gh auth git-credential
+[init]
+    defaultBranch = main
