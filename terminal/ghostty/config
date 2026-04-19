@@ -62,6 +62,10 @@ clipboard-paste-protection = false
 # executing immediately. See also inputrc `enable-bracketed-paste`.
 clipboard-paste-bracketed-safe = true
 
+# ── Notifications ─────────────────────────────────────────────────
+# Uncomment to enable macOS desktop notifications (e.g. for bell events):
+# desktop-notifications = true
+
 # ── Option Key (macOS) ────────────────────────────────────────────
 # Alt+arrow word-jumping works without this — Ghostty appears to
 # handle Option as Meta by default. Uncomment if Alt stops working.
