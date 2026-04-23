@@ -32,13 +32,17 @@ source $DOTFILES/bash/settings
 # Load source files.
 for f in $DOTFILES/*/source; do source "$f"; done
 
-# ── Non-interactive shells stop here ──────────────────────────────
-# scp, sftp, rsync, and scripts don't need conda, starship, atuin, etc.
-# Without this guard, their stderr output corrupts the sftp protocol.
-[[ $- != *i* ]] && return
-
-# Track optional tools not found (reported at end of init)
-_missing=()
+###### # ── Non-interactive shells stop here ──────────────────────────────
+###### # YO THIS IS PROBABLY WRONG! I 
+###### # PROBABLY WRONG, I WANT non-interactive SHELLS TO HAVE PIXI ETC: 
+###### #   scp, sftp, rsync, and scripts don't need conda, starship, atuin, etc.
+###### # THIS HERE IS THE RIGHT IDEA, JUST IN THE WRONG PLACE: 
+###### #    Without this guard, their stderr output corrupts the sftp protocol.
+###### # Move this....
+###### [[ $- != *i* ]] && return
+###### 
+###### # Track optional tools not found (reported at end of init)
+###### _missing=()
 
 # THE LAST ITEMS BELOW.
 
