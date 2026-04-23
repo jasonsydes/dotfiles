@@ -101,14 +101,15 @@ fi
 # 2. bash-preexec (must be after starship, before atuin).
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
-# 3. Atuin (must be after bash-preexec).
-[ -f "$HOME/.atuin/bin/env" ] && source "$HOME/.atuin/bin/env"
-if command -v atuin &>/dev/null; then
-    eval "$(atuin init bash --disable-up-arrow)"
-else
-    _missing+=(atuin)
-fi
-
+# Disabling Atuin globally. Will remove.
+# Is a nice concept, but in practide it gets bogged down by my large "forever" bash_history.
+#### # 3. Atuin (must be after bash-preexec).
+#### [ -f "$HOME/.atuin/bin/env" ] && source "$HOME/.atuin/bin/env"
+#### if command -v atuin &>/dev/null; then
+####     eval "$(atuin init bash --disable-up-arrow)"
+#### else
+####     _missing+=(atuin)
+#### fi
 
 [ -f "$HOME/.bash_completions/gc3f-secrets.sh" ] && source "$HOME/.bash_completions/gc3f-secrets.sh"
 
