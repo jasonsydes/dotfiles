@@ -41,15 +41,14 @@ for f in $DOTFILES/*/source; do source "$f"; done
 _missing=()
 
 # THE LAST ITEMS BELOW.
-#
-# Miniconda 3 - This should be the LAST item in your bash_proile.
-source $DOTFILES/conda/setup_bash
-command -v conda &>/dev/null || _missing+=(conda)
-# Nix
-source $DOTFILES/nix/setup_bash
+
+# Doing it. Disabling mamba / conda - 260423.
+# # Miniconda 3 - This should be the LAST item in your bash_proile.
+# source $DOTFILES/conda/setup_bash
+# command -v conda &>/dev/null || _missing+=(conda)
 
 # Lando
-# export PATH="/home/sydes/.lando/bin:$PATH" #landopath
+# NOTE: This should really just be on laptop only.
 export PATH="$HOME/.lando/bin:$PATH" #landopath
 
 # ── Prompt, bash-preexec, and atuin ───────────────────────────────
@@ -111,6 +110,7 @@ fi
 ####     _missing+=(atuin)
 #### fi
 
+# NOTE: This should probably go somewhere else.
 [ -f "$HOME/.bash_completions/gc3f-secrets.sh" ] && source "$HOME/.bash_completions/gc3f-secrets.sh"
 
 # Report missing optional tools (interactive only)

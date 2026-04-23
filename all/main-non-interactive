@@ -8,13 +8,13 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Load path files.
 shopt -s nullglob
-for f in $DOTFILES/*/path $DOTFILES/*/*/path ; do source "$f" ; done
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/path $DOTFILES/*/*/path ; do source "$f" ; done
 shopt -u nullglob
 export PATH
 
 # Load host misc files.
 shopt -s nullglob
-for f in $DOTFILES/*/misc $DOTFILES/*/*/misc ; do source "$f" ; done
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/misc $DOTFILES/*/*/misc ; do source "$f" ; done
 shopt -u nullglob
 
 # Load cargo / rust stuff
