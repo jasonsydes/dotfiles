@@ -7,7 +7,6 @@ format = """
 $conda\
 $username\
 $all\
-$fill\
 $time\
 $line_break\
 $character
@@ -23,15 +22,14 @@ truncation_length = 1000
 # truncation_symbol = '…/'
 style="bold bright-yellow"
 
-[fill]
-symbol = " "
-
-# The time (on the right side).
+# The time (inline, after the rest of the prompt, with 5 spaces of breathing room).
+# Previously sat on the right via $fill, but that padded with spaces and made
+# copy/paste into notes/Claude messy.
 # https://starship.rs/config/#time
 [time]
 disabled = false
-style = "bold bright-black"
-format = "[$time]($style)"
+style = "dimmed bright-black"
+format = "     [$time]($style)"
 # eg Mon Jun 26 14:57:14 2023, see https://docs.rs/chrono/0.4.7/chrono/format/strftime/index.html
 time_format = "%c"
 
@@ -56,15 +54,39 @@ ignore_base = false
 ### Annoying stuff to disable for now ###
 
 [python]
-# Looks like this:
-#     🐍 v3.11.0
-disabled = true
+# Default format (for reference):
+#   format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+#   Renders VERY BRIGHT as:  via 🐍 v3.11.15        ('via' uncolored, rest in bold yellow)
+# Override below pulls 'via' inside the styled bracket so it dims with the rest.
+# Renders NOW DIMMED as:     via 🐍 v3.11.15        (whole span dim bright-black; emoji stays vivid — terminals ignore ANSI dim on emoji glyphs)
+style = "dimmed bright-black"
+format = '[via ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+python_binary = [
+  # this is the python from PATH if in a pixi shell
+  # (assuming you don't have python on your global PATH)
+  "python",
+  # fall back to pixi's python if it's available
+  ".pixi/envs/default/bin/python",
+]
+
+[pixi]
+# Default format (for reference):
+#   format = 'via [$symbol($version )(\($environment\) )]($style)'
+#   Renders VERY BRIGHT as:  via 🧚 v0.68.0         ('via' uncolored, rest in bold yellow)
+# Override below pulls 'via' inside the styled bracket so it dims with the rest.
+# Renders NOW DIMMED as:     via 🧚 v0.68.0         (whole span dim bright-black; emoji stays vivid — terminals ignore ANSI dim on emoji glyphs)
+style = "dimmed bright-black"
+format = '[via $symbol($version )(\($environment\) )]($style)'
 
 [nodejs]
 # Javascript
-# Looks like this:
-#      v16.19.0
-disabled = true
+# Default format (for reference):
+#   format = 'via [$symbol($version )]($style)'
+#   Renders VERY BRIGHT as:  via  v22.10.0         ('via' uncolored, rest in bold green)
+# Override below pulls 'via' inside the styled bracket so it dims with the rest.
+# Renders NOW DIMMED as:     via  v22.10.0         (whole span dim bright-black; nerd-font glyph stays vivid)
+style = "dimmed bright-black"
+format = '[via $symbol($version )]($style)'
 
 [gcloud]
 # Looks like this: 
