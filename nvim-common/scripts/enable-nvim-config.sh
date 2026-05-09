@@ -4,15 +4,20 @@
 # If an existing symlinked nvim config is in place, delete those symlinks.
 # Error out if you find a non-symlinked nvim config
 
+# UPDATE 260509:
+#   We now HAND-MANAGE the symlinks of ~/.config/nvim.
+#
 # Usage:
 #   enable-nvim-config.sh NAME
 # Example:
 #   enable-nvim-config.sh nvim-basic-ide
 # Above example will add SYMLINKS that look like this: 
-#   ~/.config/nvim       -> ~/.config/nvim--nvim-basic-ide 
 #   ~/.cache/nvim        -> ~/.cache/nvim--nvim-basic-ide 
 #   ~/.local/state/nvim  -> ~/.local/state/nvim--nvim-basic-ide
 #   ~/.local/share/nvim  -> ~/.local/share/nvim--nvim-basic-ide
+#   ---
+#   Next line is no longer supported, see UPDATE above!
+#   ~/.config/nvim       -> ~/.config/nvim--nvim-basic-ide        NO LONGER SUPPORTED! SEE ABOVE!
 
 
 NAME=$1
@@ -23,7 +28,7 @@ if [[ ! $NAME ]] ; then
 fi
 
 # Don't allow this tool to run if it finds an existing non-symlinked config in place.
-for THING in ~/.config/nvim ~/.cache/nvim ~/.local/state/nvim ~/.local/share/nvim; do
+for THING in ~/.cache/nvim ~/.local/state/nvim ~/.local/share/nvim; do
 
     if test -e $THING && ! test -L $THING ; then
         echo "ERROR: You're trying to run $0, but I found a non-symlinked nvim config in place."
@@ -31,7 +36,11 @@ for THING in ~/.config/nvim ~/.cache/nvim ~/.local/state/nvim ~/.local/share/nvi
     fi
 done
 
-for THING in ~/.config/nvim ~/.cache/nvim ~/.local/state/nvim ~/.local/share/nvim; do
+echo
+echo 'Please note! You need to hand-manage the ~/.config/nvim symlink/folder! Read this script for details!'
+echo
+
+for THING in ~/.cache/nvim ~/.local/state/nvim ~/.local/share/nvim; do
     EXISTING_THING="${THING}--${NAME}"
     set -x
     # Delete any existing symlink.
