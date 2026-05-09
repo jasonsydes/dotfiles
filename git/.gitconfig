@@ -2,7 +2,7 @@
     path = ~/.gitconfig-local
     path = ~/.dotfiles/git/git-aliases
 [core]
-    editor = vim
+    # editor = vim
     excludesfile = ~/.dotfiles/git/gitignore-global
 [color]
     ui = true
