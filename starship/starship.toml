@@ -88,6 +88,16 @@ format = '[via $symbol($version )(\($environment\) )]($style)'
 style = "dimmed bright-black"
 format = '[via $symbol($version )]($style)'
 
+[rlang]
+# R
+# Default format (for reference):
+#   format = 'via [$symbol($version )]($style)'
+#   Renders VERY BRIGHT as:  via 📐 v4.5.1         ('via' uncolored, rest in bold blue)
+# Override below pulls 'via' inside the styled bracket so it dims with the rest.
+# Renders NOW DIMMED as:     via 📐 v4.5.1         (whole span dim bright-black; emoji stays vivid)
+style = "dimmed bright-black"
+format = '[via $symbol($version )]($style)'
+
 [gcloud]
 # Looks like this: 
 #     on ☁️
