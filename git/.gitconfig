@@ -35,6 +35,10 @@
     path = ~/.dotfiles/git/user/gitconfig-work
 [includeIf "gitdir:~/B/"]
     path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/B.new-2026-March/"]
+    path = ~/.dotfiles/git/user/gitconfig-work
+[includeIf "gitdir:~/B.new-2025"]
+    path = ~/.dotfiles/git/user/gitconfig-work
 [includeIf "gitdir:~/C/gc3f/"]
     path = ~/.dotfiles/git/user/gitconfig-work
 [includeIf "gitdir:~/C/gc3f-auto/"]
@@ -51,14 +55,14 @@
     ff = only
 
 # ===============================================================================
-# Delta as global pager (OPTIONAL)
+# Delta as global pager
 # Uncomment to make delta your default pager for ALL git commands
 # This does NOT need to be uncommented to use (can use via aliases, see below)
 # (diff, log, show, blame, reflog, stash, etc.)
 # You can still override with aliases (e.g., git difft for difftastic)
 # See .dotfiles/git/git-aliases for easy use.
-# This do
-# mamba install git-delta or brew install git-delta
+# Install with:
+#   pixi global install git-delta
 # ===============================================================================
 [core]
     pager = delta
