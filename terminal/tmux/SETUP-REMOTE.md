@@ -58,10 +58,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 ## 4. Install catppuccin
 
-Catppuccin is loaded via `source-file`, not TPM. Clone it manually:
+Catppuccin is loaded via `source-file`, not TPM. Clone it to the XDG location:
 
 ```bash
-git clone https://github.com/catppuccin/tmux ~/.tmux/plugins/tmux
+mkdir -p ~/.config/tmux/plugins/catppuccin
+git clone https://github.com/catppuccin/tmux ~/.config/tmux/plugins/catppuccin/tmux
 ```
 
 ## 5. Launch tmux and install plugins
@@ -108,5 +109,5 @@ printf '\033]52;c;%s\a' "$(echo -n 'hello from remote' | base64)"
 
 - `pbcopy` is not used — clipboard is entirely OSC 52 (cross-platform)
 - `delta` (git pager) is optional — install it or set `core.pager=less`
-- The config expects `~/.tmux/plugins/tmux/` (catppuccin) and
+- The config expects `~/.config/tmux/plugins/catppuccin/tmux/` (catppuccin) and
   `~/.tmux/plugins/tpm/` (TPM) to exist before sourcing
