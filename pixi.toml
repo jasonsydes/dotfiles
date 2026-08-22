@@ -1,0 +1,96 @@
+[workspace]
+name = "dotfiles"
+version = "1.0.0"
+description = "Pixi-based dotfiles install/setup substrate for fresh-system provisioning"
+authors = ["Jason Sydes"]
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "linux-aarch64", "osx-arm64"]
+
+# ─── Profiles ─────────────────────────────────────────────────────────────────
+# Each [feature.profile-*] declares the package set for that target. The
+# matching [feature.profile-*.tasks] block has a `setup-tools` task that
+# duplicates the list as a `pixi global install` invocation. That duplication
+# is intentional for now — the deferred "emit verb" work will derive the
+# install list from the dep block. Until then: KEEP THE TWO LISTS IN SYNC
+# when adding/removing tools.
+
+[feature.profile-container-slim.dependencies]
+bash = ">=5.2"
+# `nvim` is the editor; conda-forge's `neovim` package is pynvim (Python client).
+nvim = "*"
+tmux = "*"
+starship = "*"
+ripgrep = "*"
+"fd-find" = "*"
+# git >=2.48 required for native relative worktrees (used by ghee).
+# Ubuntu 24.04 ships 2.43, so apt git is too old.
+git = ">=2.48"
+
+[feature.profile-laptop.dependencies]
+ast-grep = "*"
+bash = ">=5.2"
+bat = "*"
+choose-rust = "*"
+difftastic = "*"
+dust = "*"
+"fd-find" = "*"
+fzf = "*"
+gh = "*"
+git = ">=2.48"
+git-delta = "*"
+glow-md = "*"
+go = "*"
+lazygit = "*"
+# Both: `nvim` is the editor, `neovim` is pynvim (Python client for plugins).
+nvim = "*"
+neovim = "*"
+nodejs = "*"
+procs = "*"
+ripgrep = "*"
+rust = "*"
+starship = "*"
+tmux = "*"
+tree = "*"
+tree-sitter-cli = "*"
+vim = "*"
+wget = "*"
+xlsx2csv = "*"
+
+[environments]
+container-slim = ["profile-container-slim"]
+laptop = ["profile-laptop"]
+
+# ─── Tasks ────────────────────────────────────────────────────────────────────
+# Layer 1: install the profile's tools via `pixi global`. Tools land in
+# ~/.pixi/bin/<tool>; the dotfiles bashrc adds that directory to PATH.
+
+[feature.profile-container-slim.tasks]
+# KEEP IN SYNC WITH [feature.profile-container-slim.dependencies]
+setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48'"
+
+[feature.profile-laptop.tasks]
+# KEEP IN SYNC WITH [feature.profile-laptop.dependencies]
+setup-tools = """
+pixi global install \
+  ast-grep 'bash>=5.2' bat choose-rust difftastic dust 'fd-find' fzf \
+  gh 'git>=2.48' git-delta glow-md go lazygit nvim neovim nodejs procs \
+  ripgrep rust starship tmux=3.6a tree tree-sitter-cli vim wget xlsx2csv
+"""
+
+# Layer 2: tmux plugins. Idempotent — safe to re-run.
+#
+# NOTE: $HOME symlinking is deliberately NOT automated. The old
+# symlink-configs.sh moved ~/.dotfiles out of place on hosts where
+# ~/.dotfiles *is* the repo (longreads, 260518) and broke the install.
+# It is now a by-hand checklist: setup/scripts/symlink-configs.txt.
+[tasks]
+setup-configs = "bash setup/scripts/install-tmux-plugins.sh"
+
+# Composite: tools first, then tmux plugins. Symlinks are a manual step in
+# between — see setup/scripts/symlink-configs.txt. User runs `exec bash` after.
+setup = { depends-on = ["setup-tools", "setup-configs"] }
+
+# Opt-in, macOS-only. Deliberately NOT in the `setup` composite: it mutates
+# system state and needs sudo, which would break the otherwise sudo-free,
+# container-safe `setup` flow. Run once per laptop: `pixi run setup-macos`.
+setup-macos = "bash setup/scripts/macos-system-prefs.sh"

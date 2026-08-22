@@ -1,0 +1,48 @@
+# dotfiles (hub/)
+
+Personal dotfiles: shell, editor, terminal, and tooling configs.
+Directory-per-tool layout. Symlinked into $HOME via the setup substrate.
+
+## Setup substrate (fresh-system provisioning)
+
+Provisions a fresh system (container, laptop, server) via pixi.
+
+- `pixi.toml`, `pixi.lock`     — pixi manifest + lockfile (at repo root)
+- `setup/bootstrap.sh`         — install pixi itself
+- `setup/scripts/`             — symlink + tmux-plugin scripts
+- `setup/README.md`            — full setup docs + profile catalog
+
+Quick start:
+```
+bash setup/bootstrap.sh
+export PATH="$HOME/.pixi/bin:$PATH"
+pixi run -e <profile> setup    # profiles: container-slim, laptop
+exec bash
+```
+
+## Source code structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `bash/`, `zsh/`         | Shell configs |
+| `nvim/`, `vim/`         | Editor configs (nvim repo is separate; symlinked in) |
+| `git/`                  | Git config |
+| `terminal/ghostty/`     | Ghostty terminal config |
+| `terminal/tmux/`        | tmux config |
+| `terminal/starter-kits/`| Self-contained shareable kits for friends/students |
+| `starship/`             | Prompt config |
+| `bin/`                  | Utility scripts |
+| `host_laptop/`          | macOS-specific runtime config (sourced by shell) |
+| `host_longreads/`       | longreads-specific runtime config |
+| `host_talapas/`         | talapas-specific runtime config |
+| `kanata/`               | Keyboard remapping (Mac); standalone setup in `kanata/README.setup` |
+| `markdown/glow/`        | glow markdown viewer theme (catppuccin-mocha) |
+| `nerd-fonts/`           | Manual font install notes |
+| `inputrc`               | readline config |
+
+## Legacy install lore
+
+- `setup.sh`                            — pre-pixi Mac install log (rough notes)
+- `setup.d/260310-setup-bumble.sh`      — pre-pixi Linux install log (bumble, ubuntu 24.04)
+
+Both are preserved for reference but superseded by `setup/`.

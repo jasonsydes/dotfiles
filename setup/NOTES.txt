@@ -1,0 +1,18 @@
+While doing longreads reboot 260518 and upgradeing my dotfiles:
+
+1. catpuccing plugin is waaay in the wrong place (~/.tmux/plugins/tmux ???!!!)
+2. lots of terminfo messing around. I think in the end:
+  - pixi global install ncurses (to get the newest tic and maaaybe infocmp ???)
+  - then gotta re-run
+3. tmux not set in setup, so was install tmux=3.6 instead of tmux=3.6a
+4. on longreads, my pixi is installed in /JBOD or something because it is big. 
+    - but that means that when /JBOD isn't availabe, then starship isnt' available, and 
+      it's like terrible prompt sistuation, I cant' see anything.
+      Should fix it such that, if starship is NOT available, that it won't freak out.
+5. Borked ~/.dotfiles
+    - ~/.dotfiles/setup/scripts/symlink-configs.sh
+      - This screipt screws up.
+        - on bubs, it makes sense, because ~/.dotfiles is pointing to the correct place (somewhere in ~/C/devops or something)
+	      - But it won't always be the case. 
+	      - On longreads, ~/.dotfiles *is* the repo. When I ran symlink-configs.sh, it messed up, and moved ~/.dotfiles out of place, borking everything. Fix this.
+

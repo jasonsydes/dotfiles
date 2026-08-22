@@ -1,0 +1,102 @@
+# symlink-configs.txt — place the $HOME symlinks BY HAND.
+#
+# This used to be symlink-configs.sh. It is a checklist now, on purpose.
+#
+# WHY IT IS NOT A SCRIPT ANYMORE
+# ------------------------------
+# The script's first action was to ensure ~/.dotfiles -> <repo>. On a host
+# where ~/.dotfiles IS the repo (longreads, 260518), ~/.dotfiles is a real
+# directory rather than a symlink, so the script took its "back up whatever
+# is in the way" branch and renamed the entire repo to
+# ~/.dotfiles.pre-dotfiles.<date> — then pointed the new symlink at a path
+# that no longer existed. That borked the whole install.
+#
+# There are two legitimate layouts and the script could not tell them apart:
+#   (a) repo lives elsewhere, ~/.dotfiles is a symlink to it   (bubs)
+#   (b) repo IS ~/.dotfiles                                     (longreads)
+#
+# This is a handful of `ln -s` calls run once per machine. It does not need
+# an installer, and an installer that guesses wrong is worse than no
+# installer. Read the steps, run the ones you need.
+
+
+## 0. Figure out which layout you are on
+
+    ls -ld ~/.dotfiles
+
+  - Symlink to somewhere else (e.g. ~/C/devops/dotfiles/hub) -> layout (a).
+  - A real directory containing this repo                    -> layout (b).
+  - Does not exist                                           -> pick one.
+
+  Layout (a) — repo elsewhere, umbrella symlink. Do step 1, then 2+.
+  Layout (b) — repo is ~/.dotfiles itself.     SKIP step 1, then 2+.
+
+  Everything below step 1 uses paths relative to $HOME that resolve through
+  ~/.dotfiles, so steps 2+ are identical for both layouts.
+
+
+## 1. Umbrella symlink  (layout (a) ONLY — skip on layout (b))
+
+  Point ~/.dotfiles at wherever the repo actually lives. Absolute path.
+
+    ln -s /path/to/dotfiles/hub ~/.dotfiles
+
+  On bubs that is:
+
+    ln -s ~/C/devops/dotfiles/hub ~/.dotfiles
+
+  DO NOT run this if ~/.dotfiles is already the repo. You will be moving the
+  repo out from under yourself. That is the exact bug that killed longreads.
+
+
+## 2. $HOME dotfile symlinks
+
+  Back up anything real that is already sitting at these paths first:
+
+    mv ~/.bashrc ~/.bashrc.pre-dotfiles.$(date +%y%m%d)     # etc, as needed
+
+  Then:
+
+    ln -s .dotfiles/bash/bash_profile        ~/.bash_profile
+    ln -s .dotfiles/bash/bashrc              ~/.bashrc
+    ln -s .dotfiles/inputrc                  ~/.inputrc
+    ln -s .dotfiles/terminal/tmux/tmux.conf  ~/.tmux.conf
+    ln -s .dotfiles/git/.gitconfig           ~/.gitconfig
+
+  (Relative targets are deliberate — they resolve through ~/.dotfiles, so
+  they stay correct on both layouts.)
+
+
+## 3. ~/.config entries
+
+    mkdir -p ~/.config
+    ln -s ../.dotfiles/starship/starship.toml ~/.config/starship.toml
+
+  Note the leading `../` — this target is relative to ~/.config, not $HOME.
+
+
+## 4. Verify before you trust it
+
+    ls -l ~/.bash_profile ~/.bashrc ~/.inputrc ~/.tmux.conf ~/.gitconfig
+    ls -l ~/.config/starship.toml
+    readlink -f ~/.bashrc        # should land inside the repo
+
+  Then, and only then:
+
+    exec bash
+
+
+## 5. tmux plugins
+
+  Still scripted — it only writes inside ~/.tmux and ~/.config/tmux, so it
+  has no way to eat the repo:
+
+    bash setup/scripts/install-tmux-plugins.sh
+
+  Catppuccin is NOT installed by TPM; it is loaded via source-file from the
+  XDG path. Clone it by hand:
+
+    mkdir -p ~/.config/tmux/plugins/catppuccin
+    git clone https://github.com/catppuccin/tmux ~/.config/tmux/plugins/catppuccin/tmux
+
+  See terminal/tmux/SETUP-REMOTE.md for the full remote-host procedure.

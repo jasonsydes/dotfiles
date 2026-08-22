@@ -1,3 +1,15 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SUPERSEDED — see setup/ partition for the current install pipeline.
+#
+#   bash setup/bootstrap.sh
+#   export PATH="$HOME/.pixi/bin:$PATH"
+#   pixi run -e <profile> setup
+#   exec bash
+#
+# This file is preserved as historical install notes (Mac, pre-pixi).
+# See setup/README.md for current profiles and procedure.
+# ─────────────────────────────────────────────────────────────────────────────
+
 # DO NOT RUN OR EXECUTE THIS FILE!
 # DO NOT RUN OR EXECUTE THIS FILE!
 # DO NOT RUN OR EXECUTE THIS FILE!
@@ -125,8 +137,16 @@ brew install kanata
 
 # ── Pixi Installs ────────────────────────────────────────────────────────
 
-# TMUX and neovim
-pixi global install nvim tmux vim
+# TMUX
+#   NOTE: Must use ... install tmux==v3.6a if using pixi (or conda/mamba) 
+#   NOTE:    (... install "tmux>=3.6a" does NOT work)
+#   NOTE: tmux v3.6 is BROKEN on conda feedstock, at least for Mac (maybe also linux??) - see https://github.com/conda-forge/tmux-feedstock/issues/42
+#   NOTE: tmux v3.6a works (but weirdness with version sorting, use ==v3.6a, see https://github.com/conda-forge/tmux-feedstock/issues/44#issuecomment-4169853465)
+#   NOTE: Can also use brew install tmux (confirmed works)
+pixi global install tmux=3.6a
+
+# neovim
+pixi global install nvim vim
 
 ## pixi global install some basics
 pixi global install wget starship
