@@ -1,15 +1,30 @@
-# bash_profile is for interactive shells
+# bash_profile is for "interactive login" shells.
+#   e.g. fresh ssh session, login over a TTY, a terminal that starts a
+#   login shell (macOS terminals generally do).
+#
+# It sources ~/.bashrc first, so an interactive login shell gets BOTH the
+# "interactive non-login" set and the "interactive login" set. Order:
+#
+#   ~/.bash_profile
+#     └─> ~/.bashrc                       (shared + interactive non-login)
+#           └─> all/main-interactive-non-login
+#     └─> all/main-interactive-login      (login-only, this file)
 
-# Source the (non-interactive) ~/.bashrc.
+# Source ~/.bashrc — Zone A (all/main-common) plus, if interactive,
+# Zone B (all/main-interactive).
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
 
 # $DOTFILES is set inside ~/.bashrc. Warn (in interactive mode only) if it is not set.
 if [ -n "${DOTFILES:-}" ]; then
-    # Source the main interactive file
-    source $DOTFILES/all/main-interactive
-else
+    # Zone C: interactive login shells only.
+    #
+    # The `[[ $- == *i* ]]` guard is REQUIRED. ~/.bash_profile is read by ALL
+    # login shells, interactive or not, so without it `bash -lc 'cmd'` would
+    # source Zone C and any greeting there would pollute cmd's stdout.
+    [[ $- == *i* ]] && source $DOTFILES/all/main-interactive-login
+elif [[ $- == *i* ]]; then
     # DOTFILES is not set or empty; go fix it.
     echo 'ERROR: $DOTFILES is not set! Things are likely very broken.'
 fi

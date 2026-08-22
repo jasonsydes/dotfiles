@@ -1,0 +1,51 @@
+# Sourced from ~/.bashrc, ABOVE the `[[ $- != *i* ]] && return` guard.
+#
+# Runs for every shell that reads ~/.bashrc at all:
+#   interactive login       Ghostty window/tab, new tmux pane, `ssh longreads`
+#   interactive non-login   `bash` typed at a prompt, `sudo bash`, a subshell
+#   NON-interactive         scp, sftp, `ssh longreads whoami`
+#
+# That last case is why this file exists. Those shells are non-interactive and
+# by the strict rules should never read ~/.bashrc — but bash reads it for them
+# anyway when built with SSH_SOURCE_BASHRC and invoked by sshd. Verified
+# 260822: /bin/bash on both longreads and talapas has it ON, so remote commands
+# there DO run this file, and need PATH/env from it or they break.
+#   Check a host with:  ssh HOST 'echo "DOTFILES=${DOTFILES:-UNSET}"'
+#   (set => that host reads ~/.bashrc for remote commands)
+#
+# Note this does NOT cover `bash script.sh` — a plain script reads no startup
+# files at all and simply inherits exported env from its parent.
+#
+# Must print NOTHING. The scp/sftp protocol runs over stdout, so a stray echo
+# here corrupts transfers; keep stderr quiet too, it's not worth the risk.
+#
+#   -> "Would a remote command or scp break without it?"
+
+# ------
+
+## Taken from http://harts.net/reece/setup/bashrc, Thanks!
+# This is my attempt to create order from chaos in platform naming
+# All info is derived from uname and lowercased.  OS patchlevel is truncated.
+export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
+export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export PLATFORM="$MACHINE-$OS-$OSVERSION"
+
+# ------
+
+# Load path files.
+shopt -s nullglob
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/path $DOTFILES/*/*/path ; do source "$f" ; done
+shopt -u nullglob
+export PATH
+
+# Load host misc files.
+shopt -s nullglob
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/misc $DOTFILES/*/*/misc ; do source "$f" ; done
+shopt -u nullglob
+
+# ------
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+[ -f ~/.localrc ] && source ~/.localrc

@@ -1,7 +1,32 @@
-# bashrc is for non-interactive shells
+# bashrc is for "interactive non-login" shells.
+#   e.g. a new tmux pane, `bash` run from inside another shell, a subshell.
+#
+# It is ALSO sourced by ~/.bash_profile, so interactive *login* shells run it
+# too — everything here applies to both. Login-only content goes in
+# all/main-interactive-login instead.
+#
+# THE SCP CAVEAT (why the guard below sits where it does):
+#   scp/sftp/rsync-over-ssh and `ssh host cmd` are NON-interactive, so by the
+#   strict rules they should never read this file. But they DO get a fresh
+#   shell, and bash reads ~/.bashrc for them anyway. So this file runs in
+#   three cases, not two:
+#       1. interactive non-login   (tmux pane, subshell)
+#       2. interactive login       (via bash_profile)
+#       3. NON-interactive         (scp, sftp, ssh host cmd)
+#   Hence the split partway down: everything ABOVE the `[[ $- != *i* ]]`
+#   guard runs for all three (PATH, env — scripts need those); everything
+#   BELOW runs only for 1 and 2 (prompt, shell integration — these corrupt
+#   the sftp protocol if they print).
+#
+# History note: this file used to be labeled "bashrc is for non-interactive
+# shells", which was simply wrong and had propagated into the names of the
+# include files. Corrected 260509; see all/main-interactive-{login,non-login}.
 
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
+
+# Track optional tools not found (reported at end of init)
+_missing=()
 
 # Let's set infinite history and PROMPT_COMMAND immediately
 # (perhaps this will stop the endemic history truncation)
@@ -23,39 +48,37 @@ source $DOTFILES/bash/history_and_prompt_command
 # Never put anything in your bashrc that you don't understand.
 # Never put anything in your bashrc that you don't understand.
 
-# Source the non-interactive file
-source $DOTFILES/all/main-non-interactive
+# Zone A: everything every shell that reads this file needs. Must print nothing.
+source $DOTFILES/all/main-common
 
 # Load bash settings.
 source $DOTFILES/bash/settings
 
 # Load source files.
-for f in $DOTFILES/*/source; do source "$f"; done
+shopt -s nullglob
+for f in $DOTFILES/*/source $DOTFILES/*/*/source; do source "$f"; done
+shopt -u nullglob
 
-###### # ── Non-interactive shells stop here ──────────────────────────────
-###### # YO THIS IS PROBABLY WRONG! I 
-###### # PROBABLY WRONG, I WANT non-interactive SHELLS TO HAVE PIXI ETC: 
-###### #   scp, sftp, rsync, and scripts don't need conda, starship, atuin, etc.
-###### # THIS HERE IS THE RIGHT IDEA, JUST IN THE WRONG PLACE: 
-###### #    Without this guard, their stderr output corrupts the sftp protocol.
-###### # Move this....
-###### [[ $- != *i* ]] && return
-###### 
-###### # Track optional tools not found (reported at end of init)
-###### _missing=()
+# Pixi — must be before starship so pixi-installed tools are in PATH
+export PATH="$HOME/.pixi/bin:$PATH"
 
-# THE LAST ITEMS BELOW.
+# ───────────────────────────────────────────────────────────────
+# ── Non-interactive shells stop here ───────────────────────────
 
-# Doing it. Disabling mamba / conda - 260423.
-# # Miniconda 3 - This should be the LAST item in your bash_proile.
-# source $DOTFILES/conda/setup_bash
-# command -v conda &>/dev/null || _missing+=(conda)
+# Return here if non-interactive, continue onwards if interactive.
+#
+# scp, sftp, rsync, and scripts don't need starship, etc.
+# Without this guard, their stderr output corrupts the sftp protocol.
+[[ $- != *i* ]] && return
+
+# ── Only interactive (login or non-login) continue onwards ─────
+# ───────────────────────────────────────────────────────────────
 
 # Lando
 # NOTE: This should really just be on laptop only.
 export PATH="$HOME/.lando/bin:$PATH" #landopath
 
-# ── Prompt, bash-preexec, and atuin ───────────────────────────────
+# ── Prompt, bash-preexec, and others ───────────────────────────────
 #
 # LOAD ORDER MATTERS. These must load in this exact sequence:
 #
@@ -63,11 +86,14 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 #   2. bash-preexec    — Wraps PROMPT_COMMAND and provides precmd_functions
 #                        and preexec_functions arrays. Multiple tools can
 #                        register hooks without stomping on each other.
-#   3. atuin           — Hooks into bash-preexec's arrays for history search.
-#   4. ghostty shell   — Loaded LATER, via terminal/ghostty/interactive
-#      integration       (bash_profile → main-interactive → ghostty/interactive).
-#                        Hooks into bash-preexec's precmd_functions for OSC 133
-#                        prompt marking. Only activates inside tmux.
+#   3. all/main-interactive
+#                      — Loads the */interactive fragments, which include
+#                        terminal/ghostty/interactive: Ghostty's shell
+#                        integration, hooking bash-preexec's precmd_functions
+#                        for OSC 133 prompt marking. Only activates inside
+#                        tmux. MUST come after bash-preexec.
+#
+#   (atuin was step 3 here — DEPRECATED/UNINSTALLED, removed 260509.)
 #
 # If bash-preexec loads BEFORE starship, they collide (starship prompt
 # breaks). Starship must set up PROMPT_COMMAND first, then bash-preexec
@@ -83,15 +109,12 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 # atuin, starship, and Ghostty's shell integration all register hooks
 # here so they coexist without overwriting each other.
 #
-# After bashrc finishes, bash_profile sources main-interactive, which
-# loads terminal/ghostty/interactive — that file sources Ghostty's shell
+# After bashrc finishes, bash_profile sources main-interactive-login, which
+# loads terminal/ghostty/interactive-login — that file sources Ghostty's shell
 # integration inside tmux, hooking into the same bash-preexec arrays.
 
-# Pixi — must be before starship/atuin so pixi-installed tools are in PATH
-export PATH="$HOME/.pixi/bin:$PATH"
-
 # 1. Starship prompt.
-# Yes, inside bashrc (non-interactive), not bash_profile (interactive).
+# Yes, inside bashrc ("interactive non-login"), not bash_profile ("interactive login").
 # For whatever reason, 'sudo bash' won't load bash_profile, only bashrc.
 # But putting the prompt here in bashrc *does* work. 🤷
 # And, noted, putting it here doesn't seem to interfere with scp.
@@ -101,23 +124,19 @@ else
     _missing+=(starship)
 fi
 
-# 2. bash-preexec (must be after starship, before atuin).
+# 2. bash-preexec (must be after starship).
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
-# Disabling Atuin globally. Will remove.
-# Is a nice concept, but in practide it gets bogged down by my large "forever" bash_history.
-#### # 3. Atuin (must be after bash-preexec).
-#### [ -f "$HOME/.atuin/bin/env" ] && source "$HOME/.atuin/bin/env"
-#### if command -v atuin &>/dev/null; then
-####     eval "$(atuin init bash --disable-up-arrow)"
-#### else
-####     _missing+=(atuin)
-#### fi
+# 3. Zone B: every interactive shell, login and non-login alike.
+#    MUST stay after bash-preexec — see the LOAD ORDER MATTERS block above.
+#    Loads */aliases and */interactive, incl. terminal/ghostty/interactive.
+source $DOTFILES/all/main-interactive
 
 # NOTE: This should probably go somewhere else.
 [ -f "$HOME/.bash_completions/gc3f-secrets.sh" ] && source "$HOME/.bash_completions/gc3f-secrets.sh"
 
-# Report missing optional tools (interactive only)
+# ── Report missing optional tools (interactive only) ───────────────
+# Keep this LAST — everything that appends to _missing must run above it.
 [[ $- == *i* ]] && (( ${#_missing[@]} )) && \
     echo -e "\e[90mshell: not installed: ${_missing[*]}\e[0m"
 unset _missing

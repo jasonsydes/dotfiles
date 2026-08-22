@@ -1,0 +1,3 @@
+# Rust / cargo. Zone A (main-common) via the */path glob — a script or remote
+# command invoking cargo or a rust-built binary needs ~/.cargo/bin on PATH.
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"

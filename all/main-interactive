@@ -1,13 +1,42 @@
-# your default editor
-export EDITOR='vim'
+# Sourced from ~/.bashrc, BELOW the `[[ $- != *i* ]] && return` guard.
+#
+# Runs for BOTH kinds of interactive shell:
+#   interactive login       Ghostty window/tab, new tmux pane, `ssh longreads`
+#   interactive non-login   `bash` typed at a prompt, `sudo bash`, a subshell
+#
+# Not run for: scp, sftp, `ssh longreads whoami`.
+#
+# LOAD ORDER: sourced near the END of ~/.bashrc, after starship and
+# bash-preexec. The */interactive fragments below include
+# terminal/ghostty/interactive, which hooks bash-preexec's precmd_functions
+# for OSC 133 — so bash-preexec must already exist. See the LOAD ORDER MATTERS
+# block in bash/bashrc before moving the source line.
+#
+#   -> "Is it for a human typing at a prompt?"
+#      (If nested shells should SKIP it, use all/main-interactive-login.)
+
+# ------
+
+# Editor
+# Experimental: Trying out a slim nvim config that addresses both general
+# purpose editors and claude ctrl-g mode.
+export EDITOR='env NVIM_APPNAME=nvim-EDITOR nvim'
+export VISUAL="$EDITOR"
+# Uncomment below for old school.
+# export EDITOR='vim'
+# export VISUAL="$EDITOR"
 
 # https://stackoverflow.com/questions/37209913/how-does-alias-sudo-sudo-work
 alias sudo='sudo '
 
-# Load alias files.
-shopt -s nullglob
-[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/aliases $DOTFILES/*/*/aliases ; do source "$f"; done
+# ------
 
-# Load interactive-specific files.
+shopt -s nullglob
+
+# Load alias files.
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/aliases $DOTFILES/*/*/aliases ; do source "$f" ; done
+
+# Load files for every interactive shell (login and non-login alike).
 [ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/interactive $DOTFILES/*/*/interactive ; do source "$f" ; done
+
 shopt -u nullglob

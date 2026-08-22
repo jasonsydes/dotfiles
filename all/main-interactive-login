@@ -1,0 +1,35 @@
+# Sourced from ~/.bash_profile.
+#
+# Runs ONLY for interactive LOGIN shells — the shell handed to you at the top
+# of a session:
+#   Ghostty window or tab          macOS runs it via login(1), which execs `bash -l`
+#   new tmux pane/window/session   default-command is empty, so tmux runs a login shell
+#   `ssh longreads`
+#
+# Not run for shells you spawn from inside one of those:
+#   `bash` typed at a prompt, `sudo bash`, a subshell
+# ...nor for scp, sftp, `ssh longreads whoami`.
+#
+# NOTE: ~/.bash_profile is read by ALL login shells, interactive or not, so
+# `bash -lc 'cmd'` would otherwise run this file and pollute cmd's output with
+# anything that prints (e.g. the longreads df greeting). bash_profile therefore
+# guards this with `[[ $- == *i* ]]`. Keep that guard.
+#
+# Nearly everything you sit in front of IS a login shell, so this zone is thin
+# on purpose. If you also want it in `sudo bash` and subshells, it belongs one
+# zone up in all/main-interactive.
+#
+#   -> "Is it for a human typing, but nested shells should skip it?"
+
+# ------
+
+# Good place for things that would break scp, or that should not repeat in a
+# nested shell. For example, on longreads a df runs at login:
+#   df -h /JBOD /storage
+# That is NOT run by `ssh longreads whoami`, nor by `sudo bash` inside a
+# session — only when a login shell is handed to you.
+
+shopt -s nullglob
+# Load files specific to "interactive login" shells.
+[ -n "${DOTFILES:-}" ] && for f in $DOTFILES/*/interactive-login $DOTFILES/*/*/interactive-login ; do source "$f" ; done
+shopt -u nullglob
