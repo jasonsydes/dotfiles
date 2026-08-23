@@ -1,32 +1,95 @@
-# No matter what system we're on, /etc/profile gets read when starting a login
-# shell. Unfotunately, login shells are started for Tmux. This has the unfortunate
-# consequence of moving the miniconda path from the front of PATH (where it
-# belongs) to the rear of PATH.  Then the wrong vim gets read, and I can no
-# longer use my conda vim under Tmux.
+# shellcheck shell=bash
+#
+# Rebuild PATH from a known base, early, so that OUR entries win.
+#
+# ── THE PROBLEM ────────────────────────────────────────────────────────────
+#
+# /etc/profile is read whenever a login shell starts -- and login shells start
+# far more often than you would think: every tmux pane, every VSCode integrated
+# terminal, every ssh session.
+#
+# On macOS, /etc/profile runs:
+#
+#     eval $(/usr/libexec/path_helper -s)
+#
+# path_helper does not append. It REBUILDS PATH from /etc/paths and
+# /etc/paths.d, then tacks whatever you already had onto the end. So a tool
+# directory you deliberately put at the front comes back at the rear -- an
+# entry at position 1 returns at position 13. You get the system vim instead of
+# yours, the system git, the system tmux.
+#
+# We cannot edit /etc/profile on most of these machines. So instead: reset PATH
+# to a minimal base and source /etc/profile ourselves, early, before any of our
+# own entries exist. Everything we add afterwards then lands in front of the
+# system, deterministically.
+#
+# Ref: https://superuser.com/a/970847 -- tmux *should* start a login shell,
+#      even though that is exactly what triggers this.
+#
+# ── THIS FILE DOES THREE JOBS ──────────────────────────────────────────────
+#
+# Only the first is macOS-specific. Do not "optimise" it away on Linux, and do
+# not gate it on interactivity (see the next section).
+#
+#   1. macOS: undo path_helper's demotion of our PATH entries.
+#
+#   2. EVERYWHERE: dedupe. Starting from a known base is what stops PATH
+#      accumulating repeated entries. Skip it and the inherited PATH survives,
+#      path_helper appends it behind the system dirs, and bashrc prepends our
+#      entries again -- leaving two copies of everything.
+#
+#   3. LINUX: load /etc/profile.d/* for shells that would otherwise never see
+#      it. On talapas, /etc/profile.d/slurm.sh is the ONLY thing putting
+#      ${SLURM_ROOT}/bin on PATH and setting LD_LIBRARY_PATH for a remote
+#      command -- sshd does not supply it -- so `ssh talapas squeue` depends on
+#      this file running. On Ubuntu, /etc/environment supplies /usr/local/bin,
+#      /snap/bin and /usr/games the same way.
+#
+# ── DO NOT GATE THIS ON `[[ $- == *i* ]]` ──────────────────────────────────
+#
+# Yo, you might think this is for interactive only, but you'd be wrong. It's
+# needed for non-interactive-ssh+ext as well. For example: Gating this breaks
+# `ssh talapas squeue` outright and doubles PATH entries everywhere.
+#
+# ── ORDERING INVARIANT ─────────────────────────────────────────────────────
+#
+# Everything that adds to PATH must run AFTER this file. Today that means the
+# */path fragments (via all/main-common) and the pixi line, both further down
+# bash/bashrc. Move this file later, or those earlier, and PATH silently ends
+# up in system-first order with our tools shadowed.
+#
+# ── CONDA WAS THE SYMPTOM, NOT THE CAUSE ───────────────────────────────────
+#
+# path_helper demotes ANY user-added PATH entry. Conda was simply what stood
+# there first, back when this file was written. Pixi stands there now. This
+# file stays load-bearing even after the conda block at the bottom goes away.
+#
+# ── MORE INFO ──────────────────────────────────────────────────────────────
+#
+# bash/README.Interactive-Soup.md -- glossary, the three-zone model, the host
+# matrix, and the dated history of how all of the above was worked out.
 
-# Since we can't alter /etc/profile on some systems, we "fix" this problem with a hack:
-# Simply reset the PATH to nothing, then manually source /etc/profile.
-
-# Background:
-#       https://superuser.com/a/970847 - Tmux *should* start a login shell, even though it causes the problem described above.
-
-# Update, July 2024:
-#       Just realizing that, by default on MacOS, for its integrated terminal VSCode starts login shells, and 
-#       under certain circumstances, this results in the Conda/Mamba PATHs ending up at the end of $PATH.
-#       Just realizing that this workaround file, while originally designed to deal with tmux, ALSO successfully
-#       deals with VSCode's integrated terminal problem. Yay.
-
-
-# Looks like we maybe need to source /etc/environment first (which is apparently how rayfin sets up PATH??)
+# /etc/environment first: on some hosts (Ubuntu) that is where the base PATH
+# comes from.
 PATH="/bin:/usr/bin"
 if [ -f /etc/environment ]; then
-    source /etc/environment
+    # shellcheck source=/dev/null
+    source /etc/environment > /dev/null 2> /dev/null
 fi
+
+# Redirected: this runs in the scp/sftp path too, and /etc/profile.d/*.sh can
+# print. Stray output on stdout corrupts the transfer protocol.
 if [ -f /etc/profile ]; then
+    # shellcheck source=/dev/null
     source /etc/profile > /dev/null 2> /dev/null
 fi
 
-# Finally, this fixes conda in tmux:
-if [[ `type conda 2>/dev/null` ]] ; then
-    [[ -z $TMUX ]] || conda deactivate; conda activate base
+# Re-activate conda so it sits in front again, inside tmux.
+#
+# conda: DEPRECATED in favour of pixi. Kept deliberately -- teaching demos, and
+# as a fallback until pixi has a few uneventful years behind it. Targeted for
+# possible removal in 2028. No-op where conda is absent.
+if command -v conda >/dev/null 2>&1 && [[ -n "$TMUX" ]]; then
+    conda deactivate
+    conda activate base
 fi
