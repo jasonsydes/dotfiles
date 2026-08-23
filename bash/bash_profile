@@ -2,16 +2,18 @@
 #   e.g. fresh ssh session, login over a TTY, a terminal that starts a
 #   login shell (macOS terminals generally do).
 #
-# It sources ~/.bashrc first, so an interactive login shell gets BOTH the
-# "interactive non-login" set and the "interactive login" set. Order:
+# It sources ~/.bashrc first, so an interactive login shell gets all three
+# zones. Order:
 #
 #   ~/.bash_profile
-#     └─> ~/.bashrc                       (shared + interactive non-login)
-#           └─> all/main-interactive-non-login
-#     └─> all/main-interactive-login      (login-only, this file)
+#     ├─> ~/.bashrc
+#     │     ├─> all/main-common          Zone A: + non-interactive-ssh+ext
+#     │     └─> all/main-interactive     Zone B: interactive, login + non-login
+#     └─> all/main-interactive-login     Zone C: login only (guarded, see below)
+#
+# MORE INFO: bash/README.Interactive-Soup.md
 
-# Source ~/.bashrc — Zone A (all/main-common) plus, if interactive,
-# Zone B (all/main-interactive).
+# Source ~/.bashrc — Zone A, plus Zone B if interactive.
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi

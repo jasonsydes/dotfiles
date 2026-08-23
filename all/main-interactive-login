@@ -1,25 +1,26 @@
-# Sourced from ~/.bash_profile.
+# ZONE C. Sourced from ~/.bash_profile, behind an interactive guard.
 #
 # Runs ONLY for interactive LOGIN shells — the shell handed to you at the top
 # of a session:
-#   Ghostty window or tab          macOS runs it via login(1), which execs `bash -l`
-#   new tmux pane/window/session   default-command is empty, so tmux runs a login shell
+#   Ghostty window or tab          macOS runs it via login(1), execs `bash -l`
+#   new tmux pane/window/session   default-command empty => tmux runs login shell
 #   `ssh longreads`
 #
-# Not run for shells you spawn from inside one of those:
-#   `bash` typed at a prompt, `sudo bash`, a subshell
-# ...nor for scp, sftp, `ssh longreads whoami`.
+# Not run for shells spawned from inside one of those (`bash` at a prompt,
+# `sudo bash`, a subshell), nor for non-interactive-ssh+ext.
 #
-# NOTE: ~/.bash_profile is read by ALL login shells, interactive or not, so
-# `bash -lc 'cmd'` would otherwise run this file and pollute cmd's output with
-# anything that prints (e.g. the longreads df greeting). bash_profile therefore
-# guards this with `[[ $- == *i* ]]`. Keep that guard.
+# KEEP THE GUARD in bash_profile: `[[ $- == *i* ]]`. ~/.bash_profile is read by
+# ALL login shells, interactive or not, so without it `bash -lc 'cmd'` runs this
+# file and anything that prints lands in cmd's stdout. That was a real bug on
+# longreads (the df greeting); see the decision log, 260822.
 #
 # Nearly everything you sit in front of IS a login shell, so this zone is thin
 # on purpose. If you also want it in `sudo bash` and subshells, it belongs one
 # zone up in all/main-interactive.
 #
 #   -> "Is it for a human typing, but nested shells should skip it?"
+#
+# MORE INFO: bash/README.Interactive-Soup.md
 
 # ------
 

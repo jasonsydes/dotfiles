@@ -1,4 +1,7 @@
 # zshenv is for non-interactive shells
+#
+# NOTE: I don't run zsh these days. Untested, possibly stale — grain of salt.
+# NOTE: Any edits to zsh config stuff in the last year+ have been untested / aspirational only.
 
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
@@ -13,9 +16,9 @@ export DOTFILES="$HOME/.dotfiles"
 # Never put anything in your zshenv that you don't understand.
 # Never put anything in your zshenv that you don't understand.
 
-# Source the shared / "interactive non-login" file.
-# NOTE: zsh config is legacy — jason uses bash. Kept in step with the bash
-# rename (260509) so it does not silently source a file that no longer exists.
+# Zone A (all/main-common). Silenced: bash-shaped file, uses `shopt`.
+# Kept in step with the bash zone rename (260509) so it does not silently
+# source a file that no longer exists.
 source $DOTFILES/all/main-common &> /dev/null
 
 # Load bash settings.

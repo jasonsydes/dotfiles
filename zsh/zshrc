@@ -1,4 +1,7 @@
 # zshrc is for interactive shells
+#
+# NOTE: I don't run zsh these days. Untested, possibly stale — grain of salt.
+# NOTE: Any edits to zsh config stuff in the last year+ have been untested / aspirational only.
 
 # Source the (non-interactive) ~/.zshenv.
 if [ -f ~/.zshenv ]; then
@@ -8,9 +11,17 @@ fi
 # Load prompt
 source $DOTFILES/zsh/prompt &> /dev/null
 
-# Source your fake 'inputrc' file 
+# Source your fake 'inputrc' file
 source $DOTFILES/zsh/inputrc_zsh &> /dev/null
 
-# Source the "interactive login" file.
-source $DOTFILES/all/main-interactive
-source $DOTFILES/all/main-interactive-login
+# Zone B (all/main-interactive) and Zone C (all/main-interactive-login).
+#
+# Silenced because these are bash-shaped files: they use `shopt`, which zsh
+# does not have, so unsilenced they print "command not found" on every shell.
+#
+# Zone mismatch, unresolved: zshrc runs for BOTH login and non-login
+# interactive zsh, so Zone C fires more often here than under bash (where
+# ~/.bash_profile gates it to login only). The zsh equivalent would be
+# ~/.zlogin. Not wired up -- see the note at the top.
+source $DOTFILES/all/main-interactive &> /dev/null
+source $DOTFILES/all/main-interactive-login &> /dev/null

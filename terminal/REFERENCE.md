@@ -94,7 +94,7 @@ prompt nav, freeing `ctrl+shift` for tmux passthrough.
 Ghostty auto-injects shell integration outside tmux via POSIX mode.
 Inside tmux, this doesn't work — tmux is the terminal, not Ghostty.
 
-**Solution:** `terminal/ghostty/interactive-login` manually sources Ghostty's
+**Solution:** `terminal/ghostty/interactive` manually sources Ghostty's
 integration script when both `$TMUX` and `$GHOSTTY_RESOURCES_DIR` are set.
 This enables OSC 133 prompt marking inside tmux.
 

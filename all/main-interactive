@@ -1,19 +1,19 @@
-# Sourced from ~/.bashrc, BELOW the `[[ $- != *i* ]] && return` guard.
+# ZONE B. Sourced from ~/.bashrc, AFTER (below) the Interactive Guard.
 #
 # Runs for BOTH kinds of interactive shell:
 #   interactive login       Ghostty window/tab, new tmux pane, `ssh longreads`
-#   interactive non-login   `bash` typed at a prompt, `sudo bash`, a subshell
+#   interactive non-login   `bash` at a prompt, `sudo bash`, a subshell
 #
-# Not run for: scp, sftp, `ssh longreads whoami`.
+# Not run for non-interactive-ssh+ext (scp, sftp, `ssh host cmd`, `bash -lc`).
 #
-# LOAD ORDER: sourced near the END of ~/.bashrc, after starship and
-# bash-preexec. The */interactive fragments below include
-# terminal/ghostty/interactive, which hooks bash-preexec's precmd_functions
-# for OSC 133 — so bash-preexec must already exist. See the LOAD ORDER MATTERS
-# block in bash/bashrc before moving the source line.
+# LOAD ORDER: must be sourced after bash-preexec. The */interactive fragments
+# include terminal/ghostty/interactive, which needs bash-preexec to exist
+# first. See the LOAD ORDER MATTERS block in bash/bashrc before moving it.
 #
 #   -> "Is it for a human typing at a prompt?"
 #      (If nested shells should SKIP it, use all/main-interactive-login.)
+#
+# MORE INFO: bash/README.Interactive-Soup.md
 
 # ------
 

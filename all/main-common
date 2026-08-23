@@ -1,25 +1,19 @@
-# Sourced from ~/.bashrc, ABOVE the `[[ $- != *i* ]] && return` guard.
+# ZONE A. Sourced from ~/.bashrc, BEFORE (above) the Interactive Guard.
 #
 # Runs for every shell that reads ~/.bashrc at all:
-#   interactive login       Ghostty window/tab, new tmux pane, `ssh longreads`
-#   interactive non-login   `bash` typed at a prompt, `sudo bash`, a subshell
-#   NON-interactive         scp, sftp, `ssh longreads whoami`
+#   interactive login          Ghostty window/tab, new tmux pane, `ssh longreads`
+#   interactive non-login      `bash` at a prompt, `sudo bash`, a subshell
+#   non-interactive-ssh+ext    scp, sftp, `ssh longreads whoami`, `bash -lc`
 #
-# That last case is why this file exists. Those shells are non-interactive and
-# by the strict rules should never read ~/.bashrc — but bash reads it for them
-# anyway when built with SSH_SOURCE_BASHRC and invoked by sshd. Verified
-# 260822: /bin/bash on both longreads and talapas has it ON, so remote commands
-# there DO run this file, and need PATH/env from it or they break.
-#   Check a host with:  ssh HOST 'echo "DOTFILES=${DOTFILES:-UNSET}"'
-#   (set => that host reads ~/.bashrc for remote commands)
+# That last case is why this file exists -- those shells should never read a
+# startup file, but do, and they need PATH/env from it or they break. It does
+# NOT cover `bash script.sh`, which reads nothing and inherits from its parent.
 #
-# Note this does NOT cover `bash script.sh` — a plain script reads no startup
-# files at all and simply inherits exported env from its parent.
-#
-# Must print NOTHING. The scp/sftp protocol runs over stdout, so a stray echo
-# here corrupts transfers; keep stderr quiet too, it's not worth the risk.
+# Must print NOTHING: the scp/sftp protocol runs over stdout.
 #
 #   -> "Would a remote command or scp break without it?"
+#
+# MORE INFO: bash/README.Interactive-Soup.md
 
 # ------
 
