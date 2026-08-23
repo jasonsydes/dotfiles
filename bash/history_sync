@@ -1,0 +1,58 @@
+# shellcheck shell=bash
+# History syncing + backup. SOURCE ONCE ONLY.
+#
+# Must be sourced AFTER $DOTFILES/etc_profile_workaround, which re-runs
+# `source /etc/profile`. On RHEL-family hosts /etc/profile ends by sourcing
+# /etc/bashrc, which may set PROMPT_COMMAND -- anything we register before the
+# workaround can be wiped by it.
+#
+# Companion file bash/history_vars holds the HIST* env vars and IS safe to
+# source repeatedly. The split exists because this file is not: registering
+# PROMPT_COMMAND twice makes the sync run twice per prompt, and the backup
+# block below would fork twice per shell.
+
+# After every command: append to file, clear memory, reload from file.
+# Gives cross-shell history visibility (up-arrow shows commands from other
+# open shells).
+#
+# We APPEND to PROMPT_COMMAND rather than overwriting it -- starship,
+# bash-preexec, and Ghostty's integration all live there too.
+#
+# bash 5.1+ allows PROMPT_COMMAND to be an ARRAY. On such a shell,
+# `$PROMPT_COMMAND` expands only element [0], and assigning a string COLLAPSES
+# the array to a scalar, silently discarding every other registered hook. So
+# branch on the actual type. (talapas is bash 4.4, where it is always scalar,
+# so the array branch is unreachable there.)
+#
+# The outer test makes this idempotent: re-sourcing adds nothing.
+#
+# History: previously used _jason_safe_bash_history_sync with flock to guard
+# against truncation. Replaced by daily backup rotation (bin/bash-history-backup).
+_hist_sync='history -a; history -c; history -r'
+
+# shellcheck disable=SC2128,SC2178,SC2179
+# (SC2178: the two branches are mutually exclusive by construction -- the
+#  string assignment only runs when PROMPT_COMMAND is NOT an array. This is
+#  the same pattern, and the same suppression, that ghostty.bash uses.)
+# STARSHIP_PROMPT_COMMAND is checked too: `starship init` moves any
+# pre-existing PROMPT_COMMAND into that variable and evals it from
+# starship_precmd, so after starship has run our sync lives there, not in
+# PROMPT_COMMAND. Checking only PROMPT_COMMAND would add a second copy.
+if [[ "${PROMPT_COMMAND[*]:-}${STARSHIP_PROMPT_COMMAND:-}" != *"$_hist_sync"* ]]; then
+    if [[ "$(declare -p PROMPT_COMMAND 2>/dev/null)" == "declare -a"* ]]; then
+        PROMPT_COMMAND+=("$_hist_sync")
+    else
+        PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND%;};} $_hist_sync"
+    fi
+fi
+unset _hist_sync
+
+# Daily rotation backup of ~/.bash_history into ~/.bash_history.d/
+# Runs once per day on first shell login. If history ever gets truncated,
+# restore from the most recent backup:
+#   cp ~/.bash_history.d/bash_history.YYYY-MM-DD ~/.bash_history
+if [[ -x "$HOME/.dotfiles/bin/bash-history-backup" ]]; then
+    ("$HOME/.dotfiles/bin/bash-history-backup" &) 2>/dev/null
+fi
+
+# " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4:

@@ -1,26 +1,24 @@
-# bashrc is for "interactive non-login" shells.
-#   e.g. a new tmux pane, `bash` run from inside another shell, a subshell.
+# bashrc is for "interactive non-login" shells -- a new tmux pane, `bash` from
+# inside another shell, a subshell. It is ALSO sourced by ~/.bash_profile, so
+# interactive login shells run it too. Finally, we have
+# "non-interactive-ssh+ext" shells (scp, sftp, `ssh host cmd`, `bash -lc`) as
+# well.
 #
-# It is ALSO sourced by ~/.bash_profile, so interactive *login* shells run it
-# too — everything here applies to both. Login-only content goes in
-# all/main-interactive-login instead.
+# WHY THIS FILE (~/.bashrc) IS SPLIT IN TWO
 #
-# THE SCP CAVEAT (why the guard below sits where it does):
-#   scp/sftp/rsync-over-ssh and `ssh host cmd` are NON-interactive, so by the
-#   strict rules they should never read this file. But they DO get a fresh
-#   shell, and bash reads ~/.bashrc for them anyway. So this file runs in
-#   three cases, not two:
-#       1. interactive non-login   (tmux pane, subshell)
-#       2. interactive login       (via bash_profile)
-#       3. NON-interactive         (scp, sftp, ssh host cmd)
-#   Hence the split partway down: everything ABOVE the `[[ $- != *i* ]]`
-#   guard runs for all three (PATH, env — scripts need those); everything
-#   BELOW runs only for 1 and 2 (prompt, shell integration — these corrupt
-#   the sftp protocol if they print).
+#   The top half (eg PATH and env stuff) is read by all three:
+#   - interactive non-login
+#   - interactive login
+#   - non-interactive-ssh+ext
 #
-# History note: this file used to be labeled "bashrc is for non-interactive
-# shells", which was simply wrong and had propagated into the names of the
-# include files. Corrected 260509; see all/main-interactive-{login,non-login}.
+#   The bottom half is only read by the truly interactive shells. Stuff that
+#   prints, text editors, aliases, etc, some of which (eg echo'ing text) breaks
+#   things like scp in the non-interactive-ssh+ext group.
+#   
+#   So: BEFORE the Interactive Guard = all three. AFTER = interactive only.
+#
+# MORE INFO: bash/README.Interactive-Soup.md -- glossary, the three-zone
+# model, the host matrix, and the decision log behind all of it.
 
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
@@ -28,25 +26,29 @@ export DOTFILES="$HOME/.dotfiles"
 # Track optional tools not found (reported at end of init)
 _missing=()
 
-# Let's set infinite history and PROMPT_COMMAND immediately
-# (perhaps this will stop the endemic history truncation)
-# 251121
-source $DOTFILES/bash/history_and_prompt_command
+# History env vars, pass 1. Safe to source repeatedly.
+source $DOTFILES/bash/history_vars
 
 # /etc/profile workaround - MUST BE (NEARLY) THE FIRST LINE IN THIS FILE!
+#
+# Briefly: builds a consistent PATH and other important envs on most/all
+# platforms. See etc_profile_workaround for details.
+#
+# DO NOT gate this on `[[ $- == *i* ]]`. Tried 260823, reverted same day --
+# it breaks slurm on talapas and duplicates PATH. See etc_profile_workaround.
 if [ -f $DOTFILES/etc_profile_workaround ]; then
   source $DOTFILES/etc_profile_workaround
 fi
 
-# Looks like Talapas /etc/profile modifies HIST env vars, source
-# our version again here. 
-# (perhaps this will stop the endemic history truncation)
-# 251121
-source $DOTFILES/bash/history_and_prompt_command
+# History env vars, pass 2 — REQUIRED, not redundant.
+#
+# Because of etc_profile_workaround above, we need to re-source this file
+# (otherwise vars like HISTSIZE get reset). See bash/history_vars for details.
+source $DOTFILES/bash/history_vars
 
-# Never put anything in your bashrc that you don't understand.
-# Never put anything in your bashrc that you don't understand.
-# Never put anything in your bashrc that you don't understand.
+# History syncing + daily backup. ONCE ONLY, and must come after the workaround
+# above. See bash/history_sync for why both of those matter.
+source $DOTFILES/bash/history_sync
 
 # Zone A: everything every shell that reads this file needs. Must print nothing.
 source $DOTFILES/all/main-common
@@ -63,15 +65,18 @@ shopt -u nullglob
 export PATH="$HOME/.pixi/bin:$PATH"
 
 # ───────────────────────────────────────────────────────────────
-# ── Non-interactive shells stop here ───────────────────────────
-
-# Return here if non-interactive, continue onwards if interactive.
+# ── THE INTERACTIVE GUARD — interactive shells only, after this ─
 #
-# scp, sftp, rsync, and scripts don't need starship, etc.
-# Without this guard, their stderr output corrupts the sftp protocol.
+# non-interactive-ssh+ext shells (scp, sftp, `ssh host cmd`, `bash -lc`) return
+# here. They needed the PATH and env set above; they must not see anything
+# below, because the scp/sftp protocol runs over stdout and a stray echo
+# corrupts transfers. Keep stderr quiet too.
+#
+# Everything else in the tree refers to this line as BEFORE (above) / AFTER
+# (below) the Interactive Guard. Definitions: README.Interactive-Soup.md
 [[ $- != *i* ]] && return
 
-# ── Only interactive (login or non-login) continue onwards ─────
+# ── AFTER the Interactive Guard: login and non-login alike ─────
 # ───────────────────────────────────────────────────────────────
 
 # Lando
@@ -89,9 +94,9 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 #   3. all/main-interactive
 #                      — Loads the */interactive fragments, which include
 #                        terminal/ghostty/interactive: Ghostty's shell
-#                        integration, hooking bash-preexec's precmd_functions
-#                        for OSC 133 prompt marking. Only activates inside
-#                        tmux. MUST come after bash-preexec.
+#                        integration for OSC 133 prompt marking. Only
+#                        activates inside tmux. MUST come after bash-preexec
+#                        (see the CAVEAT below for what it actually hooks).
 #
 #   (atuin was step 3 here — DEPRECATED/UNINSTALLED, removed 260509.)
 #
@@ -105,13 +110,21 @@ export PATH="$HOME/.lando/bin:$PATH" #landopath
 # capabilities:
 #   - precmd_functions[]  — array of functions to run before each prompt
 #   - preexec_functions[] — array of functions to run before each command
-# It works by hijacking PROMPT_COMMAND and the DEBUG trap. Tools like
-# atuin, starship, and Ghostty's shell integration all register hooks
-# here so they coexist without overwriting each other.
+# It works by hijacking PROMPT_COMMAND and the DEBUG trap, so tools can
+# coexist without overwriting each other.
 #
-# After bashrc finishes, bash_profile sources main-interactive-login, which
-# loads terminal/ghostty/interactive-login — that file sources Ghostty's shell
-# integration inside tmux, hooking into the same bash-preexec arrays.
+# CAVEAT (measured 260822, Ghostty 1.3.1): Ghostty does NOT use those arrays
+# by default. It appends __ghostty_hook to PROMPT_COMMAND and adds to PS0,
+# falling back to precmd_functions only in an else-branch. So the marker to
+# grep for is __ghostty_hook in PROMPT_COMMAND:
+#     echo "${PROMPT_COMMAND[*]}" | grep -o __ghostty_hook
+# Note starship also stashes any pre-existing PROMPT_COMMAND into
+# $STARSHIP_PROMPT_COMMAND and evals it from starship_precmd — so things set
+# before `starship init` end up there, not in PROMPT_COMMAND itself.
+#
+# Step 3 below (all/main-interactive) loads terminal/ghostty/interactive,
+# which does the sourcing. It only activates inside tmux; outside tmux
+# Ghostty auto-injects into the shell it spawns and the fragment is a no-op.
 
 # 1. Starship prompt.
 # Yes, inside bashrc ("interactive non-login"), not bash_profile ("interactive login").

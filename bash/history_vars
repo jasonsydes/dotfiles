@@ -1,0 +1,42 @@
+# shellcheck shell=bash
+# History environment. SAFE TO SOURCE REPEATEDLY — and bashrc does source it
+# twice, on purpose.
+#
+# WHY TWICE: bash/bashrc sources $DOTFILES/etc_profile_workaround, which
+# re-runs `source /etc/profile` mid-bashrc (an old fix for conda/tmux PATH
+# ordering). On RHEL-family hosts /etc/profile hard-assigns HISTSIZE=1000 and
+# exports HISTCONTROL, wiping what we set. Confirmed still true on talapas
+# (login3, /etc/profile dated 2022-11-28). So we set these once early, and
+# again after the workaround has run.
+#
+# The cause is OUR workaround re-running /etc/profile, not the login sequence
+# doing it late — so it applies on every host where /etc/profile exists, not
+# just talapas. (On macOS /etc/profile touches none of these; no-op there.)
+#
+# MORE INFO: bash/README.Interactive-Soup.md
+
+shopt -s histappend                 # append to history, don't overwrite it
+export HISTSIZE=5000000000000              # 50,000 lines of history, pbly about 1.5 MB.  Why not??!!
+export HISTFILESIZE=500000000000000        # 500,000 lines of history, pbly about 10.5 MB.  Why not??!!
+
+# HISTCONTROL: record EVERYTHING. No filtering of any kind.
+#   ignorespace  NO -- don't skip leading-space commands
+#   ignoredups   NO -- don't skip consecutive repeats
+#   ignoreboth   NO -- (that's just the two above)
+#   erasedups    NO -- never retroactively purge earlier matching lines
+#
+# This must be an active `unset`, not merely "don't set it": talapas's
+# /etc/profile EXPORTS HISTCONTROL=ignoredups, and bash/bashrc re-runs
+# /etc/profile via etc_profile_workaround. Staying silent here would let the
+# system dictate the policy. Unsetting is why this file is sourced again
+# after that workaround.
+unset HISTCONTROL
+
+# Bash 5.3+: history -a/-c/-r are no-ops when HISTFILE is unset or null.
+# Explicitly defaulting here is harmless on older bash (HISTFILE already
+# defaults to ~/.bash_history, so this is a no-op there too).
+# Note: talapas's /etc/profile does NOT clobber HISTFILE -- an older comment
+# claimed it did. It clobbers HISTSIZE and HISTCONTROL.
+export HISTFILE="${HISTFILE:-$HOME/.bash_history}"
+
+# " vim:set expandtab tabstop=4 softtabstop=4 shiftwidth=4:
