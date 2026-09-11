@@ -1,0 +1,233 @@
+#!/usr/bin/env python3
+"""Help beautiful `bat` also display beautiful tables.
+
+This tool, md-table-align, helps solve this problem:
+
+    # Looks great (formatting, TwoDark color scheme), but tables are ugly.
+    bat notes.md
+
+    # Tables are nicely aligned, everything else ugly.
+    glow -p -w150 notes.md
+
+In short, I love bat, live in it, until I hit a table that I need to read, at
+which point I'm forced to switch to glow.
+
+This command aligns tables in markdown source first, to be piped into our
+regular `bat` for everything else that bat does beautifully (formatting, color,
+etc.). We use the `batmd` alias (in `bat/aliases`) to make this process easier.
+
+Detail:
+
+Pad GFM pipe tables so their columns line up, leaving all other bytes alone.
+
+Reads markdown on stdin (or from paths given as arguments) and writes it back
+out with every pipe-table block column-aligned. Everything outside a table --
+prose, emphasis markers, code fences, indentation -- is passed through
+byte-for-byte, which is what makes this safe to drop in front of a pager.
+"""
+
+from __future__ import annotations
+
+import re
+import sys
+import unicodedata
+from pathlib import Path
+
+FENCE_RE = re.compile(r"^\s{0,3}(`{3,}|~{3,})")
+ROW_RE = re.compile(r"^\s*\|")
+DELIM_RE = re.compile(r"^\s*\|[\s|:-]*-[\s|:-]*\|?\s*$")
+
+
+def display_width(text: str) -> int:
+    """Return the terminal column width of a string.
+
+    Args:
+        text: The string to measure.
+
+    Returns:
+        Number of terminal columns the string occupies, counting East Asian
+        wide and fullwidth characters as two and combining marks as zero.
+
+    """
+    width = 0
+    for char in text:
+        if unicodedata.combining(char):
+            continue
+        width += 2 if unicodedata.east_asian_width(char) in ("W", "F") else 1
+    return width
+
+
+def split_row(line: str) -> list[str]:
+    r"""Split one pipe-table row into its cell contents.
+
+    Args:
+        line: A single table row, with or without leading/trailing pipes.
+
+    Returns:
+        The row's cells, stripped of surrounding whitespace. Escaped pipes
+        (``\\|``) stay inside their cell rather than splitting it.
+
+    """
+    body = line.strip()
+    if body.startswith("|"):
+        body = body[1:]
+    if body.endswith("|") and not body.endswith(r"\|"):
+        body = body[:-1]
+    cells = re.split(r"(?<!\\)\|", body)
+    return [cell.strip() for cell in cells]
+
+
+def parse_alignments(delim_cells: list[str]) -> list[str]:
+    """Read column alignments out of a table's delimiter row.
+
+    Args:
+        delim_cells: Cells of the ``|---|:--:|`` row.
+
+    Returns:
+        One of ``"left"``, ``"left:"`` (an explicitly colon-marked left
+        column), ``"right"`` or ``"center"`` per column.
+
+    """
+    alignments = []
+    for cell in delim_cells:
+        left = cell.startswith(":")
+        right = cell.endswith(":")
+        if left and right:
+            alignments.append("center")
+        elif right:
+            alignments.append("right")
+        elif left:
+            alignments.append("left:")
+        else:
+            alignments.append("left")
+    return alignments
+
+
+def pad(text: str, width: int, align: str) -> str:
+    """Pad a cell to a fixed display width.
+
+    Args:
+        text: The cell contents.
+        width: Target width in terminal columns.
+        align: ``"left"``, ``"left:"``, ``"right"`` or ``"center"``.
+
+    Returns:
+        The padded cell.
+
+    """
+    slack = max(0, width - display_width(text))
+    if align == "right":
+        return " " * slack + text
+    if align == "center":
+        return " " * (slack // 2) + text + " " * (slack - slack // 2)
+    return text + " " * slack
+
+
+def format_table(block: list[str], indent: str) -> list[str]:
+    """Column-align one pipe-table block.
+
+    Args:
+        block: The table's lines, header row first, delimiter row second.
+        indent: Leading whitespace to re-apply to every emitted line.
+
+    Returns:
+        The aligned table lines.
+
+    """
+    rows = [split_row(line) for line in block]
+    alignments = parse_alignments(rows[1])
+    columns = max(len(row) for row in rows)
+    alignments += ["left"] * (columns - len(alignments))
+    rows = [row + [""] * (columns - len(row)) for row in rows]
+
+    widths = [
+        max(3, *(display_width(row[i]) for j, row in enumerate(rows) if j != 1))
+        for i in range(columns)
+    ]
+
+    out = []
+    for index, row in enumerate(rows):
+        if index == 1:
+            cells = []
+            for i in range(columns):
+                bar = "-" * widths[i]
+                if alignments[i] == "center":
+                    bar = ":" + bar[1:-1] + ":"
+                elif alignments[i] == "right":
+                    bar = bar[:-1] + ":"
+                elif alignments[i] == "left:":
+                    bar = ":" + bar[1:]
+                cells.append(bar)
+            out.append(f"{indent}| " + " | ".join(cells) + " |")
+        else:
+            cells = [pad(row[i], widths[i], alignments[i]) for i in range(columns)]
+            out.append(f"{indent}| " + " | ".join(cells) + " |")
+    return out
+
+
+def align_markdown(text: str) -> str:
+    """Align every pipe table in a markdown document.
+
+    Args:
+        text: The full markdown source.
+
+    Returns:
+        The source with pipe tables padded and everything else unchanged.
+
+    """
+    lines = text.split("\n")
+    out: list[str] = []
+    index = 0
+    in_fence = False
+    fence_marker = ""
+
+    while index < len(lines):
+        line = lines[index]
+        fence = FENCE_RE.match(line)
+        if fence:
+            if not in_fence:
+                in_fence, fence_marker = True, fence.group(1)[0]
+            elif fence.group(1)[0] == fence_marker:
+                in_fence = False
+            out.append(line)
+            index += 1
+            continue
+
+        is_table_head = (
+            not in_fence
+            and ROW_RE.match(line)
+            and index + 1 < len(lines)
+            and DELIM_RE.match(lines[index + 1])
+        )
+        if not is_table_head:
+            out.append(line)
+            index += 1
+            continue
+
+        start = index
+        while index < len(lines) and ROW_RE.match(lines[index]):
+            index += 1
+        indent = line[: len(line) - len(line.lstrip())]
+        out.extend(format_table(lines[start:index], indent))
+
+    return "\n".join(out)
+
+
+def main() -> int:
+    """Run the aligner over stdin or the files named on the command line.
+
+    Returns:
+        Process exit status.
+
+    """
+    paths = [Path(arg) for arg in sys.argv[1:]]
+    if paths:
+        source = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    else:
+        source = sys.stdin.read()
+    sys.stdout.write(align_markdown(source))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

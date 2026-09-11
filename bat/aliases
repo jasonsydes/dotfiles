@@ -1,0 +1,30 @@
+# shellcheck shell=bash
+#
+# batmd -- read markdown in bat (TwoDark), but with aligned tables.
+#
+# bat is a syntax highlighter: it colors the raw source and never reflows it,
+# which is why its markdown tables stay ragged. md-table-align pads the pipe
+# tables in the source first, so bat has something aligned to highlight.
+# Every byte outside a table block is passed through untouched.
+
+batmd() {
+    local file=""
+    local -a flags=()
+    local arg
+
+    for arg in "$@"; do
+        if [ -z "$file" ] && [ -f "$arg" ]; then
+            file="$arg"
+        else
+            flags+=("$arg")
+        fi
+    done
+
+    if [ -n "$file" ]; then
+        "$HOME/.dotfiles/markdown/bin/md-table-align" "$file" \
+            | bat --language=md --file-name="$file" "${flags[@]}"
+    else
+        "$HOME/.dotfiles/markdown/bin/md-table-align" \
+            | bat --language=md "${flags[@]}"
+    fi
+}
