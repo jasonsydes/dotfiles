@@ -1,0 +1,25 @@
+# ~/.config/pixi/config.toml
+
+[cache]
+# Silences two warnings pixi emits on every invocation, because $HOME is GPFS:
+#
+#   WARN cache for Repodata at /home/sydes/.cache/rattler/cache/repodata is on a
+#   network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS),
+#   redirected to /tmp/pixi-cache-sydes/repodata for this run.
+#
+#   WARN cache for PypiMapping at /home/sydes/.cache/rattler/cache/conda-pypi-mapping
+#   is on a network/parallel filesystem (...), redirected to
+#   /tmp/pixi-cache-sydes/conda-pypi-mapping for this run.
+#
+# pixi 0.69.0 added GPFS to its netfs detection, so these started firing here.
+# Under the "auto" default pixi redirects repodata to node-local /tmp -- but its
+# own docs list repodata as "Stay shared" and say only pypi-mapping should move.
+# Still wrong as of 0.80.0. The warning also fires on runs that never read
+# repodata at all (e.g. "Lock-file was already up-to-date").
+#
+# "never" keeps both caches on GPFS, warm across all three login nodes.
+# Safe: jobs install from pixi.lock, which touches neither cache.
+#
+# Did quick benchmark, no performance hit either way.
+netfs-redirect = "never"
+
