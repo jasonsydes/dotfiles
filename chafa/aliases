@@ -1,0 +1,30 @@
+# shellcheck shell=bash
+#
+# img -- show images inline in Ghostty, inside or outside tmux.
+#
+#   img knee_plot.png
+#   img --size 80x *.png        # extra chafa flags pass through
+#
+# Ghostty speaks the kitty graphics protocol (no sixel, no iTerm2 images).
+# chafa picks its output format from $TERM: outside tmux it sees
+# xterm-ghostty and gets it right on its own, but inside tmux it sees
+# tmux-256color and falls back to unreadable symbol art. So the format is
+# always set explicitly, and inside tmux the image is sent with
+# --passthrough tmux, which needs `allow-passthrough on` in tmux.conf.
+# Without passthrough, tmux drops the image entirely.
+#
+# Verified on kelvin 261001 (Ghostty -> ssh -> tmux 3.7c, chafa 1.18.3):
+# the image survives scrolling, pane switches, and detach/reattach. Nested
+# tmux (local tmux around a remote one) is untested.
+
+img() {
+    if ! command -v chafa >/dev/null 2>&1; then
+        echo "img: chafa not installed (pixi run -e <profile> setup)" >&2
+        return 1
+    fi
+    local -a opts=(--format kitty)
+    if [ -n "${TMUX:-}" ]; then
+        opts+=(--passthrough tmux)
+    fi
+    chafa "${opts[@]}" "$@"
+}

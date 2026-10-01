@@ -50,11 +50,14 @@ bat = "*"
 jq = "*"
 tree = "*"
 ncdu = "*"
+# Inline images in Ghostty (kitty graphics protocol); see chafa/aliases.
+chafa = "*"
 
 [feature.profile-laptop.dependencies]
 ast-grep = "*"
 bash = ">=5.2"
 bat = "*"
+chafa = "*"
 choose-rust = "*"
 difftastic = "*"
 dust = "*"
@@ -104,14 +107,14 @@ setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.7c_ starship ripgrep 
 setup-tools = """
 pixi global install \
   'bash>=5.2' nvim tmux=3.7c_ starship ripgrep 'fd-find' 'git>=2.48' \
-  git-delta gh ncurses fzf bat jq tree ncdu
+  git-delta gh ncurses fzf bat jq tree ncdu chafa
 """
 
 [feature.profile-laptop.tasks]
 # KEEP IN SYNC WITH [feature.profile-laptop.dependencies]
 setup-tools = """
 pixi global install \
-  ast-grep 'bash>=5.2' bat choose-rust difftastic dust 'fd-find' fzf \
+  ast-grep 'bash>=5.2' bat chafa choose-rust difftastic dust 'fd-find' fzf \
   gh 'git>=2.48' git-delta glow-md go lazygit nvim neovim nodejs procs \
   ripgrep rust starship tmux=3.7c_ tree tree-sitter-cli vim wget xlsx2csv
 """

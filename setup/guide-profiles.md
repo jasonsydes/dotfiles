@@ -5,8 +5,8 @@
 | Profile | Target | Tools |
 |---------|--------|-------|
 | `container-slim` | Linux container (e.g. ubuntu:24.04) | bash, nvim, tmux, starship, ripgrep, fd-find, git, git-delta |
-| `server` | Linux host a human logs into (longreads, kelvin, popsicle) | container-slim + gh, ncurses, fzf, bat, jq, tree, ncdu |
-| `laptop` | macOS workstation | container-slim + ast-grep, bat, choose, difftastic, dust, fzf, gh, glow, go, lazygit, neovim (pynvim), nodejs, procs, rust, tree, tree-sitter-cli, vim, wget, xlsx2csv |
+| `server` | Linux host a human logs into (longreads, kelvin, popsicle) | container-slim + gh, ncurses, fzf, bat, jq, tree, ncdu, chafa |
+| `laptop` | macOS workstation | container-slim + ast-grep, bat, chafa, choose, difftastic, dust, fzf, gh, glow, go, lazygit, neovim (pynvim), nodejs, procs, rust, tree, tree-sitter-cli, vim, wget, xlsx2csv |
 
 `git-delta` and `gh` are in every profile that links `git/.gitconfig`,
 because that file depends on them: delta is the pager (without it
