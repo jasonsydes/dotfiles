@@ -122,7 +122,7 @@ pixi global install \
 # Layer 2: per-user pieces pixi does not package. Each script is idempotent
 # and writes only under $HOME, so the whole layer is safe to re-run:
 #   install-bash-preexec.sh   ~/.bash-preexec.sh (required by bash/bashrc)
-#   link-terminfo-hex.sh      ~/.terminfo hex-dir aliases for pixi's ncurses
+#   link-terminfo-layouts.sh  ~/.terminfo readable by both system and pixi ncurses
 #   install-tmux-plugins.sh   catppuccin (XDG path) + TPM + TPM plugins
 # Order matters: the terminfo links must exist before TPM starts a tmux
 # server, or that server dies with "can't find terminfo database".
@@ -134,7 +134,7 @@ pixi global install \
 [tasks]
 setup-configs = """
 bash setup/scripts/install-bash-preexec.sh \
-  && bash setup/scripts/link-terminfo-hex.sh \
+  && bash setup/scripts/link-terminfo-layouts.sh \
   && bash setup/scripts/install-tmux-plugins.sh
 """
 

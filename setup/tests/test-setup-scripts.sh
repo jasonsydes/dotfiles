@@ -33,35 +33,115 @@ new_home() {
     echo "$h"
 }
 
-# ── link-terminfo-hex.sh ────────────────────────────────────────────────────
+# ── link-terminfo-layouts.sh ────────────────────────────────────────────────
+
+LT="$SCRIPTS/link-terminfo-layouts.sh"
+
+# Fake pixi ncurses in $1/.pixi/bin. infocmp prints an entry only when
+# $1/pixi-has-entry exists; tic writes the hex layout under its -o dir.
+fake_pixi_ncurses() {
+    local h="$1"
+    mkdir -p "$h/.pixi/bin"
+    cat > "$h/.pixi/bin/infocmp" <<EOF
+#!/usr/bin/env bash
+[ -e "$h/pixi-has-entry" ] || exit 1
+echo "xterm-ghostty|ghostty|Ghostty,"
+EOF
+    cat > "$h/.pixi/bin/tic" <<'EOF'
+#!/usr/bin/env bash
+out=""
+while [ $# -gt 0 ]; do
+    if [ "$1" = "-o" ]; then out="$2"; shift; fi
+    shift
+done
+[ -n "$out" ] || exit 2
+mkdir -p "$out/78" "$out/67"
+echo compiled > "$out/78/xterm-ghostty"
+ln -sf ../78/xterm-ghostty "$out/67/ghostty"
+EOF
+    chmod +x "$h/.pixi/bin/infocmp" "$h/.pixi/bin/tic"
+}
+
+# Step 1 is skipped on macOS; the tests run as if on Linux.
+fake_linux() {
+    printf '#!/usr/bin/env bash\necho Linux\n' > "$1/fakebin/uname"
+    chmod +x "$1/fakebin/uname"
+}
+
+run_lt() {
+    HOME="$1" PATH="$1/fakebin:$PATH" bash "$LT"
+}
 
 # Ubuntu layout (popsicle): letter dirs only -> hex links are added.
-h="$(new_home)"
+h="$(new_home)"; fake_linux "$h"
 mkdir -p "$h/.terminfo/x" "$h/.terminfo/g"
 touch "$h/.terminfo/x/xterm-ghostty" "$h/.terminfo/g/ghostty"
-HOME="$h" bash "$SCRIPTS/link-terminfo-hex.sh" >/dev/null
+run_lt "$h" >/dev/null
 check "letter layout: 78 -> x" test "$(readlink "$h/.terminfo/78")" = x
 check "letter layout: 67 -> g" test "$(readlink "$h/.terminfo/67")" = g
 check "letter layout: entry reachable via hex" test -f "$h/.terminfo/78/xterm-ghostty"
 
 # Re-run is a no-op and does not error.
-out="$(HOME="$h" bash "$SCRIPTS/link-terminfo-hex.sh")"
+out="$(run_lt "$h")"
 check "re-run prints nothing" test -z "$out"
 rm -rf "$h"
 
-# longreads layout: hex dir is real, letter dirs are links -> untouched.
-h="$(new_home)"
+# Hex layout only (kelvin, 260630): letter links are added.
+h="$(new_home)"; fake_linux "$h"
+mkdir -p "$h/.terminfo/78" "$h/.terminfo/67"
+touch "$h/.terminfo/78/xterm-ghostty"
+ln -s ../78/xterm-ghostty "$h/.terminfo/67/ghostty"
+run_lt "$h" >/dev/null
+check "hex layout: x -> 78" test "$(readlink "$h/.terminfo/x")" = 78
+check "hex layout: g -> 67" test "$(readlink "$h/.terminfo/g")" = 67
+check "hex layout: entry reachable via letter" test -f "$h/.terminfo/x/xterm-ghostty"
+out="$(run_lt "$h")"
+check "hex layout: re-run prints nothing" test -z "$out"
+rm -rf "$h"
+
+# longreads layout: hex dir is real, letter dirs hold file links -> untouched.
+h="$(new_home)"; fake_linux "$h"
 mkdir -p "$h/.terminfo/78" "$h/.terminfo/x"
 touch "$h/.terminfo/78/xterm-ghostty"
 ln -s ../78/xterm-ghostty "$h/.terminfo/x/xterm-ghostty"
-HOME="$h" bash "$SCRIPTS/link-terminfo-hex.sh" >/dev/null
-check "hex layout: 78 stays a real directory" test -d "$h/.terminfo/78" -a ! -L "$h/.terminfo/78"
+run_lt "$h" >/dev/null
+check "longreads layout: 78 stays a real directory" test -d "$h/.terminfo/78" -a ! -L "$h/.terminfo/78"
+check "longreads layout: x stays a real directory" test -d "$h/.terminfo/x" -a ! -L "$h/.terminfo/x"
 rm -rf "$h"
 
-# No ~/.terminfo at all -> exits 0, creates nothing.
-h="$(new_home)"
-HOME="$h" bash "$SCRIPTS/link-terminfo-hex.sh" >/dev/null
-check "no ~/.terminfo: nothing created" test ! -e "$h/.terminfo"
+# Entry only inside pixi's ncurses (kelvin, 261001): compiled into
+# ~/.terminfo, then linked to the letter layout.
+h="$(new_home)"; fake_linux "$h"; fake_pixi_ncurses "$h"
+touch "$h/pixi-has-entry"
+run_lt "$h" >/dev/null
+check "pixi-only: compiled into hex layout" grep -q compiled "$h/.terminfo/78/xterm-ghostty"
+check "pixi-only: reachable via letter" test -f "$h/.terminfo/x/xterm-ghostty"
+check "pixi-only: alias reachable via letter" test -e "$h/.terminfo/g/ghostty"
+rm -rf "$h"
+
+# Entry already in ~/.terminfo -> pixi's tic is not run (a failing tic proves it).
+h="$(new_home)"; fake_linux "$h"; fake_pixi_ncurses "$h"
+touch "$h/pixi-has-entry"
+printf '#!/usr/bin/env bash\nexit 99\n' > "$h/.pixi/bin/tic"
+mkdir -p "$h/.terminfo/x"
+touch "$h/.terminfo/x/xterm-ghostty"
+if run_lt "$h" >/dev/null 2>&1; then rc=0; else rc=$?; fi
+check "entry present: no recompile" test "$rc" -eq 0
+rm -rf "$h"
+
+# macOS: step 1 is skipped even when pixi's ncurses has an entry.
+h="$(new_home)"; fake_pixi_ncurses "$h"
+touch "$h/pixi-has-entry"
+printf '#!/usr/bin/env bash\necho Darwin\n' > "$h/fakebin/uname"
+chmod +x "$h/fakebin/uname"
+run_lt "$h" >/dev/null
+check "macOS: nothing compiled" test ! -e "$h/.terminfo"
+rm -rf "$h"
+
+# Nothing anywhere -> exits 0, creates nothing.
+h="$(new_home)"; fake_linux "$h"; fake_pixi_ncurses "$h"
+run_lt "$h" >/dev/null
+check "no entry anywhere: nothing created" test ! -e "$h/.terminfo"
 rm -rf "$h"
 
 # ── install-bash-preexec.sh ─────────────────────────────────────────────────
