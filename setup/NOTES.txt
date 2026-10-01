@@ -16,3 +16,19 @@ While doing longreads reboot 260518 and upgradeing my dotfiles:
 	      - But it won't always be the case. 
 	      - On longreads, ~/.dotfiles *is* the repo. When I ran symlink-configs.sh, it messed up, and moved ~/.dotfiles out of place, borking everything. Fix this.
 
+
+---
+Status as of 260930 (popsicle provisioned from scratch, longreads updated):
+
+1. catppuccin location: resolved. tmux.conf sources it from the XDG path,
+   and setup/scripts/install-tmux-plugins.sh clones it there.
+2. terminfo: explained and resolved. Ubuntu's tic writes ~/.terminfo/x/,
+   conda-forge ncurses (pixi tmux) reads only ~/.terminfo/78/.
+   setup/scripts/link-terminfo-hex.sh links the two; see setup/README.md.
+3. tmux version: every profile's setup-tools pins tmux=3.6a.
+4. starship missing when /JBOD is down: partly handled. bashrc skips
+   starship when it is not on PATH and lists it in the grey
+   "shell: not installed" line. The fallback prompt has not been
+   checked with /JBOD actually down.
+5. symlink-configs.sh: resolved by replacing it with the by-hand checklist
+   setup/scripts/symlink-configs.txt.

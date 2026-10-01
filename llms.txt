@@ -7,17 +7,19 @@ Directory-per-tool layout. Symlinked into $HOME via the setup substrate.
 
 Provisions a fresh system (container, laptop, server) via pixi.
 
-- `pixi.toml`, `pixi.lock`     — pixi manifest + lockfile (at repo root)
+- `pixi.toml`                  — pixi manifest (repo root; pixi.lock is gitignored)
 - `setup/bootstrap.sh`         — install pixi itself
-- `setup/scripts/`             — symlink + tmux-plugin scripts
+- `setup/scripts/`             — symlink checklist + idempotent setup scripts
+- `setup/tests/`               — temp-$HOME tests for those scripts
 - `setup/README.md`            — full setup docs + profile catalog
 
-Quick start:
+Quick start (full procedures, incl. updating an existing clone: setup/README.md):
 ```
 bash setup/bootstrap.sh
 export PATH="$HOME/.pixi/bin:$PATH"
-pixi run -e <profile> setup    # profiles: container-slim, laptop
-exec bash
+# $HOME symlinks BY HAND first: setup/scripts/symlink-configs.txt
+pixi run -e <profile> setup    # profiles: container-slim, server, laptop
+exec bash -l
 ```
 
 ## Source code structure
