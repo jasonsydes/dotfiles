@@ -11,9 +11,9 @@ Provisions a fresh system (container, laptop, server) via pixi.
 - `setup/bootstrap.sh`         — install pixi itself
 - `setup/scripts/`             — symlink checklist + idempotent setup scripts
 - `setup/tests/`               — temp-$HOME tests for those scripts
-- `setup/README.md`            — full setup docs + profile catalog
+- `setup/README.md`            — setup overview; `setup/guide-*.md` for procedures
 
-Quick start (full procedures, incl. updating an existing clone: setup/README.md):
+Quick start (procedures: setup/guide-*.md):
 ```
 bash setup/bootstrap.sh
 export PATH="$HOME/.pixi/bin:$PATH"

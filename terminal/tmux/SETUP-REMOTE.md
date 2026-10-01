@@ -4,7 +4,7 @@ What the tmux config needs on a remote host reached from Ghostty over SSH,
 and what works there once it is running.
 
 Installing the dotfiles themselves (clone, symlinks,
-`pixi run -e server setup`) is `setup/README.md`, procedure A. That
+`pixi run -e server setup`) is `setup/guide-new-linux-server.md`. That
 procedure provides every prerequisite below; this file explains them and
 covers what is specific to tmux on a remote.
 
@@ -21,7 +21,7 @@ All three are installed by `pixi run -e server setup`.
   letter layout (`~/.terminfo/x/`), which pixi's tmux cannot read;
   `setup/scripts/link-terminfo-hex.sh` adds the hex-layout links it needs.
   Symptom when they are missing: `can't find terminfo database`. Details:
-  `setup/README.md`, "Terminfo: pixi tmux and Ghostty".
+  `setup/guide-troubleshooting.md`, "Terminfo: pixi tmux and Ghostty".
 - **catppuccin and TPM** — `~/.config/tmux/plugins/catppuccin/tmux/` and
   `~/.tmux/plugins/tpm/`, from `setup/scripts/install-tmux-plugins.sh`.
   Catppuccin is loaded with `source-file`, not TPM, so tmux reports an

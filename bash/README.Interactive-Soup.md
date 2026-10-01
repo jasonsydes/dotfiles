@@ -146,7 +146,7 @@ login shell. That corner caused a real bug; see the log below.
 consequences: the bash 5.3 `HISTFILE` handling in `bash/history_vars`
 now runs for real, and `sudo -E bash` no longer carries the dotfiles into a
 root shell (sudo-rs ignores bare `-E` and resets `HOME`). Use
-`sudo env HOME="$HOME" bash` instead; see `setup/README.md`, "sudo-rs".
+`sudo env HOME="$HOME" bash` instead; see `setup/guide-troubleshooting.md`, "sudo-rs".
 
 **Login shell policy — deliberate, do not "fix":**
 
