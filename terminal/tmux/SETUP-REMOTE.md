@@ -1,25 +1,36 @@
 # Remote Machine Setup — Ghostty + tmux
 
-Instructions for setting up the new tmux config on a remote machine
-connected from Ghostty via SSH.
+What the tmux config needs on a remote host reached from Ghostty over SSH,
+and what works there once it is running.
+
+Installing the dotfiles themselves (clone, symlinks,
+`pixi run -e server setup`) is `setup/guide-new-linux-server.md`. That
+procedure provides every prerequisite below; this file explains them and
+covers what is specific to tmux on a remote.
 
 ## Prerequisites
 
-- **tmux 3.6a+** — required. 3.5a has a paste bug with `extended-keys-format csi-u`
-  that produces `[106;5u` garbage. Install from source or package manager.
-- **git** — for cloning the repo and TPM
-- **Ghostty** on the local machine — `ssh-terminfo` auto-installs `xterm-ghostty`
-  terminfo on the remote on first SSH connect
+All three are installed by `pixi run -e server setup`.
 
-## 1. Verify terminfo
+- **tmux 3.6a+** — 3.5a has a paste bug with `extended-keys-format csi-u`
+  that produces `[106;5u` garbage. The profiles pin `tmux=3.6a`: the
+  conda-forge 3.6 build is broken (see `setup.sh`). After `exec bash -l`,
+  `command -v tmux` should print `~/.pixi/bin/tmux`, not the system one.
+- **`xterm-ghostty` terminfo** — Ghostty's `ssh-terminfo` feature installs
+  it on the first SSH connect from Ghostty. On Linux it lands in the
+  letter layout (`~/.terminfo/x/`), which pixi's tmux cannot read;
+  `setup/scripts/link-terminfo-hex.sh` adds the hex-layout links it needs.
+  Symptom when they are missing: `can't find terminfo database`. Details:
+  `setup/guide-troubleshooting.md`, "Terminfo: pixi tmux and Ghostty".
+- **catppuccin and TPM** — `~/.config/tmux/plugins/catppuccin/tmux/` and
+  `~/.tmux/plugins/tpm/`, from `setup/scripts/install-tmux-plugins.sh`.
+  Catppuccin is loaded with `source-file`, not TPM, so tmux reports an
+  error on startup if it is missing.
 
-After SSH from Ghostty:
+### If the terminfo entry is missing entirely
 
-```bash
-infocmp xterm-ghostty
-```
-
-If missing, copy it manually from your local machine:
+For example, after connecting only from another terminal. Copy it from the
+local machine, then add the hex links:
 
 ```bash
 # On local machine
@@ -27,57 +38,31 @@ infocmp -x xterm-ghostty > /tmp/xterm-ghostty.terminfo
 scp /tmp/xterm-ghostty.terminfo remote:~/.terminfo/
 # On remote
 tic -x ~/.terminfo/xterm-ghostty.terminfo
+bash ~/.dotfiles/setup/scripts/link-terminfo-hex.sh
 ```
 
-## 2. Clone dotfiles
+## Launch
 
 ```bash
-DIR=~/C/devops/dotfiles   # or wherever you want
-
-git clone --bare https://github.com/jasonsydes/dotfiles "$DIR/.bare-repo"
-
-# Set up fetch refspec (bare clones don't have one by default)
-git -C "$DIR/.bare-repo" config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-git -C "$DIR/.bare-repo" fetch origin
-
-# Create worktrees
-git -C "$DIR/.bare-repo" worktree add "$DIR/hub" origin/dev --checkout -b dev
-git -C "$DIR/.bare-repo" worktree add "$DIR/WK/feat/ghostty-shell-integration" feat/260206-ghostty-shell-integration
-
-# Symlink — point at the branch you want active
-ln -sfn "$DIR/hub" ~/.dotfiles
-# Or for testing the feature branch:
-ln -sfn "$DIR/WK/feat/ghostty-shell-integration" ~/.dotfiles
+tmux new -s main
 ```
 
-## 3. Install TPM
+If the catppuccin bar or a plugin is missing, press `Ctrl-A I` inside tmux
+to install the TPM plugins, then reload with `tmux source-file ~/.tmux.conf`.
+
+## Trying a feature branch
+
+On a ghee-layout host, `~/.dotfiles` is a symlink, so a feature worktree
+can be made live and then swapped back:
 
 ```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+DIR=~/C/devops/dotfiles
+git -C "$DIR/.bare-repo" worktree add "$DIR/WK/feat/<name>" <branch>
+ln -sfn "$DIR/WK/feat/<name>" ~/.dotfiles     # try it
+ln -sfn "$DIR/hub" ~/.dotfiles                # back to normal
 ```
 
-## 4. Install catppuccin
-
-Catppuccin is loaded via `source-file`, not TPM. Clone it to the XDG location:
-
-```bash
-mkdir -p ~/.config/tmux/plugins/catppuccin
-git clone https://github.com/catppuccin/tmux ~/.config/tmux/plugins/catppuccin/tmux
-```
-
-## 5. Launch tmux and install plugins
-
-```bash
-tmux -f ~/.dotfiles/terminal/tmux/tmux.conf new -s main
-```
-
-First launch will error on catppuccin source-file if step 4 was skipped.
-Inside tmux:
-
-1. Press `Ctrl-A I` to install remaining TPM plugins (resurrect)
-2. Reload: `tmux source-file ~/.dotfiles/terminal/tmux/tmux.conf`
-
-## 6. Verify
+## Verify
 
 Quick smoke tests:
 
@@ -108,6 +93,5 @@ printf '\033]52;c;%s\a' "$(echo -n 'hello from remote' | base64)"
 ## Notes
 
 - `pbcopy` is not used — clipboard is entirely OSC 52 (cross-platform)
-- `delta` (git pager) is optional — install it or set `core.pager=less`
-- The config expects `~/.config/tmux/plugins/catppuccin/tmux/` (catppuccin) and
-  `~/.tmux/plugins/tpm/` (TPM) to exist before sourcing
+- `delta` is required, not optional: `git/.gitconfig` sets `pager = delta`.
+  Every setup profile installs `git-delta`.

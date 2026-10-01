@@ -18,6 +18,10 @@
 # This is a handful of `ln -s` calls run once per machine. It does not need
 # an installer, and an installer that guesses wrong is worse than no
 # installer. Read the steps, run the ones you need.
+#
+# Do this BEFORE `pixi run -e <profile> setup`: setup installs the tmux
+# plugins, and TPM reads its plugin list from ~/.tmux.conf. Full order:
+# setup/README.md.
 
 
 ## 0. Figure out which layout you are on
@@ -51,9 +55,13 @@
 
 ## 2. $HOME dotfile symlinks
 
-  Back up anything real that is already sitting at these paths first:
+  Back up anything real that is already sitting at these paths first
+  (a fresh Ubuntu account has a default ~/.bashrc). This moves aside real
+  files only and leaves existing symlinks alone:
 
-    mv ~/.bashrc ~/.bashrc.pre-dotfiles.$(date +%y%m%d)     # etc, as needed
+    for f in .bashrc .bash_profile .inputrc .tmux.conf .gitconfig; do
+        if [ -e ~/"$f" ] && [ ! -L ~/"$f" ]; then mv ~/"$f" ~/"$f".pre-dotfiles."$(date +%y%m%d)"; fi
+    done
 
   Then:
 
@@ -81,22 +89,11 @@
     ls -l ~/.config/starship.toml
     readlink -f ~/.bashrc        # should land inside the repo
 
-  Then, and only then:
 
-    exec bash
+## 5. Then run setup
 
-
-## 5. tmux plugins
-
-  Still scripted — it only writes inside ~/.tmux and ~/.config/tmux, so it
-  has no way to eat the repo:
-
-    bash setup/scripts/install-tmux-plugins.sh
-
-  Catppuccin is NOT installed by TPM; it is loaded via source-file from the
-  XDG path. Clone it by hand:
-
-    mkdir -p ~/.config/tmux/plugins/catppuccin
-    git clone https://github.com/catppuccin/tmux ~/.config/tmux/plugins/catppuccin/tmux
-
-  See terminal/tmux/SETUP-REMOTE.md for the full remote-host procedure.
+  Back to setup/README.md: `pixi run -e <profile> setup`, then `exec bash -l`.
+  setup also installs bash-preexec, the terminfo hex links, catppuccin and
+  the tmux plugins. Those scripts write only under ~/.bash-preexec.sh,
+  ~/.terminfo, ~/.config/tmux and ~/.tmux, so they have no way to eat the
+  repo.

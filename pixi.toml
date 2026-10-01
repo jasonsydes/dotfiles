@@ -25,6 +25,31 @@ ripgrep = "*"
 # git >=2.48 required for native relative worktrees (used by ghee).
 # Ubuntu 24.04 ships 2.43, so apt git is too old.
 git = ">=2.48"
+# git/.gitconfig sets `pager = delta`; without it git diff/log/show fail.
+git-delta = "*"
+
+# A Linux host a human logs into (longreads, kelvin, popsicle): container-slim
+# plus what git/.gitconfig and the terminal setup require, plus a few tools
+# every server shell wants. Host-specific work tools (bioinformatics, python
+# envs, language toolchains) stay per-host `pixi global install`s.
+[feature.profile-server.dependencies]
+bash = ">=5.2"
+nvim = "*"
+tmux = "*"
+starship = "*"
+ripgrep = "*"
+"fd-find" = "*"
+git = ">=2.48"
+# Required by git/.gitconfig: delta is the pager, gh the GitHub credential helper.
+git-delta = "*"
+gh = "*"
+# A current tic/infocmp, for installing or inspecting terminfo entries.
+ncurses = "*"
+fzf = "*"
+bat = "*"
+jq = "*"
+tree = "*"
+ncdu = "*"
 
 [feature.profile-laptop.dependencies]
 ast-grep = "*"
@@ -58,6 +83,7 @@ xlsx2csv = "*"
 
 [environments]
 container-slim = ["profile-container-slim"]
+server = ["profile-server"]
 laptop = ["profile-laptop"]
 
 # ─── Tasks ────────────────────────────────────────────────────────────────────
@@ -66,7 +92,15 @@ laptop = ["profile-laptop"]
 
 [feature.profile-container-slim.tasks]
 # KEEP IN SYNC WITH [feature.profile-container-slim.dependencies]
-setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48'"
+setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48' git-delta"
+
+[feature.profile-server.tasks]
+# KEEP IN SYNC WITH [feature.profile-server.dependencies]
+setup-tools = """
+pixi global install \
+  'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48' \
+  git-delta gh ncurses fzf bat jq tree ncdu
+"""
 
 [feature.profile-laptop.tasks]
 # KEEP IN SYNC WITH [feature.profile-laptop.dependencies]
@@ -77,17 +111,28 @@ pixi global install \
   ripgrep rust starship tmux=3.6a tree tree-sitter-cli vim wget xlsx2csv
 """
 
-# Layer 2: tmux plugins. Idempotent — safe to re-run.
+# Layer 2: per-user pieces pixi does not package. Each script is idempotent
+# and writes only under $HOME, so the whole layer is safe to re-run:
+#   install-bash-preexec.sh   ~/.bash-preexec.sh (required by bash/bashrc)
+#   link-terminfo-hex.sh      ~/.terminfo hex-dir aliases for pixi's ncurses
+#   install-tmux-plugins.sh   catppuccin (XDG path) + TPM + TPM plugins
+# Order matters: the terminfo links must exist before TPM starts a tmux
+# server, or that server dies with "can't find terminfo database".
 #
 # NOTE: $HOME symlinking is deliberately NOT automated. The old
 # symlink-configs.sh moved ~/.dotfiles out of place on hosts where
 # ~/.dotfiles *is* the repo (longreads, 260518) and broke the install.
 # It is now a by-hand checklist: setup/scripts/symlink-configs.txt.
 [tasks]
-setup-configs = "bash setup/scripts/install-tmux-plugins.sh"
+setup-configs = """
+bash setup/scripts/install-bash-preexec.sh \
+  && bash setup/scripts/link-terminfo-hex.sh \
+  && bash setup/scripts/install-tmux-plugins.sh
+"""
 
-# Composite: tools first, then tmux plugins. Symlinks are a manual step in
-# between — see setup/scripts/symlink-configs.txt. User runs `exec bash` after.
+# Composite: tools, then the per-user pieces. The $HOME symlinks must be in
+# place BEFORE this runs (TPM reads its plugin list from ~/.tmux.conf) — see
+# setup/README.md for the order. User runs `exec bash -l` after.
 setup = { depends-on = ["setup-tools", "setup-configs"] }
 
 # Opt-in, macOS-only. Deliberately NOT in the `setup` composite: it mutates

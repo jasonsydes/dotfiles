@@ -31,7 +31,9 @@ disabled = false
 style = "dimmed bright-black"
 format = "     [$time]($style)"
 # eg Mon Jun 26 14:57:14 2023, see https://docs.rs/chrono/0.4.7/chrono/format/strftime/index.html
-time_format = "%c"
+# Spelled out rather than "%c": starship 1.26 renders %c as "2026 M09 30, Wed 21:17:20"
+# (1.24 rendered it as above). This is what %c used to produce, on every version.
+time_format = "%a %b %e %H:%M:%S %Y"
 
 [username]
 style_user = 'black bold'

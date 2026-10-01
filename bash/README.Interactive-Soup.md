@@ -132,7 +132,7 @@ login shell. That corner caused a real bug; see the log below.
 
 ---
 
-## Host matrix (measured 260823)
+## Host matrix (measured 260823; popsicle 260930)
 
 | Host | OS | Login shell | bash | `SSH_SOURCE_BASHRC` |
 |---|---|---|---|---|
@@ -140,6 +140,13 @@ login shell. That corner caused a real bug; see the log below.
 | login3 (talapas) | RHEL 8.10 | `/bin/bash` | **4.4.20** | ON |
 | longreads | Ubuntu 22.04 | `/bin/bash` | 5.1.16 | ON |
 | kelvin | Ubuntu 24.04 | `/bin/bash` | 5.2.21 | ON |
+| popsicle | Ubuntu 26.04.1 LTS | `/bin/bash` | **5.3.9** | ON |
+
+**popsicle is the first bash 5.3 host and the first with sudo-rs.** Two
+consequences: the bash 5.3 `HISTFILE` handling in `bash/history_vars`
+now runs for real, and `sudo -E bash` no longer carries the dotfiles into a
+root shell (sudo-rs ignores bare `-E` and resets `HOME`). Use
+`sudo env HOME="$HOME" bash` instead; see `setup/guide-troubleshooting.md`, "sudo-rs".
 
 **Login shell policy — deliberate, do not "fix":**
 
