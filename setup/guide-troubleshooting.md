@@ -3,7 +3,7 @@
 | Symptom | Cause | Fix |
 |---|---|---|
 | `fatal: a branch named '<b>' already exists` on `worktree add -b` | `git clone --bare` already made the branch | `worktree add "$DIR/hub" <b>`, then `branch -u origin/<b>` |
-| tmux: `can't find terminfo database` | letter vs hex terminfo layout | `bash setup/scripts/link-terminfo-hex.sh` |
+| tmux: `can't find terminfo database` | letter vs hex terminfo layout | `bash setup/scripts/link-terminfo-layouts.sh` |
 | `FATAL: Tmux Plugin Manager not configured in tmux.conf` during setup | TPM's tmux server could not start (terminfo), or `~/.tmux.conf` not linked yet | fix the cause, then `pixi run setup-configs`, or prefix + I inside tmux |
 | `git diff` fails: cannot run delta | `git/.gitconfig` sets `pager = delta` | `pixi global install git-delta` (in every profile) |
 | `sudo: preserving the entire environment is not supported` | sudo-rs | `sudo env HOME="$HOME" bash` |
@@ -41,12 +41,27 @@ two builds disagree on which character:
 | Ubuntu/Debian | `~/.terminfo/x/xterm-ghostty` (first letter) |
 | conda-forge (pixi) | `~/.terminfo/78/xterm-ghostty` (its hex code) |
 
-Ghostty installs the entry with the host's own `tic`, so on Linux it lands
-in the letter layout, and pixi's tmux fails with
-`can't find terminfo database`. `TERM=xterm-256color tmux` and
-`/usr/bin/tmux` both work, which is the tell.
-`scripts/link-terminfo-hex.sh` (part of `setup`) adds `78 -> x` style
-links so both layouts resolve to the same files; when Ghostty later
-updates the entry, the links follow. longreads has the reverse,
-file-level arrangement from May (real file in `78/`, symlinks in the
-letter directories); it works too and the script leaves it alone.
+Ghostty installs the entry by running `tic` on the server over a
+non-interactive ssh, which reads `~/.bashrc` on these hosts, so the `tic`
+that runs is whichever is first on PATH. Where the entry lands:
+
+| Host state at Ghostty's install | Result | Symptom |
+|---|---|---|
+| no pixi ncurses (popsicle) | letter layout only | pixi tmux: `can't find terminfo database` |
+| pixi ncurses, `~/.terminfo` exists | hex layout only | apt programs outside tmux: unknown terminal |
+| pixi ncurses, no `~/.terminfo` | inside `~/.pixi/envs/ncurses/`, nowhere else looks | both |
+
+`TERM=xterm-256color tmux` and `/usr/bin/tmux` working while pixi's tmux
+fails is the tell for the first row; `/usr/bin/infocmp xterm-ghostty`
+failing is the tell for the other two.
+
+`scripts/link-terminfo-layouts.sh` (part of `setup`) handles all three:
+it compiles an entry that only pixi's ncurses can see into `~/.terminfo`,
+then links each layout to the other (`78 -> x`, `x -> 78`) so both resolve
+to the same files; when Ghostty later updates the entry, the links follow.
+longreads has a file-level arrangement from May (real file in `78/`,
+symlinks in the letter directories); it works too and the script leaves
+it alone.
+
+Ghostty caches hosts it has set up. To make it reinstall on the next
+connect: `ghostty +ssh-cache --remove=user@host` on the Mac.

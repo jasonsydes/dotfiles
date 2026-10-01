@@ -25,7 +25,7 @@ toolchains) belong to no profile. Install them per host with
 2. **`setup-configs`** — three idempotent scripts, in this order, each
    writing only under `$HOME`:
    - `install-bash-preexec.sh` → `~/.bash-preexec.sh` (bashrc sources it)
-   - `link-terminfo-hex.sh` → hex-named aliases in `~/.terminfo`
+   - `link-terminfo-layouts.sh` → letter and hex layouts in `~/.terminfo`
      (see `guide-troubleshooting.md`, "Terminfo")
    - `install-tmux-plugins.sh` → catppuccin at the XDG path, TPM, and the
      TPM plugins

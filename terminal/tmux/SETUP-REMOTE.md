@@ -19,7 +19,7 @@ All three are installed by `pixi run -e server setup`.
 - **`xterm-ghostty` terminfo** — Ghostty's `ssh-terminfo` feature installs
   it on the first SSH connect from Ghostty. On Linux it lands in the
   letter layout (`~/.terminfo/x/`), which pixi's tmux cannot read;
-  `setup/scripts/link-terminfo-hex.sh` adds the hex-layout links it needs.
+  `setup/scripts/link-terminfo-layouts.sh` links the two layouts.
   Symptom when they are missing: `can't find terminfo database`. Details:
   `setup/guide-troubleshooting.md`, "Terminfo: pixi tmux and Ghostty".
 - **catppuccin and TPM** — `~/.config/tmux/plugins/catppuccin/tmux/` and
@@ -38,7 +38,7 @@ infocmp -x xterm-ghostty > /tmp/xterm-ghostty.terminfo
 scp /tmp/xterm-ghostty.terminfo remote:~/.terminfo/
 # On remote
 tic -x ~/.terminfo/xterm-ghostty.terminfo
-bash ~/.dotfiles/setup/scripts/link-terminfo-hex.sh
+bash ~/.dotfiles/setup/scripts/link-terminfo-layouts.sh
 ```
 
 ## Launch

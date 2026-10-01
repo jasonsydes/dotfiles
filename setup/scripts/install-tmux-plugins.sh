@@ -10,7 +10,7 @@
 # things must already be true, or it aborts with "Tmux Plugin Manager not
 # configured in tmux.conf":
 #   - ~/.tmux.conf is symlinked (see setup/README.md for the order)
-#   - tmux can find terminfo for $TERM (link-terminfo-hex.sh runs first)
+#   - tmux can find terminfo for $TERM (link-terminfo-layouts.sh runs first)
 # If it still fails, nothing is lost: start tmux and press prefix + I.
 
 set -euo pipefail

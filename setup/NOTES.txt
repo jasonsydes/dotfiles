@@ -24,7 +24,10 @@ Status as of 260930 (popsicle provisioned from scratch, longreads updated):
    and setup/scripts/install-tmux-plugins.sh clones it there.
 2. terminfo: explained and resolved. Ubuntu's tic writes ~/.terminfo/x/,
    conda-forge ncurses (pixi tmux) reads only ~/.terminfo/78/.
-   setup/scripts/link-terminfo-hex.sh links the two; see setup/guide-troubleshooting.md.
+   setup/scripts/link-terminfo-layouts.sh links the two; see setup/guide-troubleshooting.md.
+   Updated 261001: kelvin showed Ghostty's install runs pixi's tic once
+   pixi ncurses exists, giving hex-only or an entry inside pixi's env;
+   the script now handles both.
 3. tmux version: every profile's setup-tools pins tmux=3.6a.
    Updated 261001: pinned to 3.7c_ (the newest conda-forge build) after
    setup downgraded kelvin from 3.7_ to 3.6a. chafa image display through
