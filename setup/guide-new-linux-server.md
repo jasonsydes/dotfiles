@@ -51,7 +51,7 @@ pixi run -e server setup
 
 ```bash
 exec bash -l
-command -v tmux; tmux -V      # want: ~/.pixi/bin/tmux, tmux 3.6a
+command -v tmux; tmux -V      # want: ~/.pixi/bin/tmux, tmux 3.7c
 tmux
 ```
 

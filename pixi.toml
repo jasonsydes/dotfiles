@@ -89,16 +89,21 @@ laptop = ["profile-laptop"]
 # ─── Tasks ────────────────────────────────────────────────────────────────────
 # Layer 1: install the profile's tools via `pixi global`. Tools land in
 # ~/.pixi/bin/<tool>; the dotfiles bashrc adds that directory to PATH.
+#
+# tmux is pinned exactly, so every host runs the same build. conda-forge
+# tmux versions sort oddly: `tmux>=3.7` matches nothing (3.7c_ sorts below
+# 3.7). Available: `pixi search tmux`. 3.5a has a paste bug; see
+# terminal/REFERENCE.md.
 
 [feature.profile-container-slim.tasks]
 # KEEP IN SYNC WITH [feature.profile-container-slim.dependencies]
-setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48' git-delta"
+setup-tools = "pixi global install 'bash>=5.2' nvim tmux=3.7c_ starship ripgrep 'fd-find' 'git>=2.48' git-delta"
 
 [feature.profile-server.tasks]
 # KEEP IN SYNC WITH [feature.profile-server.dependencies]
 setup-tools = """
 pixi global install \
-  'bash>=5.2' nvim tmux=3.6a starship ripgrep 'fd-find' 'git>=2.48' \
+  'bash>=5.2' nvim tmux=3.7c_ starship ripgrep 'fd-find' 'git>=2.48' \
   git-delta gh ncurses fzf bat jq tree ncdu
 """
 
@@ -108,7 +113,7 @@ setup-tools = """
 pixi global install \
   ast-grep 'bash>=5.2' bat choose-rust difftastic dust 'fd-find' fzf \
   gh 'git>=2.48' git-delta glow-md go lazygit nvim neovim nodejs procs \
-  ripgrep rust starship tmux=3.6a tree tree-sitter-cli vim wget xlsx2csv
+  ripgrep rust starship tmux=3.7c_ tree tree-sitter-cli vim wget xlsx2csv
 """
 
 # Layer 2: per-user pieces pixi does not package. Each script is idempotent

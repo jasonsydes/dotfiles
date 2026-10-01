@@ -26,6 +26,9 @@ Status as of 260930 (popsicle provisioned from scratch, longreads updated):
    conda-forge ncurses (pixi tmux) reads only ~/.terminfo/78/.
    setup/scripts/link-terminfo-hex.sh links the two; see setup/guide-troubleshooting.md.
 3. tmux version: every profile's setup-tools pins tmux=3.6a.
+   Updated 261001: pinned to 3.7c_ (the newest conda-forge build) after
+   setup downgraded kelvin from 3.7_ to 3.6a. chafa image display through
+   tmux (parked 260822) has not been tested on 3.7.
 4. starship missing when /JBOD is down: partly handled. bashrc skips
    starship when it is not on PATH and lists it in the grey
    "shell: not installed" line. The fallback prompt has not been
