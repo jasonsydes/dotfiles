@@ -13,8 +13,8 @@ covers what is specific to tmux on a remote.
 All three are installed by `pixi run -e server setup`.
 
 - **tmux 3.6a+** — 3.5a has a paste bug with `extended-keys-format csi-u`
-  that produces `[106;5u` garbage. The profiles pin `tmux=3.6a`: the
-  conda-forge 3.6 build is broken (see `setup.sh`). After `exec bash -l`,
+  that produces `[106;5u` garbage. The profiles pin `tmux=3.7c_` exactly;
+  conda-forge tmux versions sort oddly (see `pixi.toml`). After `exec bash -l`,
   `command -v tmux` should print `~/.pixi/bin/tmux`, not the system one.
 - **`xterm-ghostty` terminfo** — Ghostty's `ssh-terminfo` feature installs
   it on the first SSH connect from Ghostty. On Linux it lands in the
